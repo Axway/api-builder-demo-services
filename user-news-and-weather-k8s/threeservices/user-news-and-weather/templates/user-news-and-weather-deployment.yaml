@@ -1,0 +1,50 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "user-news-and-weather.fullname" . }}
+  labels:
+    app: {{ template "user-news-and-weather.name" . }}
+    chart: {{ template "user-news-and-weather.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.info }}
+  selector:
+    matchLabels:
+      app: {{ template "user-news-and-weather.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "user-news-and-weather.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: usernewsandweather
+          image: "{{ .Values.image.userNewsAndWeather }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: WEATHER_HOST
+              value: {{ .Release.Name }}-weather
+            - name: WEATHER_PORT
+              value: "80"
+            - name: NEWS_HOST
+              value: {{ .Release.Name }}-news
+            - name: NEWS_PORT
+              value: "80"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10

@@ -1,0 +1,177 @@
+{
+	"schemaVersion": "2",
+	"name": "weather-service - get /weather/current",
+	"start": "doT.1",
+	"nodes": {
+		"rest.1": {
+			"type": "nodehandler://nodehandler-restclient/rest",
+			"name": "GET",
+			"method": "get",
+			"parameters": [
+				{
+					"name": "url",
+					"type": "jsonpath",
+					"value": "$.url"
+				}
+			],
+			"outputs": {
+				"2xx": {
+					"routes": [
+						"doT.2"
+					],
+					"context": "$.response"
+				},
+				"3xx": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.response"
+				},
+				"4xx": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.response"
+				},
+				"5xx": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.response"
+				},
+				"error": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"doT.1": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format URL",
+			"method": "formatStr",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"https://api.openweathermap.org/data/2.5/weather?q={{=it.params.country ? encodeURIComponent(`${it.params.city},${it.params.country}`) : encodeURIComponent(it.params.city)}}&units={{=it.params.units ? encodeURIComponent(it.params.units) : 'metric'}}&APPID={{=encodeURIComponent(it.config.OPENWEATHER_APIKEY)}}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"rest.1"
+					],
+					"context": "$.url"
+				},
+				"error": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Success",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.formattedResponse"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"http.2": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Unexpected Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "500"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"doT.2": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Response",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\n    \\\"city\\\": {{=JSON.stringify(it.params.city)}},\\n    \\\"country\\\": {{=JSON.stringify(it.params.country || '')}},\\n    \\\"units\\\": {{=JSON.stringify(it.params.units || \\\"metric\\\")}},\\n    \\\"summary\\\": {{=JSON.stringify(it.response.body.weather.map(w => w.main)) }},\\n    \\\"temperature\\\": {{=JSON.stringify(it.response.body.main.temp) }},\\n    \\\"windSpeed\\\": {{=JSON.stringify(it.response.body.wind.speed) }}\\n}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"http.1"
+					],
+					"context": "$.formattedResponse"
+				},
+				"error": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"http.3": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Bad Request",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "400"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.response"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		}
+	}
+}

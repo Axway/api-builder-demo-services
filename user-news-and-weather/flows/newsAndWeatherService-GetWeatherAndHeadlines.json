@@ -1,0 +1,304 @@
+{
+	"schemaVersion": "2",
+	"name": "newsAndWeatherService - get /{uid}/info",
+	"start": "doT.1",
+	"nodes": {
+		"news-service.1": {
+			"type": "nodehandler://service-connector/news-service",
+			"name": "GetHeadlinesByCountry",
+			"method": "GetHeadlinesByCountry",
+			"parameters": [
+				{
+					"name": "category",
+					"type": "jsonpath",
+					"value": "$.user.interest"
+				},
+				{
+					"name": "country",
+					"type": "jsonpath",
+					"value": "$.user.country"
+				}
+			],
+			"outputs": {
+				"200": {
+					"context": "$.headlines",
+					"routes": [
+						"http.1",
+						"weather-service.1"
+					]
+				},
+				"400": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					]
+				},
+				"401": {
+					"context": "$.error",
+					"routes": [
+						"http.4"
+					]
+				},
+				"500": {
+					"context": "$.error",
+					"routes": [
+						"http.4"
+					]
+				}
+			}
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Success",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.response"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"http.2": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "400"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"User.1": {
+			"type": "nodehandler://arrow-flow-invoke/model/User",
+			"name": "Query User",
+			"method": "query",
+			"parameters": [
+				{
+					"name": "where",
+					"type": "jsonpath",
+					"value": "$.where"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"condition.1"
+					],
+					"context": "$.users"
+				}
+			}
+		},
+		"doT.1": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Where",
+			"method": "formatStr",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\\"uid\\\": {{=JSON.stringify(it.uid)}}}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"User.1"
+					],
+					"context": "$.where"
+				},
+				"error": {
+					"routes": [
+						"http.4"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"condition.1": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "Exists",
+			"method": "exists",
+			"parameters": [
+				{
+					"name": "source",
+					"type": "jsonpath",
+					"value": "$.users[0]"
+				}
+			],
+			"outputs": {
+				"true": {
+					"routes": [
+						"setcontext.1"
+					],
+					"context": "$.exists"
+				},
+				"false": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.exists"
+				}
+			}
+		},
+		"http.3": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Not Found",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "404"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"setcontext.1": {
+			"type": "nodehandler://axway-flow/setcontext",
+			"name": "Single User",
+			"method": "setcontext",
+			"parameters": [
+				{
+					"name": "value",
+					"type": "jsonpath",
+					"value": "$.users[0]"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.user",
+					"routes": [
+						"news-service.1"
+					]
+				}
+			}
+		},
+		"weather-service.1": {
+			"type": "nodehandler://service-connector/weather-service",
+			"name": "GetCurrentWeatherByCity",
+			"method": "GetCurrentWeatherByCity",
+			"parameters": [
+				{
+					"name": "city",
+					"type": "jsonpath",
+					"value": "$.user.city"
+				},
+				{
+					"name": "country",
+					"type": "jsonpath",
+					"value": "$.user.country"
+				},
+				{
+					"name": "units",
+					"type": "string",
+					"value": "\"metric\""
+				}
+			],
+			"outputs": {
+				"200": {
+					"context": "$.weather",
+					"routes": [
+						"doT.2"
+					]
+				},
+				"400": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					]
+				},
+				"401": {
+					"context": "$.error",
+					"routes": [
+						"http.4"
+					]
+				},
+				"500": {
+					"context": "$.error",
+					"routes": [
+						"http.4"
+					]
+				}
+			}
+		},
+		"doT.2": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Response",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\n  \\\"weather\\\": {{=JSON.stringify(it.weather)}},\\n  \\\"headlines\\\": {{=JSON.stringify(it.headlines)}}\\n}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"http.1"
+					],
+					"context": "$.response"
+				},
+				"error": {
+					"routes": [
+						"http.4"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"http.4": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Unexpected Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "500"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		}
+	}
+}

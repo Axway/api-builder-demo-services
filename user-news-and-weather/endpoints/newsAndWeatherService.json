@@ -1,0 +1,92 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "News and Weather service.",
+    "version": "1.0.0",
+    "title": "News and Weather Service"
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "description": "Register a user for the News and Weather service.",
+        "tags": [
+          "news",
+          "headlines"
+        ],
+        "operationId": "Register",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema": {
+              "$ref": "schema:///model/User"
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+						"description": "Success."
+          },
+          "400": {
+            "description": "Bad Request"
+					},
+					"401": {
+						"description": "Authorization Required"
+					},
+          "409": {
+            "description": "User already exists."
+          },
+					"500": {
+						"description": "Server Error"
+					}
+        },
+        "x-flow": "newsAndWeatherService-Register"
+      }
+    },
+    "/{uid}/info": {
+      "get": {
+        "description": "Get the users weather and headlines.",
+        "tags": [
+          "news",
+          "headlines"
+        ],
+        "operationId": "GetWeatherAndHeadlines",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+						"schema": {
+							"$ref": "schema:///schema/user-news-and-weather/newsweather"
+						}
+          },
+					"400": {
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Authorization Required"
+					},
+					"500": {
+						"description": "Server Error"
+					}
+        },
+        "x-flow": "newsAndWeatherService-GetWeatherAndHeadlines"
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "News aggregation service.",
+		"version": "1.0.0",
+		"title": "News Service"
+	},
+	"paths": {
+		"/news/headlines": {
+			"get": {
+				"description": "Get the headlines filtered by country and category.",
+				"tags": [
+					"news", "headlines"
+				],
+				"operationId": "GetHeadlinesByCountry",
+				"parameters": [{
+						"in": "query",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "category",
+						"type": "string"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Success.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "schema:///schema/news-service/article"
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Authorization Required"
+					},
+					"500": {
+						"description": "Server Error"
+					}
+				},
+				"x-flow": "news-service-GetHeadlinesByCountry"
+			}
+		}
+	}
+}

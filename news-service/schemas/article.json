@@ -1,0 +1,13 @@
+{
+	"type": "object",
+    "description": "An article of news.",
+    "properties": {
+        "author": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "urlToImage": { "type": "string" },
+        "publishedAt": { "type": "string", "format": "date-time" }
+    },
+    "additionalProperties": true
+}

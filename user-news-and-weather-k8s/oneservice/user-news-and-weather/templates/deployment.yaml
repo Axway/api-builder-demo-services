@@ -1,0 +1,76 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "user-news-and-weather.fullname" . }}
+  labels:
+    app: {{ template "user-news-and-weather.name" . }}
+    chart: {{ template "user-news-and-weather.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "user-news-and-weather.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "user-news-and-weather.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: usernewsandweather
+          image: "{{ .Values.image.userNewsAndWeather }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PORT
+              value: "{{ .Values.ports.usernewsandweather }}"
+            - name: NEWS_PORT
+              value: "{{ .Values.ports.news }}"
+            - name: WEATHER_PORT
+              value: "{{ .Values.ports.weather }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.ports.usernewsandweather }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: {{ .Values.ports.usernewsandweather }}
+          readinessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: {{ .Values.ports.usernewsandweather }}
+        - name: news
+          image: "{{ .Values.image.news }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PORT
+              value: "{{ .Values.ports.news }}"
+            - name: ARROW_NEWSAPI_APIKEY
+              value: {{ .Values.apikeys.newsApiKey }}
+          livenessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: {{ .Values.ports.news }}
+          readinessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: {{ .Values.ports.news }}
+        - name: weather
+          image: "{{ .Values.image.weather }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PORT
+              value: "{{ .Values.ports.weather }}"
+            - name: ARROW_OPENWEATHER_APIKEY
+              value: {{ .Values.apikeys.openWeatherApiKey }}
+          livenessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: {{ .Values.ports.weather }}
+          readinessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: {{ .Values.ports.weather }}

@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-news
+  labels:
+    app: news-service
+    chart: {{ template "user-news-and-weather.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.news }}
+  selector:
+    matchLabels:
+      app: "news-service"
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: "news-service"
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: news
+          image: "{{ .Values.image.news }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ARROW_NEWSAPI_APIKEY
+              value: {{ .Values.apikeys.newsApiKey }}
+          livenessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10

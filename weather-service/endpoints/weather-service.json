@@ -1,0 +1,64 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "APIs for accessing weather services.",
+    "version": "1.0.0",
+    "title": "Weather Service"
+  },
+  "paths": {
+    "/weather/current": {
+      "get": {
+        "description": "Get the current weather in the specified city.",
+        "tags": [
+          "weather"
+        ],
+        "operationId": "GetCurrentWeatherByCity",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+						"type": "string",
+						"description": "The city to query the weather for.",
+						"required": true
+          },
+          {
+            "in": "query",
+            "name": "country",
+						"type": "string",
+						"description": "The country the city is in."
+					},
+          {
+            "in": "query",
+            "name": "units",
+						"type": "string",
+						"enum": [
+							"metric", "imperial"
+						],
+						"description": "The units to use [metric|imperial]. Default: metric"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "schema:///schema/weather-service/weather"
+            }
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Authorization Required"
+					},
+					"500": {
+						"description": "Server Error"
+					}
+        },
+        "x-flow": "weather-service-GetCurrentWeatherByCity"
+      }
+    }
+  }
+}

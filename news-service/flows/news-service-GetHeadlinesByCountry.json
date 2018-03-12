@@ -1,0 +1,244 @@
+{
+	"schemaVersion": "2",
+	"name": "news-service - get /news/headlines",
+	"start": "doT.1",
+	"nodes": {
+		"rest.1": {
+			"type": "nodehandler://nodehandler-restclient/rest",
+			"name": "GET",
+			"method": "get",
+			"parameters": [
+				{
+					"name": "url",
+					"type": "jsonpath",
+					"value": "$.url"
+				},
+				{
+					"name": "headers",
+					"type": "jsonpath",
+					"value": "$.headers"
+				}
+			],
+			"outputs": {
+				"2xx": {
+					"routes": [
+						"condition.1"
+					],
+					"context": "$.response"
+				},
+				"3xx": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.response"
+				},
+				"4xx": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.response"
+				},
+				"5xx": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.response"
+				},
+				"error": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"doT.1": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format URL",
+			"method": "formatStr",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"https://newsapi.org/v2/top-headlines?country={{=it.country ? encodeURIComponent(it.country) : ''}}&category={{=it.category ? encodeURIComponent(it.category) : ''}}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"doT.3"
+					],
+					"context": "$.url"
+				},
+				"error": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Success",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.formattedResponse"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"doT.2": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Response",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{{=JSON.stringify(it)}}\""
+				},
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.response.body.articles"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"http.1"
+					],
+					"context": "$.formattedResponse"
+				},
+				"error": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"http.2": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Bad Request",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.response"
+				},
+				{
+					"name": "status",
+					"type": "number",
+					"value": "400"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"http.3": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Unexpected Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "500"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"condition.1": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "Check Response",
+			"method": "equals",
+			"parameters": [
+				{
+					"name": "value",
+					"type": "string",
+					"value": "\"ok\""
+				},
+				{
+					"name": "source",
+					"type": "jsonpath",
+					"value": "$.response.body.status"
+				}
+			],
+			"outputs": {
+				"true": {
+					"routes": [
+						"doT.2"
+					],
+					"context": "$.equals"
+				},
+				"false": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.equals"
+				}
+			}
+		},
+		"doT.3": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Headers",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.config"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\n\\\"x-api-key\\\": {{=JSON.stringify(it.NEWSAPI_APIKEY)}}\\n}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"rest.1"
+					],
+					"context": "$.headers"
+				},
+				"error": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.error"
+				}
+			}
+		}
+	}
+}

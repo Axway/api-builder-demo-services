@@ -1,0 +1,163 @@
+{
+	"schemaVersion": "2",
+	"name": "newsAndWeatherService - post /register",
+	"start": "doT.2",
+	"nodes": {
+		"User.1": {
+			"type": "nodehandler://arrow-flow-invoke/model/User",
+			"name": "create",
+			"method": "create",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params.user"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"http.1"
+					],
+					"context": "$.created"
+				}
+			}
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Success",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "200"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"http.2": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Unexpected Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "500"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"User.2": {
+			"type": "nodehandler://arrow-flow-invoke/model/User",
+			"name": "Query by UID",
+			"method": "query",
+			"parameters": [
+				{
+					"name": "where",
+					"type": "jsonpath",
+					"value": "$.where"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"condition.1"
+					],
+					"context": "$.users"
+				}
+			}
+		},
+		"doT.2": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Where",
+			"method": "formatStr",
+			"parameters": [
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\\"uid\\\": {{=JSON.stringify(it.uid)}}}\""
+				},
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params.user"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"User.2"
+					],
+					"context": "$.where"
+				},
+				"error": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				}
+			}
+		},
+		"http.3": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Duplicate",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.params.uid"
+				},
+				{
+					"name": "status",
+					"type": "number",
+					"value": "409"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"condition.1": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "Already Exists",
+			"method": "exists",
+			"parameters": [
+				{
+					"name": "source",
+					"type": "jsonpath",
+					"value": "$.users[0]"
+				}
+			],
+			"outputs": {
+				"true": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.exists"
+				},
+				"false": {
+					"routes": [
+						"User.1"
+					],
+					"context": "$.exists"
+				}
+			}
+		}
+	}
+}

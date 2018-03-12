@@ -1,0 +1,29 @@
+{
+	"type": "object",
+	"description": "A summary of the weather.",
+	"properties": {
+		"city": {
+			"type": "string"
+		},
+		"country": {
+			"type": "string"
+		},
+		"summary": {
+			"type": "string"
+		},
+		"units": {
+			"description": "The units to measure in.",
+			"type": "string",
+			"enum": [
+				"metric",
+				"imperial"
+			]
+		},
+		"temperature": {
+			"type": "number"
+		},
+		"windSpeed": {
+			"type": "number"
+		}
+	}
+}

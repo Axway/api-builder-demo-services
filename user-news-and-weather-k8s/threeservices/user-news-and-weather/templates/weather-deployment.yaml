@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-weather
+  labels:
+    app: weather-service
+    chart: {{ template "user-news-and-weather.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.weather }}
+  selector:
+    matchLabels:
+      app: weather-service
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: weather-service
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: weather
+          image: "{{ .Values.image.weather }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ARROW_OPENWEATHER_APIKEY
+              value: {{ .Values.apikeys.openWeatherApiKey }}
+          livenessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /apidoc/swagger.json
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10

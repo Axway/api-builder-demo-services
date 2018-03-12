@@ -1,0 +1,14 @@
+{
+	"description": "The news and weather",
+	"properties": {
+		"headlines": {
+			"type": "array",
+			"items": {
+				"$ref": "schema:///svc.news-service/schemanews-service_article"
+			}
+		},
+		"weather": {
+			"$ref": "schema:///svc.weather-service/schemaweather-service_weather"
+		}
+	}
+}
