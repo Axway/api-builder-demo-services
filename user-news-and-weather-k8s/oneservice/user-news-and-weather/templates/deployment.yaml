@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: usernewsandweather
-          image: "{{ .Values.image.userNewsAndWeather }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.userNewsAndWeather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PORT
@@ -43,7 +43,7 @@ spec:
               path: /apidoc/swagger.json
               port: {{ .Values.ports.usernewsandweather }}
         - name: news
-          image: "{{ .Values.image.news }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.news }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PORT
@@ -59,7 +59,7 @@ spec:
               path: /apidoc/swagger.json
               port: {{ .Values.ports.news }}
         - name: weather
-          image: "{{ .Values.image.weather }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.weather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PORT

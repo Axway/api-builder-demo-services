@@ -14,9 +14,9 @@ This is temporary but as the services aren't published you'll need to build them
 
 ```
 eval $(minikube docker-env)
-docker build -t axway-api-builder-demo-news-service ../news-service
-docker build -t axway-api-builder-demo-weather-service ../weather-service
-docker build -t axway-api-builder-demo-user-news-and-weather-service ../user-news-and-weather
+docker build -t axway/api-builder-demo-services:news-service ../news-service
+docker build -t axway/api-builder-demo-services:weather-service ../weather-service
+docker build -t axway/api-builder-demo-services:user-news-and-weather ../user-news-and-weather
 ```
 
 ### Install Helm
@@ -90,7 +90,7 @@ You should now be able to connect to the API.
 
 ### Three Services
 
-This chart sets up a three sevices and three pods, one for each of the API Builder apps. This configuration allows for independent replication scaling and also allows the easy reuse of the services. As with the _oneservice_ setup the only service exposed externally is the user-news-and-weather-service, both _news-service_ and _weather-service_ are only visible inside the cluster.
+This chart sets up a three sevices and three pods, one for each of the API Builder apps. This configuration allows for independent replication scaling and also allows the easy reuse of the services. As with the _oneservice_ setup the only service exposed externally is the user-news-and-weather, both _news-service_ and _weather-service_ are only visible inside the cluster.
 
  See [./threeservices/user-news-and-weather/README.md](./threeservices/user-news-and-weather/README.md) for more detail.
 

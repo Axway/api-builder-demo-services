@@ -7,7 +7,7 @@ The service runs on port 32000.
 The pod runs the three containers:
 - axway-api-builder-demo-weather-service
 - axway-api-builder-demo-news-service
-- axway-api-builder-demo-user-news-and-weather-service
+- axway-api-builder-demo-user-news-and-weather
 
 As the three containers are running in a single pod they are each run on a different port. This is done by setting the ```PORT``` environment variable for each container, for convenience the value is in values.yaml.
 

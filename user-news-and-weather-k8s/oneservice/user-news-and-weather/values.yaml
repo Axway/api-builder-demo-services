@@ -24,10 +24,9 @@ ports:
 # The images to use for the containers. If you built with different
 # naming then you can change these here.
 image:
-  weather: axway-api-builder-demo-weather-service
-  news: axway-api-builder-demo-news-service
-  userNewsAndWeather: axway-api-builder-demo-user-news-and-weather-service
-  tag: latest
+  weather: axway/api-builder-demo-services:weather-service
+  news: axway/api-builder-demo-services:news-service
+  userNewsAndWeather: axway/api-builder-demo-services:user-news-and-weather
   pullPolicy: IfNotPresent
 
 ingress:

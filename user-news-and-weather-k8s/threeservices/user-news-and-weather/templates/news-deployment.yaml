@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: news
-          image: "{{ .Values.image.news }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.news }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: ARROW_NEWSAPI_APIKEY

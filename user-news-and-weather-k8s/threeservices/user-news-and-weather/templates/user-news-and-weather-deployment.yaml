@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: usernewsandweather
-          image: "{{ .Values.image.userNewsAndWeather }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.userNewsAndWeather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: WEATHER_HOST

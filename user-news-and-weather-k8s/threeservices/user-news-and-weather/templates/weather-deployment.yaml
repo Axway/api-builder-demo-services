@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: weather
-          image: "{{ .Values.image.weather }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.weather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: ARROW_OPENWEATHER_APIKEY
