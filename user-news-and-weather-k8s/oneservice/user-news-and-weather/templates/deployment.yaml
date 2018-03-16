@@ -36,11 +36,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: {{ .Values.ports.usernewsandweather }}
           readinessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: {{ .Values.ports.usernewsandweather }}
         - name: news
           image: "{{ .Values.image.news }}"
@@ -52,11 +52,11 @@ spec:
               value: {{ .Values.apikeys.newsApiKey }}
           livenessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: {{ .Values.ports.news }}
           readinessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: {{ .Values.ports.news }}
         - name: weather
           image: "{{ .Values.image.weather }}"
@@ -68,9 +68,9 @@ spec:
               value: {{ .Values.apikeys.openWeatherApiKey }}
           livenessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: {{ .Values.ports.weather }}
           readinessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: {{ .Values.ports.weather }}

@@ -6,9 +6,9 @@ replicaCount:
   
 apikeys:
   # The API key for NewsAPI.org
-  newsApiKey: yourNewsAPIOrgKey
+  newsApiKey: 20064a29433f4d7e9f39da28763bc937
   # The API Key for OpenWeatherMap.org
-  openWeatherApiKey: yourOpenWeatherMapKey
+  openWeatherApiKey: 9aff104318a1bd1674b1736f86cb7c6e
 
 # This is the port the User News and Weather service will be visible on.
 service:

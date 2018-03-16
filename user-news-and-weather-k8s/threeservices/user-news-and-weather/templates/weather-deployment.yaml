@@ -28,13 +28,13 @@ spec:
               value: {{ .Values.apikeys.openWeatherApiKey }}
           livenessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /apidoc/swagger.json
+              path: /arrowPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
