@@ -169,6 +169,11 @@
 					"name": "status",
 					"type": "number",
 					"value": "500"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.error.message"
 				}
 			],
 			"outputs": {
@@ -217,12 +222,12 @@
 				{
 					"name": "data",
 					"type": "jsonpath",
-					"value": "$.config"
+					"value": "$"
 				},
 				{
 					"name": "template",
 					"type": "string",
-					"value": "\"{\\n\\\"x-api-key\\\": {{=JSON.stringify(it.NEWSAPI_APIKEY)}}\\n}\""
+					"value": "\"{{= \\\"{\\\" }}\\n\\\"x-api-key\\\": {{=JSON.stringify(it.config.NEWSAPI_APIKEY)}}\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach(h => { }}\\n{{=`, ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
 				}
 			],
 			"outputs": {
@@ -234,8 +239,36 @@
 				},
 				"error": {
 					"routes": [
-						"http.3"
+						"http.3",
+						"doT.4"
 					],
+					"context": "$.error"
+				}
+			}
+		},
+		"doT.4": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Debug",
+			"method": "formatStr",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{{ console.log('HERE'); }}\\n{{ console.log(it.headers); }}\\n{{ console.log(it.config.traceability.headers); }}\\n{{ console.log(it.req.headers); }}\\n{{ console.log('HERE'); }}\\n\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [],
+					"context": "$.value"
+				},
+				"error": {
+					"routes": [],
 					"context": "$.error"
 				}
 			}

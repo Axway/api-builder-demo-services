@@ -66,7 +66,7 @@
 			"outputs": {
 				"next": {
 					"routes": [
-						"rest.1"
+						"doT.3"
 					],
 					"context": "$.url"
 				},
@@ -110,6 +110,11 @@
 					"name": "status",
 					"type": "number",
 					"value": "500"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.error.message"
 				}
 			],
 			"outputs": {
@@ -170,6 +175,37 @@
 				"next": {
 					"context": "$.response",
 					"routes": []
+				}
+			}
+		},
+		"doT.3": {
+			"type": "nodehandler://nodehandler-dot/doT",
+			"name": "Format Headers",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{{= \\\"{\\\" }}\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach(h => { }}\\n{{=`, ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"rest.1"
+					],
+					"context": "$.value"
+				},
+				"error": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
 				}
 			}
 		}

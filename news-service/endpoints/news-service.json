@@ -22,6 +22,41 @@
 						"in": "query",
 						"name": "category",
 						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-request-id",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-traceid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-spanid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-parentspanid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-sampled",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-flags",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-ot-span-context",
+						"type": "string"
 					}
 				],
 				"produces": [
