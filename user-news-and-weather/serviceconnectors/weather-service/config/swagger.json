@@ -5,7 +5,7 @@
     "description": "An API to provide access to local weather information.",
     "version": "1.0.0"
   },
-  "host": "localhost:8082",
+  "host": "localhost:8081",
   "basePath": "/api",
   "schemes": [
     "http"
@@ -58,6 +58,41 @@
               "imperial"
             ],
             "description": "The units to use [metric|imperial]. Default: metric"
+          },
+          {
+            "in": "header",
+            "name": "x-request-id",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-traceid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-spanid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-parentspanid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-sampled",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-flags",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-ot-span-context",
+            "type": "string"
           }
         ],
         "produces": [

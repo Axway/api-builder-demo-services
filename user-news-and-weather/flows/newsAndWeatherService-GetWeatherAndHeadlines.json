@@ -17,6 +17,41 @@
 					"name": "country",
 					"type": "jsonpath",
 					"value": "$.user.country"
+				},
+				{
+					"name": "x-request-id",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-request-id']"
+				},
+				{
+					"name": "x-ot-span-context",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-ot-span-context']"
+				},
+				{
+					"name": "x-b3-traceid",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-traceid']"
+				},
+				{
+					"name": "x-b3-spanid",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-spanid']"
+				},
+				{
+					"name": "x-b3-sampled",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-samped']"
+				},
+				{
+					"name": "x-b3-parentspanid",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-parentspanid']"
+				},
+				{
+					"name": "x-b3-flags",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-flags']"
 				}
 			],
 			"outputs": {
@@ -222,6 +257,41 @@
 					"name": "units",
 					"type": "string",
 					"value": "\"metric\""
+				},
+				{
+					"name": "x-b3-flags",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-flags']"
+				},
+				{
+					"name": "x-b3-parentspanid",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-parentspanid']"
+				},
+				{
+					"name": "x-b3-sampled",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-sampled']"
+				},
+				{
+					"name": "x-b3-spanid",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-spanid']"
+				},
+				{
+					"name": "x-b3-traceid",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-b3-traceid']"
+				},
+				{
+					"name": "x-request-id",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-request-id']"
+				},
+				{
+					"name": "x-ot-span-context",
+					"type": "jsonpath",
+					"value": "$.request.headers['x-ot-span-context']"
 				}
 			],
 			"outputs": {

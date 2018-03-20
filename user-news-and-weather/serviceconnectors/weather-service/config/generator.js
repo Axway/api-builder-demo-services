@@ -9,7 +9,7 @@ module.exports = {
     },
     regenerateWith: {
         name: "weather-service",
-        api: "http://localhost:8082/apidoc/swagger.json",
+        api: "http://localhost:8081/apidoc/swagger.json",
         type: "openapi",
         force: true,
         dest: path.join(process.cwd(), ".."),

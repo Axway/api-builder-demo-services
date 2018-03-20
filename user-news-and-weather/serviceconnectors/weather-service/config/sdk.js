@@ -3,9 +3,10 @@ module.exports = {
         operationId: "GetCurrentWeatherByCity",
         description: "Get the current weather in the specified city.",
         path: "/weather/current",
-		method: "get",
+        method: "get",
+		uri: "http://localhost:8081/api/weather/current",
 		// HACK FOR NOW UNTIL AXWAY REQUESTER UPDATED
-        uri: `http://${(process.env.WEATHER_HOST || 'localhost')}:${parseInt(process.env.WEATHER_PORT) || 8080}/api/weather/current`,
+		uri: `http://${(process.env.WEATHER_HOST || 'localhost')}:${parseInt(process.env.WEATHER_PORT) || 8080}/api/weather/current`,
         parameters: {
             query: [
                 {
@@ -32,7 +33,43 @@ module.exports = {
                     description: "The units to use [metric|imperial]. Default: metric"
                 }
             ],
-            header: [],
+            header: [
+                {
+                    "in": "header",
+                    name: "x-request-id",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-traceid",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-spanid",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-parentspanid",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-sampled",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-flags",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-ot-span-context",
+                    type: "string"
+                }
+            ],
             path: [],
             formData: [],
             body: []

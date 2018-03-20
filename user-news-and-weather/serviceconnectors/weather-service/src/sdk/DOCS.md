@@ -13,4 +13,25 @@
 >   * *units:* The units to use [metric|imperial]. Default: metric
 >      * required: false
 >      * type: string
+>   * *x-request-id:* 
+>      * required: false
+>      * type: string
+>   * *x-b3-traceid:* 
+>      * required: false
+>      * type: string
+>   * *x-b3-spanid:* 
+>      * required: false
+>      * type: string
+>   * *x-b3-parentspanid:* 
+>      * required: false
+>      * type: string
+>   * *x-b3-sampled:* 
+>      * required: false
+>      * type: string
+>   * *x-b3-flags:* 
+>      * required: false
+>      * type: string
+>   * *x-ot-span-context:* 
+>      * required: false
+>      * type: string
 

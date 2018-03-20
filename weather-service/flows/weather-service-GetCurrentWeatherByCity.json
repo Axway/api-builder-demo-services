@@ -191,7 +191,7 @@
 				{
 					"name": "template",
 					"type": "string",
-					"value": "\"{{= \\\"{\\\" }}\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach(h => { }}\\n{{=`, ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
+					"value": "\"{{= \\\"{\\\" }}\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach((h,i) => { }}\\n{{=`${i > 0 ? ', ' : ''} ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
 				}
 			],
 			"outputs": {

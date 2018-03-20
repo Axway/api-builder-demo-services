@@ -5,7 +5,7 @@
     "description": "An API to provide access to filtered news services.",
     "version": "1.0.0"
   },
-  "host": "localhost:8081",
+  "host": "localhost:8080",
   "basePath": "/api",
   "schemes": [
     "http"
@@ -47,6 +47,41 @@
           {
             "in": "query",
             "name": "category",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-request-id",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-traceid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-spanid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-parentspanid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-sampled",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-flags",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-ot-span-context",
             "type": "string"
           }
         ],

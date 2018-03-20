@@ -9,7 +9,7 @@ module.exports = {
     },
     regenerateWith: {
         name: "news-service",
-        api: "http://localhost:8081/apidoc/swagger.json",
+        api: "http://localhost:8080/apidoc/swagger.json",
         type: "openapi",
         force: true,
         dest: path.join(process.cwd(), ".."),

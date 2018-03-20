@@ -5,7 +5,7 @@ module.exports = {
         path: "/news/headlines",
 		method: "get",
 		// HACK FOR NOW UNTIL AXWAY REQUESTER UPDATED
-        uri: `http://${(process.env.NEWS_HOST || 'localhost')}:${parseInt(process.env.NEWS_PORT) || 8080}/api/news/headlines`,
+		uri: `http://${(process.env.NEWS_HOST || 'localhost')}:${parseInt(process.env.NEWS_PORT) || 8080}/api/news/headlines`,
         parameters: {
             query: [
                 {
@@ -19,7 +19,43 @@ module.exports = {
                     type: "string"
                 }
             ],
-            header: [],
+            header: [
+                {
+                    "in": "header",
+                    name: "x-request-id",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-traceid",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-spanid",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-parentspanid",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-sampled",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-b3-flags",
+                    type: "string"
+                },
+                {
+                    "in": "header",
+                    name: "x-ot-span-context",
+                    type: "string"
+                }
+            ],
             path: [],
             formData: [],
             body: []
