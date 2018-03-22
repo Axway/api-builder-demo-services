@@ -10,10 +10,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 8080
+      targetPort: http-user-nw
       protocol: TCP
       nodePort: {{ .Values.service.port }}
+      name: http-user
   selector:
     app: {{ template "user-news-and-weather.name" . }}
     release: {{ .Release.Name }}

@@ -13,6 +13,7 @@ spec:
     - port: 80
       targetPort: 8080
       protocol: TCP
+      name: http-news  
   selector:
     app: news-service
     release: {{ .Release.Name }}

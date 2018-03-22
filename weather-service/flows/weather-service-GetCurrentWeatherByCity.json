@@ -60,7 +60,7 @@
 				{
 					"name": "template",
 					"type": "string",
-					"value": "\"https://api.openweathermap.org/data/2.5/weather?q={{=it.params.country ? encodeURIComponent(`${it.params.city},${it.params.country}`) : encodeURIComponent(it.params.city)}}&units={{=it.params.units ? encodeURIComponent(it.params.units) : 'metric'}}&APPID={{=encodeURIComponent(it.config.OPENWEATHER_APIKEY)}}\""
+					"value": "\"{{=it.config.ISTIO_ENABLED === 'true' ? 'http' : 'https'}}://api.openweathermap.org:443/data/2.5/weather?q={{=it.params.country ? encodeURIComponent(`${it.params.city},${it.params.country}`) : encodeURIComponent(it.params.city)}}&units={{=it.params.units ? encodeURIComponent(it.params.units) : 'metric'}}&APPID={{=encodeURIComponent(it.config.OPENWEATHER_APIKEY)}}\""
 				}
 			],
 			"outputs": {
@@ -191,7 +191,7 @@
 				{
 					"name": "template",
 					"type": "string",
-					"value": "\"{{= \\\"{\\\" }}\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach((h,i) => { }}\\n{{=`${i > 0 ? ', ' : ''} ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
+					"value": "\"{{= \\\"{\\\" }}\\n\\\"Host\\\": \\\"api.openweathermap.org\\\"\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach((h,i) => { }}\\n{{=`${', '} ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
 				}
 			],
 			"outputs": {

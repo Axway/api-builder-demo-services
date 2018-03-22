@@ -6,9 +6,17 @@ replicaCount:
   
 apikeys:
   # The API key for NewsAPI.org
-  newsApiKey: 20064a29433f4d7e9f39da28763bc937
+  newsApiKey: yourNewsAPIOrgKey
   # The API Key for OpenWeatherMap.org
-  openWeatherApiKey: 9aff104318a1bd1674b1736f86cb7c6e
+  openWeatherApiKey: yourOpenWeatherMapKey
+
+# Configure deployment in a service mesh
+serviceMesh:
+  istio: false
+
+# Kubernetes Deployment api changed between 1.8.x and 1.9.0.
+kubernetes:
+  version: "1.8.0"
 
 # This is the port the User News and Weather service will be visible on.
 service:
