@@ -14,9 +14,9 @@ apikeys:
 serviceMesh:
   istio: false
 
-# Kubernetes Deployment api changed between 1.8.x and 1.9.0.
+# Kubernetes Deployment api changed between 1.8.x and 1.9.x
 kubernetes:
-  version: "1.8.0"
+  version: "1.8"
 
 # This is the port the User News and Weather service will be visible on.
 service:
