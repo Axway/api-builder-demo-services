@@ -1,4 +1,5 @@
 apiVersion: apps/v1beta2
+{{end}}
 kind: Deployment
 metadata:
   name: {{ template "user-news-and-weather.fullname" . }}
@@ -38,10 +39,12 @@ spec:
             httpGet:
               path: /arrowPing.json
               port: {{ .Values.ports.usernewsandweather }}
+          {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /arrowPing.json
               port: {{ .Values.ports.usernewsandweather }}
+          {{end}}
         - name: news
           image: "{{ .Values.image.news }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -54,10 +57,12 @@ spec:
             httpGet:
               path: /arrowPing.json
               port: {{ .Values.ports.news }}
+          {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /arrowPing.json
               port: {{ .Values.ports.news }}
+          {{end}}
         - name: weather
           image: "{{ .Values.image.weather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -70,7 +75,9 @@ spec:
             httpGet:
               path: /arrowPing.json
               port: {{ .Values.ports.weather }}
+          {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /arrowPing.json
               port: {{ .Values.ports.weather }}
+          {{end}}

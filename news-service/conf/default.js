@@ -13,6 +13,9 @@ module.exports = {
 	// NewsApi API Key: https://newsapi.org/
 	NEWSAPI_APIKEY: '',
 
+	// define if integrated with istio
+	ISTIO_ENABLED: 'false',
+
 	// these are your generated API keys.  They were generated uniquely when you created this project.
 	// DO NOT SHARE these keys with other projects and be careful with these keys since they control
 	// access to your API using the default configuration.  if you don't want two different keys for

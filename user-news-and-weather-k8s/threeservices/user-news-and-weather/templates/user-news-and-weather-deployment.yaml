@@ -1,4 +1,5 @@
 apiVersion: apps/v1beta2
+{{end}}
 kind: Deployment
 metadata:
   name: {{ template "user-news-and-weather.fullname" . }}
@@ -33,7 +34,7 @@ spec:
             - name: NEWS_PORT
               value: "80"
           ports:
-            - name: http
+            - name: http-user-nw
               containerPort: 8080
               protocol: TCP
           livenessProbe:
@@ -42,9 +43,11 @@ spec:
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
+          {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /arrowPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
+          {{end}}

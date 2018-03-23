@@ -149,3 +149,43 @@ Run the commands in the notes to get the port and ip, i.e.
 ```
 
 You should now be able to connect to the API.
+
+
+## Deployment on an Istio (https://istio.io/) service mesh
+
+In order to do that, serviceMesh.istio has to be set to true in the values.yaml file. Setting it to true will let the envoy sidecard do the tls termination as currently there is no support for SNI. See https://istio.io/blog/2018/egress-https.html
+
+If the kubernetes cluster does not have the sidecar auto injected (https://istio.io/docs/setup/kubernetes/sidecar-injection.html), then it can be added after the deployment by running:
+
+```
+helm get <release-name> | sed -e '1,/MANIFEST:/d' | istioctl kube-inject -f - | kubectl apply -f -
+
+```
+
+Since both news and weather services apis are ouside the service mesh, then egress rules must be added to allow the traffic:
+
+```
+apiVersion: config.istio.io/v1alpha2
+kind: EgressRule
+metadata:
+  name: openweathermap-egress-rule
+spec:
+  destination:
+    service: api.openweathermap.org
+  ports:
+    - port: 443
+      protocol: https
+---
+apiVersion: config.istio.io/v1alpha2
+kind: EgressRule
+metadata:
+  name: news-egress-rule
+spec:
+  destination:
+    service: newsapi.org
+  ports:
+    - port: 80
+      protocol: http
+    - port: 443
+      protocol: https
+```

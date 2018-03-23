@@ -14,6 +14,10 @@ service:
   type: NodePort
   port: 32000
 
+# Configure deployment in a service mesh
+serviceMesh:
+  istio: true
+
 # These are the ports that the API Builder services run on in the pod.
 # Should be no reason to change them.
 ports:
