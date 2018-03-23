@@ -18,6 +18,10 @@ service:
 serviceMesh:
   istio: true
 
+# Kubernetes Deployment api changed between 1.8.x and 1.9.x
+kubernetes:
+  version: "1.8"
+
 # These are the ports that the API Builder services run on in the pod.
 # Should be no reason to change them.
 ports:

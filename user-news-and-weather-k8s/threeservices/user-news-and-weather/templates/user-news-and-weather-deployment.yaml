@@ -1,4 +1,4 @@
-{{if eq .Values.kubernetes.version "1.9.0"}}
+{{if eq .Values.kubernetes.version "1.9"}}
 apiVersion: apps/v1
 {{ else }}
 apiVersion: apps/v1beta2
