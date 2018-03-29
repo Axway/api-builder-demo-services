@@ -2,7 +2,7 @@
 	"name": "@axway/weather-service",
 	"description": "An API to provide access to local weather information.",
 	"main": "app.js",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "",
 	"keywords": [
 		"api-builder",

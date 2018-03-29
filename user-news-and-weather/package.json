@@ -2,7 +2,7 @@
 	"name": "@axway/user-news-and-weather",
 	"description": "An API for aggregating the news and weather for a registered user.",
 	"main": "app.js",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "",
 	"keywords": [
 		"api-builder",
