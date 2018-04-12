@@ -1,0 +1,127 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "@axway/news-service",
+    "description": "An API to provide access to filtered news services.",
+    "version": "1.0.1"
+  },
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "paths": {
+    "/news/headlines": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/schema.news-service_article"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Authorization Required"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "description": "Get the headlines filtered by country and category.",
+        "operationId": "GetHeadlinesByCountry",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-request-id",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-traceid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-spanid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-parentspanid",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-sampled",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-b3-flags",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-ot-span-context",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "news",
+          "headlines"
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic",
+      "description": "Require authorized access to API"
+    }
+  },
+  "definitions": {
+    "schema.news-service_article": {
+      "type": "object",
+      "description": "An article of news.",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "urlToImage": {
+          "type": "string"
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

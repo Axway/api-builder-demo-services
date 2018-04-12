@@ -1,0 +1,76 @@
+{
+  "name": "@axway/api-builder-plugin-sc-weather-service",
+  "version": "1.0.0",
+  "description": "@axway/api-builder-plugin-sc-weather-service Service Connector",
+  "author": {
+    "email": "support@axway.com",
+    "name": "Axway R&D",
+    "url": "https://axway.com"
+  },
+  "main": "src/index.js",
+  "dependencies": {
+    "appc-service-connector-utils": "v4-preview1",
+    "axway-requester": "v4-preview1"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.4",
+    "npm-check": "^5.6.0",
+    "nyc": "^11.6.0",
+    "mockery": "^2.1.0",
+    "nsp": "^3.2.1",
+    "retire": "^1.6.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^4.5.0",
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1",
+    "tap": "^11.1.3",
+    "tap-mocha-reporter": "^3.0.7"
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "icon.svg",
+    "src",
+    "config"
+  ],
+  "keywords": [
+    "axway",
+    "amplify",
+    "api-builder",
+    "serviceconnector",
+    "connector"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://git.ecd.axway.int/Api-Builder/api-builder-plugin-sc-weather-service"
+  },
+  "scripts": {
+    "all": "npm i && npm run clean && npm run lint:fix && npm run build",
+    "build": "npm run clean && npm run build:dev && npm run check:dependencies && npm run security",
+    "build:dev": "npm run build:lint && npm run test",
+    "build:lint": "standard | snazzy",
+    "test": "npm run clean:test && cross-env NODE_ENV=test npm run test:unit",
+    "test:unit": "tap test/unit/* --bail --coverage-report=html | tap-mocha-reporter spec",
+    "test:integration": "tap test/integration/* --bail --coverage-report=html | tap-mocha-reporter spec",
+    "posttest": "nyc check-coverage --lines 80 --branches 80 --functions 80 || exit 0",
+    "security": "npm run security:retire && npm run security:nsp",
+    "security:retire": "retire --exitwith 0 --package --jspath ./src --nodepath ./ --outputformat json --outputpath scan-retire.json",
+    "security:nsp": "nsp check --reporter json > scan-nsp.json --warn-only",
+    "clean": "rimraf coverage .nyc-output",
+    "clean:test": "rimraf coverage .nyc-output",
+    "lint:fix": "standard --fix | snazzy",
+    "check:dependencies": "npm-check || exit 0"
+  },
+  "standard": {
+    "ignore": [
+      ".nyc_output",
+      ".vscode",
+      "coverage",
+      "node_modules",
+      "config"
+    ]
+  },
+  "nyc": {
+    "include": "src"
+  }
+}
