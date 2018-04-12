@@ -11,7 +11,8 @@
  */
 module.exports = {
 	// NewsApi API Key: https://newsapi.org/
-	NEWSAPI_APIKEY: '',
+	NEWSAPI_APIKEY: process.env.ARROW_NEWSAPI_APIKEY,
+	port: process.env.PORT || 8080,
 
 	// define if integrated with istio
 	ISTIO_ENABLED: 'false',
@@ -25,27 +26,19 @@ module.exports = {
 	// NODE_ENV=production app.js
 	//
 	// API key
-	apikey: 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+	apikey: process.env.ARROW_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 
 	// by default the authentication strategy is 'basic' which will use HTTP Basic Authorization where the
 	// usename is the key and the password is blank.  the other option is 'apikey' where the value of the
 	// APIKey header is the value of the key.  you can also set this to 'plugin' and define the key 'APIKeyAuthPlugin'
 	// which points to a file or a module that implements the authentication strategy
-	APIKeyAuthType: 'basic',
+	APIKeyAuthType: process.env.ARROW_APIKEYAUTHTYPE || 'basic',
 
 	// The number of milliseconds before timing out a request to the server.
 	timeout: 120000,
 
 	// logging configuration
-	logLevel: 'debug', // Log level of the main logger.
-	logging: {
-		// location of the logs if enabled
-		logdir: './logs',
-		// turn on transaction logs
-		transactionLogEnabled: true,
-		// turn on adi logging of transaction logs
-		adiLogging: false
-	},
+	logLevel: process.env.ARROW_LOGLEVEL || 'debug', // Log level of the main logger.
 
 	// prefix to use for apis
 	apiPrefix: '/api',
