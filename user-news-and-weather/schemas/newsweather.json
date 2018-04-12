@@ -4,11 +4,11 @@
 		"headlines": {
 			"type": "array",
 			"items": {
-				"$ref": "schema:///svc.news-service/schemanews-service_article"
+				"$ref": "schema:///svc.axwaynews-service/schemanews-service_article"
 			}
 		},
 		"weather": {
-			"$ref": "schema:///svc.weather-service/schemaweather-service_weather"
+			"$ref": "schema:///svc.axwayweather-service/schemaweather-service_weather"
 		}
 	}
 }

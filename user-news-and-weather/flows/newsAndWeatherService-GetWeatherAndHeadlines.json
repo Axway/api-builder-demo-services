@@ -4,7 +4,7 @@
 	"start": "doT.1",
 	"nodes": {
 		"news-service.1": {
-			"type": "nodehandler://service-connector/news-service",
+			"type": "nodehandler://service-connector/axway/news-service",
 			"name": "GetHeadlinesByCountry",
 			"method": "GetHeadlinesByCountry",
 			"parameters": [
@@ -239,7 +239,7 @@
 			}
 		},
 		"weather-service.1": {
-			"type": "nodehandler://service-connector/weather-service",
+			"type": "nodehandler://service-connector/axway/weather-service",
 			"name": "GetCurrentWeatherByCity",
 			"method": "GetCurrentWeatherByCity",
 			"parameters": [

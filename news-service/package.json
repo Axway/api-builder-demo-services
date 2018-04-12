@@ -2,7 +2,7 @@
 	"name": "@axway/news-service",
 	"description": "An API to provide access to filtered news services.",
 	"main": "app.js",
-	"version": "1.0.1",
+	"version": "2.0.0",
 	"license": "",
 	"keywords": [
 		"api-builder",
