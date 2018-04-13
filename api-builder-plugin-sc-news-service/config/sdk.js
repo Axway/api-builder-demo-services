@@ -2,9 +2,12 @@ module.exports = {
     GetHeadlinesByCountry: {
         operationId: "GetHeadlinesByCountry",
         description: "Get the headlines filtered by country and category.",
+        protocol: "http",
+        host: "localhost:8080",
+        basePath: "/api",
         path: "/news/headlines",
+        uri: "http://localhost:8080/api/news/headlines",
         method: "get",
-        uri: "/news/headlines",
         parameters: {
             query: [
                 {

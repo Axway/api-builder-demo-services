@@ -2,9 +2,12 @@ module.exports = {
     GetCurrentWeatherByCity: {
         operationId: "GetCurrentWeatherByCity",
         description: "Get the current weather in the specified city.",
+        protocol: "http",
+        host: "localhost:8080",
+        basePath: "/api",
         path: "/weather/current",
+        uri: "http://localhost:8080/api/weather/current",
         method: "get",
-        uri: "/weather/current",
         parameters: {
             query: [
                 {
