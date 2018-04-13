@@ -7,8 +7,7 @@ module.exports = {
 			'x-vendor-openapi-uri': {
 				'protocol': 'http',
 				'host': process.env.NEWS_HOST || 'localhost',
-				'port': parseInt(process.env.NEWS_PORT) || 8080,
-				'basePath': '/'
+				'port': parseInt(process.env.NEWS_PORT) || 8080
 			}
 		}
 	}
