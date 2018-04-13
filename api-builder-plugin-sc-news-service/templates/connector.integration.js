@@ -5,10 +5,10 @@ test('### GetHeadlinesByCountry ###', t => {
   const configParams = getConfig()
   const requestData = {
     /**
-           * To add more in the header use:
-           *
-           * header: Object.assign(configParams.header, { // your header data })
-           */
+     * To add more in the header use:
+     *
+     * header: Object.assign(configParams.header, { // your header data })
+     */
     security: configParams.security,
     header: configParams.header,
     path: {},

@@ -3,7 +3,7 @@
   "info": {
     "title": "@axway/news-service",
     "description": "An API to provide access to filtered news services.",
-    "version": "1.0.1"
+    "version": "2.0.0"
   },
   "host": "localhost:8080",
   "basePath": "/api",
