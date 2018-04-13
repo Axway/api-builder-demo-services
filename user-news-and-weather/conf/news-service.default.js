@@ -1,6 +1,6 @@
 module.exports = {
 	connectors: {
-		'news-service': {
+		'@axway/api-builder-plugin-sc-news-service': {
 			'x-vendor-openapi-authtype': 'basic',
 			'x-vendor-openapi-username': process.env.NEWS_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 			'x-vendor-openapi-password': '',

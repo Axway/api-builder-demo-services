@@ -12,10 +12,10 @@
 module.exports = {
 	// NewsApi API Key: https://newsapi.org/
 	NEWSAPI_APIKEY: process.env.ARROW_NEWSAPI_APIKEY,
-	port: process.env.PORT || 8080,
+	port: parseInt(process.env.PORT) || 8080,
 
 	// define if integrated with istio
-	ISTIO_ENABLED: 'false',
+	ISTIO_ENABLED: process.env.ARROW_ISTIO_ENABLED || 'false',
 
 	// these are your generated API keys.  They were generated uniquely when you created this project.
 	// DO NOT SHARE these keys with other projects and be careful with these keys since they control

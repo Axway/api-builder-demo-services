@@ -17,7 +17,7 @@
 	"repository": {},
 	"private": true,
 	"dependencies": {
-		"arrow": "v4-next",
+		"arrow": "v4-preview1",
 		"mv": "^2.1.1",
 		"nodehandler-base64": "v4-preview1",
 		"nodehandler-dot": "v4-preview1",

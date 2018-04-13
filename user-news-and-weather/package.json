@@ -16,8 +16,8 @@
 	"repository": {},
 	"private": true,
 	"dependencies": {
-		"@axway/api-builder-plugin-sc-news-service": "file://../api-builder-plugin-sc-news-service/axway-api-builder-plugin-sc-news-service-1.0.0.tgz",
-		"@axway/api-builder-plugin-sc-weather-service": "file://../api-builder-plugin-sc-weather-service/axway-api-builder-plugin-sc-weather-service-1.0.0.tgz",
+		"@axway/api-builder-plugin-sc-news-service": "file:axway-api-builder-plugin-sc-news-service-1.0.0.tgz",
+		"@axway/api-builder-plugin-sc-weather-service": "file:axway-api-builder-plugin-sc-weather-service-1.0.0.tgz",
 		"arrow": "v4-preview1",
 		"axway-requester": "v4-preview1",
 		"mv": "^2.1.1",

@@ -1,5 +1,6 @@
 npm-debug.log
 .npmrc
+coverage/
 node_modules/
 lerna-debug.log
 scan-nsp.json

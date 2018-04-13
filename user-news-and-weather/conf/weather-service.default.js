@@ -1,6 +1,6 @@
 module.exports = {
 	connectors: {
-		'weather-service': {
+		'@axway/api-builder-plugin-sc-weather-service': {
 			'x-vendor-openapi-authtype': 'basic',
 			'x-vendor-openapi-username': process.env.WEATHER_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 			'x-vendor-openapi-password': '',
