@@ -2,7 +2,7 @@
 	"name": "@axway/user-news-and-weather",
 	"description": "An API for aggregating the news and weather for a registered user.",
 	"main": "app.js",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"license": "",
 	"keywords": [
 		"api-builder",
@@ -16,17 +16,17 @@
 	"repository": {},
 	"private": true,
 	"dependencies": {
-		"@axway/api-builder-plugin-sc-news-service": "file:axway-api-builder-plugin-sc-news-service-1.0.0.tgz",
-		"@axway/api-builder-plugin-sc-weather-service": "file:axway-api-builder-plugin-sc-weather-service-1.0.0.tgz",
-		"arrow": "v4-preview1",
-		"axway-requester": "v4-preview1",
+		"@axway/api-builder-plugin-sc-news-service": "file:axway-api-builder-plugin-sc-news-service-1.1.0.tgz",
+		"@axway/api-builder-plugin-sc-weather-service": "file:axway-api-builder-plugin-sc-weather-service-1.1.0.tgz",
+		"arrow": "v4-preview2",
+		"axway-requester": "v4-preview2",
 		"mv": "^2.1.1",
-		"nodehandler-base64": "v4-preview1",
-		"nodehandler-dot": "v4-preview1",
-		"nodehandler-json": "v4-preview1"
+		"nodehandler-base64": "v4-preview2",
+		"nodehandler-dot": "v4-preview2",
+		"nodehandler-json": "v4-preview2"
 	},
 	"devDependencies": {
-		"@axway/api-builder-admin": "v4-preview1",
+		"@axway/api-builder-admin": "v4-preview2",
 		"chai": "^4.1.2",
 		"cross-env": "^5.1.3",
 		"eslint": "^4.18.2",

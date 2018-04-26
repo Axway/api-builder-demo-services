@@ -1,6 +1,6 @@
 {
   "name": "@axway/api-builder-plugin-sc-news-service",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "@axway/api-builder-plugin-sc-news-service Service Connector",
   "author": {
     "email": "support@axway.com",
@@ -9,8 +9,8 @@
   },
   "main": "src/index.js",
   "dependencies": {
-    "appc-service-connector-utils": "v4-preview1",
-    "axway-requester": "v4-preview1"
+    "appc-service-connector-utils": "v4-preview2",
+    "axway-requester": "v4-preview2"
   },
   "devDependencies": {
     "cross-env": "^5.1.4",
