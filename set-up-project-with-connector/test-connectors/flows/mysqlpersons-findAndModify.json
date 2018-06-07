@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "3",
+  "info": {
+    "name": "mysqlpersons-findAndModify"
+  },
+  "parameter": {
+    "properties": {
+      "params": {
+        "type": "object",
+        "description": "The parameters from the endpoint.",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "description": "The number of records to fetch. The value must be greater than 0, and no greater than 1000."
+          },
+          "skip": {
+            "type": "number",
+            "description": "The number of records to skip. The value must not be less than 0."
+          },
+          "where": {
+            "type": "string",
+            "description": "Constrains values for fields. The value should be encoded JSON."
+          },
+          "order": {
+            "type": "string",
+            "description": "A dictionary of one or more fields specifying sorting of results. In general, you can sort based on any predefined field that you can query using the where operator, as well as on custom fields. The value should be encoded JSON."
+          },
+          "sel": {
+            "type": "string",
+            "description": "Selects which fields to return from the query. Others are excluded. The value should be encoded JSON."
+          },
+          "unsel": {
+            "type": "string",
+            "description": "Selects which fields to not return from the query. Others are included. The value should be encoded JSON."
+          },
+          "data": {
+            "$ref": "schema:///model/mysql/Persons",
+            "description": "The mysql/Persons to use for the update."
+          },
+          "new": {
+            "type": "boolean",
+            "default": false,
+            "description": "Set to true to return the new model instead of the original model."
+          },
+          "upsert": {
+            "type": "boolean",
+            "default": false,
+            "description": "Set to true to allow the method to create a new model."
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "request": {
+        "type": "object",
+        "description": "The HTTP request."
+      },
+      "config": {
+        "type": "object",
+        "description": "The application's configuration"
+      },
+      "env": {
+        "type": "object",
+        "description": "The host OS environment"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "params",
+      "request",
+      "config",
+      "env"
+    ]
+  },
+  "start": "params.buildargs.1",
+  "nodes": {
+    "params.buildargs.1": {
+      "type": "nodehandler://axway-flow/setcontext",
+      "method": "setcontext",
+      "name": "Build args parameter (new)",
+      "parameters": [
+        {
+          "name": "value",
+          "value": "$.params.new"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.params.args.new",
+          "routes": [
+            "params.buildargs.2"
+          ]
+        }
+      }
+    },
+    "params.buildargs.2": {
+      "type": "nodehandler://axway-flow/setcontext",
+      "method": "setcontext",
+      "name": "Build args parameter (upsert)",
+      "parameters": [
+        {
+          "name": "value",
+          "value": "$.params.upsert"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.params.args.upsert",
+          "routes": [
+            "model.findAndModify"
+          ]
+        }
+      }
+    },
+    "model.findAndModify": {
+      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "method": "findAndModify",
+      "name": "Find and modify Persons",
+      "parameters": [
+        {
+          "name": "data",
+          "value": "$.params.data"
+        },
+        {
+          "name": "args",
+          "value": "$.params.args"
+        },
+        {
+          "name": "limit",
+          "value": "$.params.limit"
+        },
+        {
+          "name": "skip",
+          "value": "$.params.skip"
+        },
+        {
+          "name": "where",
+          "value": "$.params.where"
+        },
+        {
+          "name": "order",
+          "value": "$.params.order"
+        },
+        {
+          "name": "sel",
+          "value": "$.params.sel"
+        },
+        {
+          "name": "unsel",
+          "value": "$.params.unsel"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.model",
+          "routes": [
+            "response.success"
+          ]
+        },
+        "notfound": {
+          "routes": [
+            "response.error.notfound"
+          ]
+        }
+      }
+    },
+    "response.success": {
+      "type": "nodehandler://axway-flow/http",
+      "name": "Set response",
+      "method": "setresponse",
+      "parameters": [
+        {
+          "name": "status",
+          "value": "204",
+          "type": "number"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.response"
+        }
+      }
+    },
+    "response.error.notfound": {
+      "type": "nodehandler://axway-flow/http",
+      "name": "Set not found response",
+      "method": "setresponse",
+      "parameters": [
+        {
+          "name": "status",
+          "value": "404",
+          "type": "number"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.response"
+        }
+      }
+    }
+  }
+}

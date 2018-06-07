@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "3",
+  "info": {
+    "name": "mysqlpersons-deleteAll"
+  },
+  "parameter": {
+    "properties": {
+      "params": {
+        "type": "object",
+        "description": "The parameters from the endpoint."
+      },
+      "request": {
+        "type": "object",
+        "description": "The HTTP request."
+      },
+      "config": {
+        "type": "object",
+        "description": "The application's configuration"
+      },
+      "env": {
+        "type": "object",
+        "description": "The host OS environment"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "params",
+      "request",
+      "config",
+      "env"
+    ]
+  },
+  "start": "model.deleteall",
+  "nodes": {
+    "model.deleteall": {
+      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "method": "deleteAll",
+      "name": "Delete all Persons",
+      "parameters": [],
+      "outputs": {
+        "next": {
+          "routes": [
+            "response.success"
+          ]
+        }
+      }
+    },
+    "response.success": {
+      "type": "nodehandler://axway-flow/http",
+      "name": "Set response",
+      "method": "setresponse",
+      "parameters": [
+        {
+          "name": "status",
+          "value": "204",
+          "type": "number"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.response"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "3",
+  "info": {
+    "name": "mysqlpersons-query"
+  },
+  "parameter": {
+    "properties": {
+      "params": {
+        "type": "object",
+        "description": "The parameters from the endpoint.",
+        "limit": {
+          "type": "number",
+          "description": "The number of records to fetch. The value must be greater than 0, and no greater than 1000."
+        },
+        "skip": {
+          "type": "number",
+          "description": "The number of records to skip. The value must not be less than 0."
+        },
+        "where": {
+          "type": "string",
+          "description": "Constrains values for fields. The value should be encoded JSON."
+        },
+        "order": {
+          "type": "string",
+          "description": "A dictionary of one or more fields specifying sorting of results. In general, you can sort based on any predefined field that you can query using the where operator, as well as on custom fields. The value should be encoded JSON."
+        },
+        "sel": {
+          "type": "string",
+          "description": "Selects which fields to return from the query. Others are excluded. The value should be encoded JSON."
+        },
+        "unsel": {
+          "type": "string",
+          "description": "Selects which fields to not return from the query. Others are included. The value should be encoded JSON."
+        }
+      },
+      "request": {
+        "type": "object",
+        "description": "The HTTP request."
+      },
+      "config": {
+        "type": "object",
+        "description": "The application's configuration"
+      },
+      "env": {
+        "type": "object",
+        "description": "The host OS environment"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "params",
+      "request",
+      "config",
+      "env"
+    ]
+  },
+  "start": "model.query",
+  "nodes": {
+    "model.query": {
+      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "method": "query",
+      "name": "Query Persons",
+      "parameters": [
+        {
+          "name": "limit",
+          "value": "$.params.limit"
+        },
+        {
+          "name": "skip",
+          "value": "$.params.skip"
+        },
+        {
+          "name": "where",
+          "value": "$.params.where"
+        },
+        {
+          "name": "order",
+          "value": "$.params.order"
+        },
+        {
+          "name": "sel",
+          "value": "$.params.sel"
+        },
+        {
+          "name": "unsel",
+          "value": "$.params.unsel"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.models",
+          "routes": [
+            "response.success"
+          ]
+        }
+      }
+    },
+    "response.success": {
+      "type": "nodehandler://axway-flow/http",
+      "name": "Set response",
+      "method": "setresponse",
+      "parameters": [
+        {
+          "name": "status",
+          "value": "200",
+          "type": "number"
+        },
+        {
+          "name": "body",
+          "value": "$.models"
+        }
+      ],
+      "outputs": {
+        "next": {
+          "context": "$.response"
+        }
+      }
+    }
+  }
+}
