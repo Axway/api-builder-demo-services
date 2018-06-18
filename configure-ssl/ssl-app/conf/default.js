@@ -38,9 +38,9 @@ module.exports = {
 
 	ssl: {
 		port: 8443,
-		key: fs.readFileSync('./ssl/newKey.pem'),
-		cert: fs.readFileSync('./ssl/cert.pem')
-		// passphrase: process.env.API_BUILDER_SSL_PASSWORD
+		key: fs.readFileSync('./ssl/key.pem'),
+		cert: fs.readFileSync('./ssl/cert.pem'),
+		password: process.env.API_BUILDER_SSL_PASSWORD
 	},
 
 	// by default the authentication strategy is 'basic' which will use HTTP Basic Authorization where the
