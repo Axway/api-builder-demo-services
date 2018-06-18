@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 /**
  * These are your configuration file defaults.
  *
@@ -38,9 +39,9 @@ module.exports = {
 
 	ssl: {
 		port: 8443,
-		key: fs.readFileSync('./ssl/key.pem'),
-		cert: fs.readFileSync('./ssl/cert.pem'),
-		password: process.env.API_BUILDER_SSL_PASSWORD
+		key: fs.readFileSync(path.join('.', 'ssl','key.pem'), 'utf8'),
+		cert: fs.readFileSync(path.join('.', 'ssl','cert.pem'), 'utf8'),
+		passphrase: process.env.API_BUILDER_SSL_PASSWORD
 	},
 
 	// by default the authentication strategy is 'basic' which will use HTTP Basic Authorization where the
