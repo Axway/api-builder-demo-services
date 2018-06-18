@@ -67,9 +67,9 @@ mkdir <new-folder>
 ```
 Navigate to the newly created folder and create SSL certificate via OpenSSL. Please execute the following command:
 ```sh
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -subj "/C=US/O=Axway/CN=API Builder"
 ```
-Due to the generation process, you will need to set PEM passphrase i.e. this is a password that must be supplied by anyone wanting to use the keys. You are about to be asked to enter information that will be incorporated into your certificate request. What you are about to enter is what is called a Distinguished Name or a DN. There are quite a few fields but you can leave some blank. For some fields, there will be a default value, If you enter '.', the field will be left blank.
+Due to the generation process, you will need to set PEM passphrase i.e. this is a password that must be supplied by anyone wanting to use the keys.
 
 Once your certificate is created, you will found two new files in your `<new-folder>` i.e. `key.pem`that will store the private key and `cert.pem` - the certificate.
 
@@ -96,9 +96,14 @@ Enable SSL by uncommenting the configuration and add key, certificate and provid
 
 ssl: {
   port: 8443,
-  key: fs.readFileSync('./ssl/key.pem'),
-  cert: fs.readFileSync('./ssl/cert.pem'),
-  password: process.env.API_BUILDER_SSL_PASSWORD
+  key: fs.readFileSync(path.join('.', 'ssl','key.pem'), 'utf8'),
+  cert: fs.readFileSync(path.join('.', 'ssl','cert.pem'), 'utf8'),
+  passphrase: process.env.API_BUILDER_SSL_PASSWORD
 }
+```
+
+Then navigate to the root directory of `<your-project>` and run the service using the below command:
+```sh
+API_BUILDER_SSL_PASSWORD=<your-password> npm start
 ```
 __Note:__ Additional information is available at [API Builder Configuration](https://docs.axway.com/bundle/API_Builder_4x_allOS_en/page/console_configuration.html) & [Creating an HTTPS Server with Node.js](https://medium.com/@nileshsingh/everything-about-creating-an-https-server-using-node-js-2fc5c48a8d4e)
