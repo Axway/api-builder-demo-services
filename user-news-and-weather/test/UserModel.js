@@ -21,7 +21,7 @@ describe('User Model', function () {
 
 	describe('user', () => {
 		it('[USER-0001] verify model definition', () => {
-			const model = server.arrow.getModel('User');
+			const model = server.apibuilder.getModel('User');
 			expect(model.fields).to.deep.equal({
 				uid: {
 					description: 'The user id.',
@@ -53,7 +53,7 @@ describe('User Model', function () {
 		});
 
 		it('[USER-0002] test CRUD methods on model', () => {
-			const model = server.arrow.getModel('User');
+			const model = server.apibuilder.getModel('User');
 
 			// Use promisify for cleaner tests
 			const createAsync = promisify(model.create.bind(model));

@@ -4,7 +4,7 @@
 	"start": "doT.1",
 	"nodes": {
 		"news-service.1": {
-			"type": "nodehandler://service-connector/axway/news-service",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-swagger/news-service",
 			"name": "GetHeadlinesByCountry",
 			"method": "GetHeadlinesByCountry",
 			"parameters": [
@@ -124,7 +124,7 @@
 			}
 		},
 		"User.1": {
-			"type": "nodehandler://arrow-flow-invoke/model/User",
+			"type": "nodehandler://api-builder-flow-invoke/model/User",
 			"name": "Query User",
 			"method": "query",
 			"parameters": [
@@ -144,7 +144,7 @@
 			}
 		},
 		"doT.1": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Where",
 			"method": "formatStr",
 			"parameters": [
@@ -239,7 +239,7 @@
 			}
 		},
 		"weather-service.1": {
-			"type": "nodehandler://service-connector/axway/weather-service",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-swagger/weather-service",
 			"name": "GetCurrentWeatherByCity",
 			"method": "GetCurrentWeatherByCity",
 			"parameters": [
@@ -322,7 +322,7 @@
 			}
 		},
 		"doT.2": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Response",
 			"method": "formatObj",
 			"parameters": [

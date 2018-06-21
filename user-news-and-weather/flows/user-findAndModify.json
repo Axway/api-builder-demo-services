@@ -42,7 +42,7 @@
       }
     },
     "model.findAndModify": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "findAndModify",
       "name": "Find and modify User",
       "parameters": [
@@ -77,14 +77,6 @@
         {
           "name": "unsel",
           "value": "$.params.unsel"
-        },
-        {
-          "name": "page",
-          "value": "$.params.page"
-        },
-        {
-          "name": "per_page",
-          "value": "$.params.per_page"
         }
       ],
       "outputs": {

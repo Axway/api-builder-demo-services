@@ -1,5 +1,5 @@
-var Arrow = require('arrow');
-var Model = Arrow.createModel('User', {
+var APIBuilder = require('@axway/api-builder-runtime');
+var Model = APIBuilder.createModel('User', {
     "description": "The registered users.",
     "connector": "memory",
     "fields": {

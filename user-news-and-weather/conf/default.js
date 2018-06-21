@@ -10,10 +10,10 @@
  * This is a JavaScript file (instead of JSON) so you can also perform logic in this file if needed.
  */
 module.exports = {
-	NEWS_SERVICE_APIKEY: process.env.ARROW_NEWS_SERVICE_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
-	NEWS_SERVICE: process.env.ARROW_NEWS_SERVICE || 'http://localhost:8081/api/news/headlines',
-	WEATHER_SERVICE_APIKEY: process.env.ARROW_WEATHER_SERVICE_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
-	WEATHER_SERVICE: process.env.ARROW_WEATHER_SERVICE || 'http://localhost:8082/api/weather/current',
+	NEWS_SERVICE_APIKEY: process.env.NEWS_SERVICE_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+	NEWS_SERVICE: process.env.NEWS_SERVICE || 'http://localhost:8081/api/news/headlines',
+	WEATHER_SERVICE_APIKEY: process.env.WEATHER_SERVICE_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+	WEATHER_SERVICE: process.env.WEATHER_SERVICE || 'http://localhost:8082/api/weather/current',
 
 	// these are your generated API keys.  They were generated uniquely when you created this project.
 	// DO NOT SHARE these keys with other projects and be careful with these keys since they control
@@ -24,20 +24,20 @@ module.exports = {
 	// NODE_ENV=production app.js
 	//
 	// API key
-	apikey: process.env.ARROW_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+	apikey: process.env.APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 	port: parseInt(process.env.PORT) || 8080,
 
 	// by default the authentication strategy is 'basic' which will use HTTP Basic Authorization where the
 	// usename is the key and the password is blank.  the other option is 'apikey' where the value of the
 	// APIKey header is the value of the key.  you can also set this to 'plugin' and define the key 'APIKeyAuthPlugin'
 	// which points to a file or a module that implements the authentication strategy
-	APIKeyAuthType: process.env.ARROW_APIKEYAUTHTYPE || 'basic',
+	APIKeyAuthType: process.env.APIKEYAUTHTYPE || 'basic',
 
 	// The number of milliseconds before timing out a request to the server.
 	timeout: 120000,
 
 	// logging configuration
-	logLevel: process.env.ARROW_LOGLEVEL || 'debug', // Log level of the main logger.
+	logLevel: process.env.LOGLEVEL || 'debug', // Log level of the main logger.
 
 	// prefix to use for apis
 	apiPrefix: '/api',
@@ -71,20 +71,9 @@ module.exports = {
 	// if you want signed cookies, you can set this value. if you don't want signed cookies, remove or make null
 	cookieSecret: 'Kam7D+akRS1dD885f1ImZycMjsK15ikJ',
 
-	serialization: {
-		// Here for backwards compatibility with older arrow apps. When you set this to
-		// true, a model's primary key will always be exposed under 'id' instead of it's
-		// actual name
-		exposePrimaryKeyAsId: false
-	},
-
 	// your connector configuration goes here
 	connectors: {
 	},
-
-	// the date and time format to be used for admin-ui. Default is 'yyyy:mm:dd, HH:MM:ss.l'
-	// reference: https://github.com/felixge/node-dateformat
-	dateTimeFormat: 'yyyy-mm-dd, HH:MM:ss.l',
 
 	// cross-origin-resource-sharing settings
 	cors: {

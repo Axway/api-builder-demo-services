@@ -50,7 +50,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=IE&category=business`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -69,7 +69,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=US`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=US`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -88,7 +88,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?category=Tech`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?category=Tech`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -115,7 +115,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=IE`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -131,7 +131,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=IE`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -147,7 +147,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=IE`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -163,7 +163,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=IE`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -181,7 +181,7 @@ describe('News Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/news/headlines?country=IE`,
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {

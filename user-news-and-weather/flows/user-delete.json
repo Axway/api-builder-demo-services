@@ -4,7 +4,7 @@
   "start": "model.delete",
   "nodes": {
     "model.delete": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "delete",
       "name": "Delete User",
       "parameters": [

@@ -4,7 +4,7 @@
   "start": "model.create",
   "nodes": {
     "model.create": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "create",
       "name": "Create User",
       "parameters": [

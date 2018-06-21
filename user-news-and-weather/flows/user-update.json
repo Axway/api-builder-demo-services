@@ -4,7 +4,7 @@
   "start": "model.update",
   "nodes": {
     "model.update": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "update",
       "name": "Update User",
       "parameters": [
