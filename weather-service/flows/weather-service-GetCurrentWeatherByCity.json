@@ -1,10 +1,39 @@
 {
-	"schemaVersion": "2",
-	"name": "weather-service - get /weather/current",
-	"start": "doT.1",
+	"schemaVersion": "3",
+	"info": {
+		"name": "weather-service - get /weather/current"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "condition.1",
 	"nodes": {
 		"rest.1": {
-			"type": "nodehandler://nodehandler-restclient/rest",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-restclient/rest",
 			"name": "GET",
 			"method": "get",
 			"parameters": [
@@ -48,7 +77,7 @@
 			}
 		},
 		"doT.1": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format URL",
 			"method": "formatStr",
 			"parameters": [
@@ -125,7 +154,7 @@
 			}
 		},
 		"doT.2": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Response",
 			"method": "formatObj",
 			"parameters": [
@@ -179,7 +208,7 @@
 			}
 		},
 		"doT.3": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Headers",
 			"method": "formatObj",
 			"parameters": [
@@ -206,6 +235,32 @@
 						"http.2"
 					],
 					"context": "$.error"
+				}
+			}
+		},
+		"condition.1": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "OpenWeather API Key Set?",
+			"method": "exists",
+			"parameters": [
+				{
+					"name": "source",
+					"type": "jsonpath",
+					"value": "$.config.OPENWEATHER_APIKEY"
+				}
+			],
+			"outputs": {
+				"true": {
+					"routes": [
+						"doT.1"
+					],
+					"context": "$.exists"
+				},
+				"false": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.exists"
 				}
 			}
 		}
