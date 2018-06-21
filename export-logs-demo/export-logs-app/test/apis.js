@@ -13,7 +13,7 @@ describe('APIs', function () {
 		server = startApiBuilder();
 		return server.started.then(
 			() => new Promise((resolve, reject) => {
-				server.arrow.getModel('testuser').create(
+				server.apibuilder.getModel('testuser').create(
 					{
 						first_name: 'Johnny',
 						last_name: 'Test',
@@ -38,7 +38,7 @@ describe('APIs', function () {
 
 	describe('testapi', () => {
 		it('[API-0001] should be able to hit testapi programmatically', () => {
-			const api = server.arrow.getAPI('/api/testapi/:id');
+			const api = server.apibuilder.getAPI('/api/testapi/:id');
 			expect(api).to.not.be.undefined;
 			return new Promise((resolve, reject) => {
 				api.execute({ id: user.getPrimaryKey() }, (err, body) => {
@@ -61,12 +61,12 @@ describe('APIs', function () {
 
 		it('[API-0002] should be able to hit testapi via http', () => {
 			const auth = {
-				user: server.arrow.config.apikey || 'test',
+				user: server.apibuilder.config.apikey || 'test',
 				password: ''
 			};
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/testapi/${user.getPrimaryKey()}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/testapi/${user.getPrimaryKey()}`,
 				auth: auth,
 				json: true
 			})

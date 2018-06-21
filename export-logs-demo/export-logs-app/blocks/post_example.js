@@ -1,6 +1,6 @@
-var Arrow = require('arrow');
+var APIBuilder = require('@axway/api-builder-runtime');
 
-var PostBlock = Arrow.Block.extend({
+var PostBlock = APIBuilder.Block.extend({
 	name: 'post_example',
 	description: 'will log a message after the request',
 

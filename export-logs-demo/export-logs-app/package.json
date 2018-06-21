@@ -17,14 +17,15 @@
 	"repository": {},
 	"private": true,
 	"dependencies": {
-		"arrow": "v4-preview3",
-		"nodehandler-base64": "v4-preview3",
-		"nodehandler-dot": "v4-preview3",
-		"nodehandler-json": "v4-preview3",
-		"nodehandler-restclient": "v4-preview3"
+		"@axway/api-builder-plugin-fn-base64": "^1.0.0",
+		"@axway/api-builder-plugin-fn-dot": "^1.0.0",
+		"@axway/api-builder-plugin-fn-json": "^1.0.0",
+		"@axway/api-builder-plugin-fn-restclient": "^1.0.0",
+		"@axway/api-builder-plugin-fn-swagger": "^1.0.0",
+		"@axway/api-builder-runtime": "^4.0.0"
 	},
 	"devDependencies": {
-		"@axway/api-builder-admin": "v4-preview3",
+		"@axway/api-builder-admin": "^1.0.0",
 		"chai": "^4.1.2",
 		"cross-env": "^5.1.3",
 		"mocha": "^5.0.0",

@@ -3,7 +3,10 @@
 These services are not production ready and are intended for demonstration purposes only.
 
 ## Security
-- [configure-ssl](./configure-ssl/README.md): An service configured for SSL.
+- [configure-ssl](./configure-ssl/README.md): An example to demonstrate SSL configuration.
+
+## Logging
+- [export-logs-demo](./export-logs-demo/README.md): An example to demostrate log export.
 
 ## Containerized Orchestration Demo
 ### Services

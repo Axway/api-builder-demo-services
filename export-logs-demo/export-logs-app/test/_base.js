@@ -1,14 +1,14 @@
-const Arrow = require('arrow');
+const APIBuilder = require('@axway/api-builder-runtime');
 const request = require('request');
 
 /**
  * Start the API Builder server.
  * @return {Object} The details for the started server.
- * @property {Arrow} arrow - The arrow server.
+ * @property {APIBuilder} apibuilder - The server.
  * @property {Promise} started - The promise that resolves when the server is started.
  */
 function startApiBuilder() {
-	var server = new Arrow({
+	var server = new APIBuilder({
 		overrideLevel: 'FATAL',
 		apikey: 'test',
 		APIKeyAuthType: 'basic'
@@ -21,7 +21,7 @@ function startApiBuilder() {
 	});
 
 	return {
-		arrow: server,
+		apibuilder: server,
 		started: startPromise
 	};
 }
@@ -35,8 +35,8 @@ function stopApiBuilder(server) {
 	return new Promise((resolve, reject) => {
 		server.started
 			.then(() => {
-				server.arrow.stop(() => {
-					Arrow.resetGlobal();
+				server.apibuilder.stop(() => {
+					APIBuilder.resetGlobal();
 					resolve();
 				});
 			})
