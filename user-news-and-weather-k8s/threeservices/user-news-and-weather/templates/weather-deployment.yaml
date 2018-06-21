@@ -28,20 +28,20 @@ spec:
           image: "{{ .Values.image.weather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: ARROW_OPENWEATHER_APIKEY
+            - name: OPENWEATHER_APIKEY
               value: {{ .Values.apikeys.openWeatherApiKey }}
-            - name: ARROW_ISTIO_ENABLED
+            - name: ISTIO_ENABLED
               value: "{{ .Values.serviceMesh.istio }}"            
           livenessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10

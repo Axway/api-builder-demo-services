@@ -40,12 +40,12 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: {{ .Values.ports.usernewsandweather }}
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: {{ .Values.ports.usernewsandweather }}
           {{end}}
         - name: news
@@ -54,16 +54,16 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.ports.news }}"
-            - name: ARROW_NEWSAPI_APIKEY
+            - name: NEWSAPI_APIKEY
               value: {{ .Values.apikeys.newsApiKey }}
           livenessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: {{ .Values.ports.news }}
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: {{ .Values.ports.news }}
           {{end}}
         - name: weather
@@ -72,15 +72,15 @@ spec:
           env:
             - name: PORT
               value: "{{ .Values.ports.weather }}"
-            - name: ARROW_OPENWEATHER_APIKEY
+            - name: OPENWEATHER_APIKEY
               value: {{ .Values.apikeys.openWeatherApiKey }}
           livenessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: {{ .Values.ports.weather }}
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: {{ .Values.ports.weather }}
           {{end}}

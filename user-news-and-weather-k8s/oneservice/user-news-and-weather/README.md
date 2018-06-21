@@ -30,14 +30,14 @@ The user-news-and-weather app is using the swagger connector and it needs the de
               value: "{{ .Values.ports.weather }}"
 ```
 
-The APIKeys for NewsAPI and OpenWeatherMap are set in values.yaml. These are then passed into the services as ```ARROW_``` environment variables that override the config:
+The APIKeys for NewsAPI and OpenWeatherMap are set in values.yaml. These are then passed into the services as environment variables that override the config:
 
 ```
 ...
-            - name: ARROW_NEWSAPI_APIKEY
+            - name: NEWSAPI_APIKEY
               value: {{ .Values.apikeys.newsApiKey }}
 ...
-            - name: ARROW_OPENWEATHER_APIKEY
+            - name: OPENWEATHER_APIKEY
               value: {{ .Values.apikeys.openWeatherApiKey }}
 ...
 ```

@@ -28,20 +28,20 @@ spec:
           image: "{{ .Values.image.news }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: ARROW_NEWSAPI_APIKEY
+            - name: NEWSAPI_APIKEY
               value: {{ .Values.apikeys.newsApiKey }}
-            - name: ARROW_ISTIO_ENABLED
+            - name: ISTIO_ENABLED
               value: "{{ .Values.serviceMesh.istio }}"
           livenessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
-              path: /arrowPing.json
+              path: /apibuilderPing.json
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
