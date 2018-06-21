@@ -8,6 +8,9 @@ These services are not production ready and are intended for demonstration purpo
 ## Logging
 - [export-logs-demo](./export-logs-demo/README.md): An example to demostrate log export.
 
+## Adding a connector to a project
+- [set-up-project-with-connector](./set-up-project-with-connector/README.md): An example to demostrate adding connectors to projects.
+
 ## Containerized Orchestration Demo
 ### Services
 - [news-service](./news-service/README.md): A News API that provides headlines by country and category.

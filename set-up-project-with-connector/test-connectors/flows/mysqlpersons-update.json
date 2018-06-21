@@ -47,7 +47,7 @@
   "start": "model.update",
   "nodes": {
     "model.update": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "update",
       "name": "Update Persons",
       "parameters": [

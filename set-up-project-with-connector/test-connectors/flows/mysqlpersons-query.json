@@ -57,7 +57,7 @@
   "start": "model.query",
   "nodes": {
     "model.query": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "query",
       "name": "Query Persons",
       "parameters": [

@@ -84,20 +84,9 @@ module.exports = {
 	// if you want signed cookies, you can set this value. if you don't want signed cookies, remove or make null
 	cookieSecret: 'I/q9O8OUw4Tao9AEQtntVyfCKVdp1e6b',
 
-	serialization: {
-		// Here for backwards compatibility with older arrow apps. When you set this to
-		// true, a model's primary key will always be exposed under 'id' instead of it's
-		// actual name
-		exposePrimaryKeyAsId: false
-	},
-
 	// your connector configuration goes here
 	connectors: {
 	},
-
-	// the date and time format to be used for admin-ui. Default is 'yyyy:mm:dd, HH:MM:ss.l'
-	// reference: https://github.com/felixge/node-dateformat
-	dateTimeFormat: 'yyyy-mm-dd, HH:MM:ss.l',
 
 	// cross-origin-resource-sharing settings
 	cors: {

@@ -42,7 +42,7 @@
   "start": "model.findByID",
   "nodes": {
     "model.findByID": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "findByID",
       "name": "Find Persons",
       "parameters": [

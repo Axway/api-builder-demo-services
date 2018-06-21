@@ -114,7 +114,7 @@
       }
     },
     "model.findAndModify": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "findAndModify",
       "name": "Find and modify Persons",
       "parameters": [

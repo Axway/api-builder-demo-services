@@ -84,7 +84,7 @@
 			}
 		},
 		"doT.1": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Greeting",
 			"method": "formatStr",
 			"parameters": [

@@ -33,7 +33,7 @@
   "start": "model.findAll",
   "nodes": {
     "model.findAll": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "findAll",
       "name": "Find all Persons",
       "parameters": [],
