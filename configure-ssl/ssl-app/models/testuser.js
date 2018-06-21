@@ -1,6 +1,6 @@
-var Arrow = require('arrow');
+var APIBuilder = require('@axway/api-builder-runtime');
 
-var User = Arrow.Model.extend('testuser', {
+var User = APIBuilder.Model.extend('testuser', {
 	fields: {
 		first_name: { type: String },
 		last_name: { type: String },
