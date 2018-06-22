@@ -41,7 +41,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'POST',
-				uri: `http://localhost:${server.arrow.port}/api/register`,
+				uri: `http://localhost:${server.apibuilder.port}/api/register`,
 				auth: auth,
 				body: user,
 				json: true
@@ -50,7 +50,7 @@ describe.only('User News And Weather Endpoints', function () {
 			}).then(() => {
 				return requestAsync({
 					method: 'GET',
-					uri: `http://localhost:${server.arrow.port}/api/endpoints/user?where={"uid":"spiderman"}`,
+					uri: `http://localhost:${server.apibuilder.port}/api/endpoints/user?where={"uid":"spiderman"}`,
 					auth: auth,
 					json: true
 				});
@@ -73,7 +73,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'POST',
-				uri: `http://localhost:${server.arrow.port}/api/register`,
+				uri: `http://localhost:${server.apibuilder.port}/api/register`,
 				auth: auth,
 				body: user,
 				json: true
@@ -92,7 +92,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'POST',
-				uri: `http://localhost:${server.arrow.port}/api/register`,
+				uri: `http://localhost:${server.apibuilder.port}/api/register`,
 				auth: auth,
 				body: user,
 				json: true
@@ -101,7 +101,7 @@ describe.only('User News And Weather Endpoints', function () {
 			}).then(() => {
 				return requestAsync({
 					method: 'POST',
-					uri: `http://localhost:${server.arrow.port}/api/register`,
+					uri: `http://localhost:${server.apibuilder.port}/api/register`,
 					auth: auth,
 					body: user,
 					json: true
@@ -128,7 +128,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'POST',
-				uri: `http://localhost:${server.arrow.port}/api/register`,
+				uri: `http://localhost:${server.apibuilder.port}/api/register`,
 				auth: auth,
 				body: spidy,
 				json: true
@@ -137,7 +137,7 @@ describe.only('User News And Weather Endpoints', function () {
 			}).then(() => {
 				return requestAsync({
 					method: 'POST',
-					uri: `http://localhost:${server.arrow.port}/api/register`,
+					uri: `http://localhost:${server.apibuilder.port}/api/register`,
 					auth: auth,
 					body: batman,
 					json: true
@@ -178,7 +178,7 @@ describe.only('User News And Weather Endpoints', function () {
 			// Create superman
 			return requestAsync({
 				method: 'POST',
-				uri: `http://localhost:${server.arrow.port}/api/register`,
+				uri: `http://localhost:${server.apibuilder.port}/api/register`,
 				auth: auth,
 				body: user,
 				json: true
@@ -191,7 +191,7 @@ describe.only('User News And Weather Endpoints', function () {
 			const uid = 'wonderwoman';
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -206,7 +206,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -221,7 +221,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -236,7 +236,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -255,7 +255,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -274,7 +274,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -293,7 +293,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {
@@ -312,7 +312,7 @@ describe.only('User News And Weather Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/${user.uid}/info`,
+				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
