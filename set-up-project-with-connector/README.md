@@ -125,7 +125,7 @@ docker pull mysql
 
 1. Start MySql in container and open the ports of physical machine
 ```sh
-docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:5]
+docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:5
 ```
 
 1. Set user and passward, execute the following command
