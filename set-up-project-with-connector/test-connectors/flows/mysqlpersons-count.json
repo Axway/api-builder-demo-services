@@ -9,29 +9,9 @@
         "type": "object",
         "description": "The parameters from the endpoint.",
         "properties": {
-          "limit": {
-            "type": "number",
-            "description": "The number of records to fetch. The value must be greater than 0, and no greater than 1000."
-          },
-          "skip": {
-            "type": "number",
-            "description": "The number of records to skip. The value must not be less than 0."
-          },
           "where": {
             "type": "string",
             "description": "Constrains values for fields. The value should be encoded JSON."
-          },
-          "order": {
-            "type": "string",
-            "description": "A dictionary of one or more fields specifying sorting of results. In general, you can sort based on any predefined field that you can query using the where operator, as well as on custom fields. The value should be encoded JSON."
-          },
-          "sel": {
-            "type": "string",
-            "description": "Selects which fields to return from the query. Others are excluded. The value should be encoded JSON."
-          },
-          "unsel": {
-            "type": "string",
-            "description": "Selects which fields to not return from the query. Others are included. The value should be encoded JSON."
           }
         }
       },
@@ -64,28 +44,8 @@
       "name": "Count Persons",
       "parameters": [
         {
-          "name": "limit",
-          "value": "$.params.limit"
-        },
-        {
-          "name": "skip",
-          "value": "$.params.skip"
-        },
-        {
           "name": "where",
           "value": "$.params.where"
-        },
-        {
-          "name": "order",
-          "value": "$.params.order"
-        },
-        {
-          "name": "sel",
-          "value": "$.params.sel"
-        },
-        {
-          "name": "unsel",
-          "value": "$.params.unsel"
         }
       ],
       "outputs": {
