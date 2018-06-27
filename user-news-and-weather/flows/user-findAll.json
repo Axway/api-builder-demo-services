@@ -4,7 +4,7 @@
   "start": "model.findAll",
   "nodes": {
     "model.findAll": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "findAll",
       "name": "Find all Users",
       "parameters": [],

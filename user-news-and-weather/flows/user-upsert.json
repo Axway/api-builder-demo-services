@@ -4,7 +4,7 @@
   "start": "model.upsert",
   "nodes": {
     "model.upsert": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "upsert",
       "name": "Upsert User",
       "parameters": [

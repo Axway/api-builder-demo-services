@@ -21,13 +21,13 @@ describe('Endpoints', function () {
 	describe('Greet', () => {
 		it('[Endpoint-0001] should be able to hit Greet endpoint', () => {
 			const auth = {
-				user: server.arrow.config.apikey || 'test',
+				user: server.apibuilder.config.apikey || 'test',
 				password: ''
 			};
 			const username = 'Johnny Test';
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/greet?username=${username}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/greet?username=${username}`,
 				auth: auth,
 				json: true
 			}).then(({ response, body }) => {
@@ -38,12 +38,12 @@ describe('Endpoints', function () {
 
 		it('[Endpoint-0002] should be able to get error response from Greet endpoint', () => {
 			const auth = {
-				user: server.arrow.config.apikey || 'test',
+				user: server.apibuilder.config.apikey || 'test',
 				password: ''
 			};
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/greet`,
+				uri: `http://localhost:${server.apibuilder.port}/api/greet`,
 				auth: auth,
 				json: true
 			}).then(({ response }) => {

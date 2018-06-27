@@ -1,6 +1,6 @@
-var Arrow = require('arrow');
+var APIBuilder = require('@axway/api-builder-runtime');
 
-var PreBlock = Arrow.Block.extend({
+var PreBlock = APIBuilder.Block.extend({
 	name: 'pre_example',
 	description: 'will set a header named "Foo"',
 

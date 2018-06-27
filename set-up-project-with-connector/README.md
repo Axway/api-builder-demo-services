@@ -83,7 +83,7 @@ Your MySQL tables will be listed uner the Models section of the console. You can
 You can also reference the connector in a custom model.
 
 ```js
-const Account = Arrow.Model.extend('Account', {
+const Account = APIBuilder.Model.extend('Account', {
   fields: {
     Name: { type: String, required: true }
   },
@@ -95,7 +95,7 @@ If you want to map a specific model to a specific table, use metadata. For examp
 the table named accounts, set it such as:
 
 ```js
-const Account = Arrow.Model.extend('account', {
+const Account = APIBuilder.Model.extend('account', {
   fields: {
     Name: { type: String, required: false, validator: /[a-zA-Z]{3,}/ }
   },
@@ -125,7 +125,7 @@ docker pull mysql
 
 1. Start MySql in container and open the ports of physical machine
 ```sh
-docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:5]
+docker run -p 3306:3306 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:5
 ```
 
 1. Set user and passward, execute the following command

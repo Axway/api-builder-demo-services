@@ -42,7 +42,7 @@
   "start": "model.delete",
   "nodes": {
     "model.delete": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "delete",
       "name": "Delete Persons",
       "parameters": [

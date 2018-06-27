@@ -42,7 +42,7 @@
   "start": "model.upsert",
   "nodes": {
     "model.upsert": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "upsert",
       "name": "Upsert Persons",
       "parameters": [

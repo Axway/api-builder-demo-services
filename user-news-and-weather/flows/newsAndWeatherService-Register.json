@@ -4,7 +4,7 @@
 	"start": "doT.2",
 	"nodes": {
 		"User.1": {
-			"type": "nodehandler://arrow-flow-invoke/model/User",
+			"type": "nodehandler://api-builder-flow-invoke/model/User",
 			"name": "create",
 			"method": "create",
 			"parameters": [
@@ -60,7 +60,7 @@
 			}
 		},
 		"User.2": {
-			"type": "nodehandler://arrow-flow-invoke/model/User",
+			"type": "nodehandler://api-builder-flow-invoke/model/User",
 			"name": "Query by UID",
 			"method": "query",
 			"parameters": [
@@ -80,7 +80,7 @@
 			}
 		},
 		"doT.2": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Where",
 			"method": "formatStr",
 			"parameters": [

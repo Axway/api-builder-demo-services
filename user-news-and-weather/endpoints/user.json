@@ -326,38 +326,6 @@
             "required": false,
             "type": "string",
             "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "sel",
-            "description": "Selects which fields to return from the query. Others are excluded. The value should be encoded JSON.",
-            "required": false,
-            "type": "string",
-            "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "unsel",
-            "description": "Selects which fields to not return from the query. Others are included. The value should be encoded JSON.",
-            "required": false,
-            "type": "string",
-            "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Request page number starting from 1.",
-            "required": false,
-            "type": "number",
-            "default": 1
-          },
-          {
-            "in": "query",
-            "name": "per_page",
-            "description": "Number of results per page.",
-            "required": false,
-            "type": "number",
-            "default": 10
           }
         ],
         "produces": [
@@ -464,22 +432,6 @@
             "required": false,
             "type": "string",
             "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Request page number starting from 1.",
-            "required": false,
-            "type": "number",
-            "default": 1
-          },
-          {
-            "in": "query",
-            "name": "per_page",
-            "description": "Number of results per page.",
-            "required": false,
-            "type": "number",
-            "default": 10
           }
         ],
         "produces": [
@@ -521,67 +473,11 @@
         "parameters": [
           {
             "in": "query",
-            "name": "limit",
-            "description": "The number of records to fetch. The value must be greater than 0, and no greater than 1000.",
-            "required": false,
-            "type": "number",
-            "default": 10
-          },
-          {
-            "in": "query",
-            "name": "skip",
-            "description": "The number of records to skip. The value must not be less than 0.",
-            "required": false,
-            "type": "number",
-            "default": 0
-          },
-          {
-            "in": "query",
             "name": "where",
             "description": "Constrains values for fields. The value should be encoded JSON.",
             "required": false,
             "type": "string",
             "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "order",
-            "description": "A dictionary of one or more fields specifying sorting of results. In general, you can sort based on any predefined field that you can query using the where operator, as well as on custom fields. The value should be encoded JSON.",
-            "required": false,
-            "type": "string",
-            "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "sel",
-            "description": "Selects which fields to return from the query. Others are excluded. The value should be encoded JSON.",
-            "required": false,
-            "type": "string",
-            "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "unsel",
-            "description": "Selects which fields to not return from the query. Others are included. The value should be encoded JSON.",
-            "required": false,
-            "type": "string",
-            "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Request page number starting from 1.",
-            "required": false,
-            "type": "number",
-            "default": 1
-          },
-          {
-            "in": "query",
-            "name": "per_page",
-            "description": "Number of results per page.",
-            "required": false,
-            "type": "number",
-            "default": 10
           }
         ],
         "produces": [
@@ -736,22 +632,6 @@
             "required": false,
             "type": "string",
             "format": "json"
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Request page number starting from 1.",
-            "required": false,
-            "type": "number",
-            "default": 1
-          },
-          {
-            "in": "query",
-            "name": "per_page",
-            "description": "Number of results per page.",
-            "required": false,
-            "type": "number",
-            "default": 10
           }
         ],
         "produces": [

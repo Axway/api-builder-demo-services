@@ -1,5 +1,5 @@
-var Arrow = require('arrow'),
-	server = new Arrow();
+var APIBuilder = require('@axway/api-builder-runtime'),
+	server = new APIBuilder();
 
 // lifecycle examples
 server.on('starting', function () {

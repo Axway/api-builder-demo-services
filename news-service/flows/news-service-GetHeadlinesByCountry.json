@@ -1,10 +1,39 @@
 {
-	"schemaVersion": "2",
-	"name": "news-service - get /news/headlines",
-	"start": "doT.1",
+	"schemaVersion": "3",
+	"info": {
+		"name": "news-service - get /news/headlines"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "condition.2",
 	"nodes": {
 		"rest.1": {
-			"type": "nodehandler://nodehandler-restclient/rest",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-restclient/rest",
 			"name": "GET",
 			"method": "get",
 			"parameters": [
@@ -53,7 +82,7 @@
 			}
 		},
 		"doT.1": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format URL",
 			"method": "formatStr",
 			"parameters": [
@@ -107,7 +136,7 @@
 			}
 		},
 		"doT.2": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Response",
 			"method": "formatObj",
 			"parameters": [
@@ -215,7 +244,7 @@
 			}
 		},
 		"doT.3": {
-			"type": "nodehandler://nodehandler-dot/doT",
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
 			"name": "Format Headers",
 			"method": "formatObj",
 			"parameters": [
@@ -239,37 +268,35 @@
 				},
 				"error": {
 					"routes": [
-						"http.3",
-						"doT.4"
+						"http.3"
 					],
 					"context": "$.error"
 				}
 			}
 		},
-		"doT.4": {
-			"type": "nodehandler://nodehandler-dot/doT",
-			"name": "Debug",
-			"method": "formatStr",
+		"condition.2": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "News API Key Set?",
+			"method": "exists",
 			"parameters": [
 				{
-					"name": "data",
+					"name": "source",
 					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{{ console.log('HERE'); }}\\n{{ console.log(it.headers); }}\\n{{ console.log(it.config.traceability.headers); }}\\n{{ console.log(it.req.headers); }}\\n{{ console.log('HERE'); }}\\n\""
+					"value": "$.config.NEWSAPI_APIKEY"
 				}
 			],
 			"outputs": {
-				"next": {
-					"routes": [],
-					"context": "$.value"
+				"true": {
+					"routes": [
+						"doT.1"
+					],
+					"context": "$.exists"
 				},
-				"error": {
-					"routes": [],
-					"context": "$.error"
+				"false": {
+					"routes": [
+						"http.3"
+					],
+					"context": "$.exists"
 				}
 			}
 		}

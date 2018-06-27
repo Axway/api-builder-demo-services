@@ -82,7 +82,7 @@ describe('OpenWeather Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
 			}).then(({
@@ -109,7 +109,7 @@ describe('OpenWeather Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/weather/current?city=${city}&country=${country}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}`,
 				auth: auth,
 				json: true
 			}).then(({
@@ -136,7 +136,7 @@ describe('OpenWeather Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
 			}).then(({
@@ -163,7 +163,7 @@ describe('OpenWeather Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
 			}).then(({
@@ -189,7 +189,7 @@ describe('OpenWeather Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
 			}).then(({
@@ -215,7 +215,7 @@ describe('OpenWeather Service Endpoints', function () {
 
 			return requestAsync({
 				method: 'GET',
-				uri: `http://localhost:${server.arrow.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
 			}).then(({

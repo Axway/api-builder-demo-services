@@ -1,6 +1,6 @@
-var Arrow = require('arrow');
+var APIBuilder = require('@axway/api-builder-runtime');
 
-var TestAPI = Arrow.API.extend({
+var TestAPI = APIBuilder.API.extend({
 	group: 'testapi',
 	path: '/api/testapi/:id',
 	method: 'GET',

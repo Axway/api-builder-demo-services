@@ -4,7 +4,7 @@
   "start": "model.deleteall",
   "nodes": {
     "model.deleteall": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "deleteAll",
       "name": "Delete all Users",
       "parameters": [],

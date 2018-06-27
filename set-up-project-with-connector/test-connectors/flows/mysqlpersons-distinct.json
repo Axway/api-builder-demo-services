@@ -58,7 +58,7 @@
   "start": "model.distinct",
   "nodes": {
     "model.distinct": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "distinct",
       "name": "Find distinct Persons",
       "parameters": [

@@ -4,7 +4,7 @@
   "start": "model.distinct",
   "nodes": {
     "model.distinct": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "distinct",
       "name": "Find distinct Users",
       "parameters": [
@@ -23,22 +23,6 @@
         {
           "name": "order",
           "value": "$.params.order"
-        },
-        {
-          "name": "sel",
-          "value": "$.params.sel"
-        },
-        {
-          "name": "unsel",
-          "value": "$.params.unsel"
-        },
-        {
-          "name": "page",
-          "value": "$.params.page"
-        },
-        {
-          "name": "per_page",
-          "value": "$.params.per_page"
         },
         {
           "name": "field",

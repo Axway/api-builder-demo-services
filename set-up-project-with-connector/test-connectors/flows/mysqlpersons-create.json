@@ -42,7 +42,7 @@
   "start": "model.create",
   "nodes": {
     "model.create": {
-      "type": "nodehandler://arrow-flow-invoke/model/mysql/Persons",
+      "type": "nodehandler://api-builder-flow-invoke/model/mysql/Persons",
       "method": "create",
       "name": "Create Persons",
       "parameters": [

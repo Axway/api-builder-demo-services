@@ -34,7 +34,7 @@ The docker image can be configured at runtime via environment variables. This is
 
 | Name           | Description                                       | Default                          | Options                   |
 |:---------------|:--------------------------------------------------|:---------------------------------|:--------------------------|
-| ARROW_APIKEY   | The API key for incoming requests to the service. | Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3 | |
+| APIKEY   | The API key for incoming requests to the service. | Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3 | |
 | PORT           | The port the service will be listening on.        | 8080                             | |
 | NEWS_HOST      | The host running the news-service.                | localhost                        | |
 | NEWS_PORT      | The port the news app is listening on.            | 8080                             | |
@@ -42,7 +42,7 @@ The docker image can be configured at runtime via environment variables. This is
 | WEATHER_HOST   | The host running the weather-service.             | localhost                        | |
 | WEATHER_PORT   | The port the weather app is listening on.         | 8080                             | |
 | WEATHER_APIKEY | The weather-service apikey.                       | Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3 | |
-| ARROW_LOGLEVEL | Logging level to use                              | debug                            | debug, trace, info, error |
+| LOGLEVEL | Logging level to use                              | debug                            | debug, trace, info, error |
 
 
 
@@ -57,7 +57,7 @@ docker run -e NEWS_HOST=<newshost> -e WEATHER_HOST=<weatherhost> -p 8080:8080 ap
 Or with additional environment overrides. 
 
 ```
-docker run -e ARROW_APIKEY=<apikey> -e PORT=<port> -e NEWS_HOST=<news host> -e NEWS_PORT=<news port> -e NEWS_APIKEY=<news apikey> -e WEATHER_HOST=<weather host> -e WEATHER_PORT=<weather port> -e WEATHER_APIKEY=<weather apikey> -p 8080:8080 api-builder-demo-user-news-and-weather-service
+docker run -e APIKEY=<apikey> -e PORT=<port> -e NEWS_HOST=<news host> -e NEWS_PORT=<news port> -e NEWS_APIKEY=<news apikey> -e WEATHER_HOST=<weather host> -e WEATHER_PORT=<weather port> -e WEATHER_APIKEY=<weather apikey> -p 8080:8080 api-builder-demo-user-news-and-weather-service
 ```
 
 ### Testing the service

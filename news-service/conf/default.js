@@ -11,11 +11,11 @@
  */
 module.exports = {
 	// NewsApi API Key: https://newsapi.org/
-	NEWSAPI_APIKEY: process.env.ARROW_NEWSAPI_APIKEY,
+	NEWSAPI_APIKEY: process.env.NEWSAPI_APIKEY,
 	port: parseInt(process.env.PORT) || 8080,
 
 	// define if integrated with istio
-	ISTIO_ENABLED: process.env.ARROW_ISTIO_ENABLED || 'false',
+	ISTIO_ENABLED: process.env.ISTIO_ENABLED || 'false',
 
 	// these are your generated API keys.  They were generated uniquely when you created this project.
 	// DO NOT SHARE these keys with other projects and be careful with these keys since they control
@@ -26,19 +26,22 @@ module.exports = {
 	// NODE_ENV=production app.js
 	//
 	// API key
-	apikey: process.env.ARROW_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+	apikey: process.env.APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 
 	// by default the authentication strategy is 'basic' which will use HTTP Basic Authorization where the
 	// usename is the key and the password is blank.  the other option is 'apikey' where the value of the
 	// APIKey header is the value of the key.  you can also set this to 'plugin' and define the key 'APIKeyAuthPlugin'
 	// which points to a file or a module that implements the authentication strategy
-	APIKeyAuthType: process.env.ARROW_APIKEYAUTHTYPE || 'basic',
+	APIKeyAuthType: process.env.APIKEYAUTHTYPE || 'basic',
 
 	// The number of milliseconds before timing out a request to the server.
 	timeout: 120000,
 
+	// Enabling this property will print out the process.env at startup time
+	printEnvVars: false,
+
 	// logging configuration
-	logLevel: process.env.ARROW_LOGLEVEL || 'debug', // Log level of the main logger.
+	logLevel: process.env.LOGLEVEL || 'debug', // Log level of the main logger.
 
 	// prefix to use for apis
 	apiPrefix: '/api',
@@ -72,20 +75,9 @@ module.exports = {
 	// if you want signed cookies, you can set this value. if you don't want signed cookies, remove or make null
 	cookieSecret: 'Kam7D+akRS1dD885f1ImZycMjsK15ikJ',
 
-	serialization: {
-		// Here for backwards compatibility with older arrow apps. When you set this to
-		// true, a model's primary key will always be exposed under 'id' instead of it's
-		// actual name
-		exposePrimaryKeyAsId: false
-	},
-
 	// your connector configuration goes here
 	connectors: {
 	},
-
-	// the date and time format to be used for admin-ui. Default is 'yyyy:mm:dd, HH:MM:ss.l'
-	// reference: https://github.com/felixge/node-dateformat
-	dateTimeFormat: 'yyyy-mm-dd, HH:MM:ss.l',
 
 	// cross-origin-resource-sharing settings
 	cors: {

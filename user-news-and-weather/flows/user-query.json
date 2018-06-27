@@ -4,7 +4,7 @@
   "start": "model.query",
   "nodes": {
     "model.query": {
-      "type": "nodehandler://arrow-flow-invoke/model/User",
+      "type": "nodehandler://api-builder-flow-invoke/model/User",
       "method": "query",
       "name": "Query Users",
       "parameters": [
@@ -31,14 +31,6 @@
         {
           "name": "unsel",
           "value": "$.params.unsel"
-        },
-        {
-          "name": "page",
-          "value": "$.params.page"
-        },
-        {
-          "name": "per_page",
-          "value": "$.params.per_page"
         }
       ],
       "outputs": {
