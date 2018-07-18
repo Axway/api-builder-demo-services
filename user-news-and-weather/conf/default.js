@@ -77,6 +77,9 @@ module.exports = {
 
 	// cross-origin-resource-sharing settings
 	cors: {
+		'Access-Control-Allow-Origin': process.env.CORS_ALLOW_ORIGIN || undefined,
+		'Access-Control-Expose-Headers': process.env.CORS_EXPOSE_HEADERS || undefined
+
 		// list of allowed origins (format: any, space separated string, array or regex)
 		// 'Access-Control-Allow-Origin': '*' or 'http://foo.com http://bar.com' or ['http://foo.com', 'http://bar.com'] or /foo\.com$/,
 
