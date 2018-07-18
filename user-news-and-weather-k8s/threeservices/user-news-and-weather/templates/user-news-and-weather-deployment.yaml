@@ -28,6 +28,12 @@ spec:
           image: "{{ .Values.image.userNewsAndWeather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: APIKEYAUTHTYPE
+              value: "none"
+            - name: CORS_ALLOW_ORIGIN
+              value: "*"
+            - name: CORS_EXPOSE_HEADERS
+              value: "content-length"
             - name: WEATHER_HOST
               value: {{ .Release.Name }}-weather
             - name: WEATHER_PORT
