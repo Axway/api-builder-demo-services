@@ -1,0 +1,34 @@
+{
+	"name": "zendesk",
+	"description": "An API Builder service",
+	"main": "app.js",
+	"version": "1.0.0",
+	"license": "",
+	"keywords": [
+		"api-builder",
+		"micro-service",
+		"middleware",
+		"orm",
+		"service"
+	],
+	"engines": {
+		"node": ">= 8.9"
+	},
+	"repository": {},
+	"private": true,
+	"dependencies": {
+		"@axway/api-builder-plugin-fn-base64": "^1.0.0",
+		"@axway/api-builder-plugin-fn-dot": "^1.0.0",
+		"@axway/api-builder-plugin-fn-json": "^1.0.0",
+		"@axway/api-builder-plugin-fn-restclient": "^1.0.0",
+		"@axway/api-builder-plugin-fn-swagger": "^1.0.0",
+		"@axway/api-builder-plugin-sc-zendesk": "file:api-builder-plugin-sc-zendesk-2.0.0-0.tgz",
+		"@axway/api-builder-runtime": "rdpp-5034"
+	},
+	"devDependencies": {
+		"@axway/api-builder-admin": "^1.2.0"
+	},
+	"scripts": {
+		"start": "node ."
+	}
+}

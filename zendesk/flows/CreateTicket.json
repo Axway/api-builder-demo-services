@@ -1,0 +1,270 @@
+{
+	"schemaVersion": "4",
+	"info": {
+		"name": "List tickets flow",
+		"description": "Lists the support tickets",
+		"author": "support@axway.com",
+		"license": "ISC"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint.",
+				"properties": {
+					"ticket": {
+						"type": "object",
+						"schema": {
+							"$ref": "schema:///%40axway%2Fapi-builder-plugin-sc-zendesk/PostTicket"
+						}
+					}
+				},
+				"additionalProperties": false,
+				"required": [
+					"ticket"
+				]
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "doT.1",
+	"nodes": {
+		"response.success": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Success (HTTP 200)",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "201"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.response.data"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response"
+				}
+			}
+		},
+		"response.error": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Bad Request (HTTP 400)",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"value": "400",
+					"type": "number"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.error.message"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response"
+				}
+			}
+		},
+		"authz.1": {
+			"type": "nodehandler://axway-flow-authorization/authz",
+			"name": "getCredential",
+			"method": "getCredential",
+			"parameters": [
+				{
+					"name": "name",
+					"type": "string",
+					"value": "\"zendesk\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.zendeskAccessToken",
+					"routes": [
+						"api-builder-plugin-sc-zendesk.1"
+					]
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					]
+				}
+			}
+		},
+		"api-builder-plugin-sc-zendesk.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-sc-zendesk/@axway/api-builder-plugin-sc-zendesk",
+			"name": "createTicket",
+			"method": "createTicket",
+			"parameters": [
+				{
+					"name": "x-vendor-siteAddress",
+					"type": "jsonpath",
+					"value": "$.config.zendeskSiteAddress"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.ticket"
+				}
+			],
+			"outputs": {
+				"200": {
+					"routes": [
+						"response.success"
+					],
+					"context": "$.response"
+				},
+				"400": {
+					"routes": [
+						"response.error"
+					],
+					"context": "$.error"
+				},
+				"401": {
+					"routes": [
+						"http.1"
+					],
+					"context": "$.error"
+				},
+				"403": {
+					"routes": [
+						"response.error"
+					],
+					"context": "$.error"
+				},
+				"405": {
+					"routes": [
+						"response.error"
+					],
+					"context": "$.error"
+				},
+				"409": {
+					"routes": [],
+					"context": "$.error"
+				},
+				"500": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				},
+				"502": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.error"
+				}
+			},
+			"authorizations": [
+				{
+					"name": "oauth2",
+					"type": "jsonpath",
+					"value": "$.zendeskAccessToken"
+				}
+			]
+		},
+		"http.1": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Unauthorized",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "number",
+					"value": "401"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.error"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"http.2": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Server Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.error"
+				},
+				{
+					"name": "status",
+					"type": "number",
+					"value": "500"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": []
+				}
+			}
+		},
+		"doT.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
+			"name": "Format Ticket",
+			"method": "formatObj",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params.ticket"
+				},
+				{
+					"name": "template",
+					"type": "string",
+					"value": "\"{\\n\\t\\\"subject\\\": {{=JSON.stringify(it.subject || '')}},\\n\\t\\\"description\\\": {{=JSON.stringify(it.comment || '')}}\\n}\""
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"authz.1"
+					],
+					"context": "$.ticket"
+				},
+				"error": {
+					"routes": [
+						"response.error"
+					],
+					"context": "$.error"
+				}
+			}
+		}
+	}
+}

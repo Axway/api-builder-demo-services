@@ -1,0 +1,90 @@
+{
+	"x-enabled": {
+		"enabled": true
+	},
+	"swagger": "2.0",
+	"info": {
+		"description": "Zendesk demo endpoint.",
+		"version": "1.0.0",
+		"title": "Zendesk Demo API"
+	},
+	"paths": {
+		"/tickets": {
+			"get": {
+				"x-flow": "ListTickets",
+				"description": "",
+				"operationId": "ListTickets",
+				"parameters": [],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "The list of tickets.",
+						"schema": {
+							"$ref": "schema:///%40axway%2Fapi-builder-plugin-sc-zendesk/ticketList"							         
+						}
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Unauthenticated"
+					},
+					"500": {
+						"description": "Server Error"
+					}
+				},
+				"summary": "List tickets using Zendesk Service Connector",
+				"tags": [
+					"zendesk"
+				]
+			},
+			"post": {
+				"x-flow": "CreateTicket",
+				"description": "",
+				"operationId": "CreateTicket",
+				"parameters": [{
+					"description": "The ticket",
+					"in": "body",
+					"name": "ticket",
+					"required": true,
+					"schema": {
+						"type": "object",
+						"properties": {
+							"subject": {
+								"type": "string"
+							},
+							"comment": {
+								"type": "string"
+							}
+						},
+						"additionalProperties": false,
+						"required": ["subject", "comment"]
+					}
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"201": {
+						"description": "Created a ticket."
+					},
+					"400": {
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Unauthenticated"
+					},
+					"500": {
+						"description": "Server Error"
+					}
+				},
+				"summary": "Create tickets using Zendesk Service Connector",
+				"tags": [
+					"zendesk"
+				]
+			}
+		}
+	}
+}
