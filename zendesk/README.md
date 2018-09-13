@@ -1,4 +1,4 @@
-# Welcome to the API Builder 
+# Welcome to API Builder 
 
 This service is a simple demonstration of how to use the API Builder Zendesk Service Connector.
 Before proceeding you will need to obtain a copy of the API Builder Zendesk Service Connector by contacting sales@axway.com or via http://marketplace.axway.com.
@@ -34,3 +34,5 @@ The service consists of a single endpoint with two APIs.
 |:---------------------|:-------------------|:---------------------------|
 | CreateTicket         | POST /api/tickets  | Create tickets in Zendesk. |
 | ListTickets          | GET  /api/tickets  | List the Zendesk tickets.  |
+
+Navigate to [http://localhost:8080/console/project/apidocs/endpoints/ZendeskDemo](http://localhost:8080/console/project/apidocs/endpoints/ZendeskDemo) to view and test the APIs.

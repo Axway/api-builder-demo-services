@@ -51,7 +51,7 @@
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.tickets"
+					"value": "$.tickets.data"
 				}
 			],
 			"outputs": {
