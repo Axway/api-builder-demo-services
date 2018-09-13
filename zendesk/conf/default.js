@@ -132,6 +132,13 @@ module.exports = {
 		// Flags to enable features that are not ready for production or
 		// whose use may require manual upgrade steps in legacy services.
 
+		// Enable support for aliases in comparison operators on composite models.
+		// Breaking change for old versions as previously queries $lt, $gt, $lte, $gte, $in, $nin, $eq would not have translated aliasesd fields.
+		enableAliasesInCompositeOperators: true,
+
+		// Enable support for the $like comparison operator in the Memory connector.
+		enableMemoryConnectorLike: true,
+		
 		// Enable support for Models that have no primary key.
 		// Breaking change for old versions as previously the Create API returned a location header. Also the model advertised unsupported methods.
 		enableModelsWithNoPrimaryKey: true,
