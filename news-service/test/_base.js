@@ -4,6 +4,7 @@ const mockedEnv = require('mocked-env');
 
 /**
  * Start the API Builder server.
+ * @param {Object} envOverrides The environment variables to load API Builder with.
  * @return {Object} The details for the started server.
  * @property {APIBuilder} apibuilder - The server.
  * @property {Promise} started - The promise that resolves when the server is started.
@@ -16,7 +17,7 @@ function startApiBuilder(envOverrides) {
 		...envOverrides
 	};
 
-	restoreEnv = mockedEnv(env);
+	const restoreEnv = mockedEnv(env);
 
 	var server = new APIBuilder({
 		overrideLevel: 'FATAL'

@@ -21,7 +21,7 @@ describe('News Service Endpoints', function () {
 		}
 	];
 
-	describe('API Key', function() {
+	describe('API Key', function () {
 		/**
 		 * Start API Builder.
 		 */
@@ -43,20 +43,20 @@ describe('News Service Endpoints', function () {
 			// We're not doing the TLS orgination in the test, so for the test case it's enough
 			// to check that it requested on http with port 443.
 			nock('https://newsapi.org')
-			    .get('/v2/top-headlines?country=IE&category=business')
-			    .reply(200, {
-				    status: 'ok',
-				    articles
-			    });
+				.get('/v2/top-headlines?country=IE&category=business')
+				.reply(200, {
+					status: 'ok',
+					articles
+				});
 
-		   	const { response, body } = await requestAsync({
-			   	method: 'GET',
-			   	uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
-			   	headers: {
-					"apikey": "testApiKey"
+			const { response, body } = await requestAsync({
+				method: 'GET',
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
+				headers: {
+					apikey: 'testApiKey'
 				},
-			   	json: true
-		   	});
+				json: true
+			});
 			expect(response.statusCode).to.equal(200);
 			expect(body).to.deep.equal(articles);
 		});
@@ -79,7 +79,7 @@ describe('News Service Endpoints', function () {
 		 */
 		after(() => server.stop());
 
-		it('[NEWS-0001] Will get news with country and category filter.', async() => {
+		it('[NEWS-0001] Will get news with country and category filter.', async () => {
 			nock('https://newsapi.org')
 				.get('/v2/top-headlines?country=IE&category=business')
 				.reply(200, {
@@ -87,12 +87,12 @@ describe('News Service Endpoints', function () {
 					articles
 				});
 
-			const { response, body} = await requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
 				auth: { user: 'testBasic', password: '' },
 				json: true
-			})
+			});
 			expect(response.statusCode).to.equal(200);
 			expect(body).to.deep.equal(articles);
 		});
@@ -115,7 +115,7 @@ describe('News Service Endpoints', function () {
 		 */
 		after(() => server.stop());
 
-		it('[NEWS-0001] Will get news with country and category filter.', async() => {
+		it('[NEWS-0001] Will get news with country and category filter.', async () => {
 			nock('https://newsapi.org')
 				.get('/v2/top-headlines?country=IE&category=business')
 				.reply(200, {
@@ -123,12 +123,12 @@ describe('News Service Endpoints', function () {
 					articles
 				});
 
-			const { response, body} = await requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
 				auth: { user: 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3', password: '' },
 				json: true
-			})
+			});
 			expect(response.statusCode).to.equal(200);
 			expect(body).to.deep.equal(articles);
 		});
@@ -154,19 +154,19 @@ describe('News Service Endpoints', function () {
 		after(() => server.stop());
 
 		it('[NEWS-0001] Formats the URL with country and category filter.', async () => {
-		   	nock('https://newsapi.org')
-			   	.get('/v2/top-headlines?country=IE&category=business')
-			   	.reply(200, {
-				   	status: 'ok',
-				   	articles
-			   	});
+			nock('https://newsapi.org')
+				.get('/v2/top-headlines?country=IE&category=business')
+				.reply(200, {
+					status: 'ok',
+					articles
+				});
 
-		   	const { response, body } = await requestAsync({
-			   	method: 'GET',
-			   	uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
-			   	auth: auth,
-			   	json: true
-		   	});
+			const { response, body } = await requestAsync({
+				method: 'GET',
+				uri: `http://localhost:${server.apibuilder.port}/api/news/headlines?country=IE&category=business`,
+				auth: auth,
+				json: true
+			});
 			expect(response.statusCode).to.equal(200);
 			expect(body).to.deep.equal(articles);
 		});
@@ -326,8 +326,8 @@ describe('News Service Endpoints', function () {
 		after(() => server.stop());
 
 		it('[NEWS-MESH-0001] Will rely on TLS origination if Istio is enabled.', async () => {
-				// We're not doing the TLS orgination in the test, so for the test case it's enough
-				// to check that it requested on http with port 443.
+			// We're not doing the TLS orgination in the test, so for the test case it's enough
+			// to check that it requested on http with port 443.
 			nock('http://newsapi.org:443')
 				.get('/v2/top-headlines?country=IE&category=business')
 				.reply(200, {
@@ -344,5 +344,5 @@ describe('News Service Endpoints', function () {
 			expect(response.statusCode).to.equal(200);
 			expect(body).to.deep.equal(articles);
 		});
-	})
+	});
 });

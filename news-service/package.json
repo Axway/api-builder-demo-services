@@ -35,6 +35,8 @@
 		"nyc": "^15.0.0"
 	},
 	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
 		"start": "node .",
 		"test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha ./test --recursive -R spec",
 		"posttest": "nyc check-coverage --lines 80 --branches 80 --functions 80"
