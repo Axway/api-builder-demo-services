@@ -1,5 +1,5 @@
 {
-	"schemaVersion": "3",
+	"schemaVersion": "4",
 	"info": {
 		"name": "weather-service - get /weather/current"
 	},
@@ -40,72 +40,56 @@
 				{
 					"name": "url",
 					"type": "jsonpath",
-					"value": "$.url"
+					"value": "$.url",
+					"metaName": "URL",
+					"metaDescription": "The target URL."
+				},
+				{
+					"name": "headers",
+					"type": "jsonpath",
+					"value": "$.headers",
+					"metaName": "Headers",
+					"metaDescription": "The HTTP headers to set."
 				}
 			],
 			"outputs": {
 				"2xx": {
 					"routes": [
-						"doT.2"
+						"javascript.3"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "2XX"
 				},
 				"3xx": {
 					"routes": [
 						"http.3"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "3XX"
 				},
 				"4xx": {
 					"routes": [
 						"http.3"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "4XX"
 				},
 				"5xx": {
 					"routes": [
 						"http.3"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "5XX"
 				},
 				"error": {
 					"routes": [
 						"http.2"
 					],
-					"context": "$.error"
+					"context": "$.error",
+					"metaName": "Error"
 				}
-			}
-		},
-		"doT.1": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format URL",
-			"method": "formatStr",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{{=it.config.ISTIO_ENABLED === 'true' ? 'http' : 'https'}}://api.openweathermap.org:443/data/2.5/weather?q={{=it.params.country ? encodeURIComponent(`${it.params.city},${it.params.country}`) : encodeURIComponent(it.params.city)}}&units={{=it.params.units ? encodeURIComponent(it.params.units) : 'metric'}}&APPID={{=encodeURIComponent(it.config.OPENWEATHER_APIKEY)}}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"doT.3"
-					],
-					"context": "$.url"
-				},
-				"error": {
-					"routes": [
-						"http.2"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "GET"
 		},
 		"http.1": {
 			"type": "nodehandler://axway-flow/http",
@@ -115,20 +99,26 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "200"
+					"value": "200",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.formattedResponse"
+					"value": "$.formattedResponse",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"http.2": {
 			"type": "nodehandler://axway-flow/http",
@@ -138,51 +128,26 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "500"
+					"value": "500",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.error.message"
+					"value": "$.error.message",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
-		},
-		"doT.2": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Response",
-			"method": "formatObj",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{\\n    \\\"city\\\": {{=JSON.stringify(it.params.city)}},\\n    \\\"country\\\": {{=JSON.stringify(it.params.country || '')}},\\n    \\\"units\\\": {{=JSON.stringify(it.params.units || \\\"metric\\\")}},\\n    \\\"summary\\\": {{=JSON.stringify(it.response.body.weather.map(w => w.main)) }},\\n    \\\"temperature\\\": {{=JSON.stringify(it.response.body.main.temp) }},\\n    \\\"windSpeed\\\": {{=JSON.stringify(it.response.body.wind.speed) }}\\n}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"http.1"
-					],
-					"context": "$.formattedResponse"
-				},
-				"error": {
-					"routes": [
-						"http.2"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"http.3": {
 			"type": "nodehandler://axway-flow/http",
@@ -192,51 +157,26 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "400"
+					"value": "400",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.response"
+					"value": "$.response",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
-		},
-		"doT.3": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Headers",
-			"method": "formatObj",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{{= \\\"{\\\" }}\\n\\\"Host\\\": \\\"api.openweathermap.org\\\"\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach((h,i) => { }}\\n{{=`${', '} ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"rest.1"
-					],
-					"context": "$.value"
-				},
-				"error": {
-					"routes": [
-						"http.2"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"condition.1": {
 			"type": "nodehandler://axway-flow/condition",
@@ -246,23 +186,142 @@
 				{
 					"name": "source",
 					"type": "jsonpath",
-					"value": "$.config.OPENWEATHER_APIKEY"
+					"value": "$.config.OPENWEATHER_APIKEY",
+					"metaName": "source",
+					"metaDescription": "The input to test."
 				}
 			],
 			"outputs": {
 				"true": {
 					"routes": [
-						"doT.1"
+						"javascript.1"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "True"
 				},
 				"false": {
 					"routes": [
 						"http.2"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "False"
 				}
-			}
+			},
+			"metaMethod": "Exists"
+		},
+		"javascript.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format URL",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"const { config, params } = data;\\n  const protocol = config.ISTIO_ENABLED ? 'http' : 'https'; // TLS Origination in the mesh\\n  const locationMatch = params.country ? `${params.city},${params.country}` : params.city;\\n  const locationFilter = `q=${encodeURIComponent(locationMatch)}`;\\n  const units = params.units ? `units=${params.units}` : 'units=metric';\\n  const appId = `APPID=${encodeURIComponent(config.OPENWEATHER_APIKEY)}`;\\n\\n  return `${protocol}://api.openweathermap.org:443/data/2.5/weather?${locationFilter}&${units}&${appId}`;\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.url",
+					"routes": [
+						"javascript.2"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
+		},
+		"javascript.2": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format Headers",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"const { config, request } = data;\\n\\n  const traceheaders = config.traceability.headers\\n  \\t.filter(h => request.headers[h] != undefined)\\n  \\t.reduce((obj, key) => {\\n      obj[key] = request.headers[key];\\n      return obj;\\n    }, {});\\n    \\n  return traceheaders;\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.headers",
+					"routes": [
+						"rest.1"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
+		},
+		"javascript.3": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format Response",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"const { params, response } = data;\\n  return {\\n    city: response.body.name,\\n    country: response.body.sys.country,\\n    units: params.units || 'metric',\\n    summary: response.body.weather.map(w => w.main),\\n    temperature: response.body.main.temp,\\n    windSpeed: response.body.wind.speed\\n  };\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.formattedResponse",
+					"routes": [
+						"http.1"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
 		}
 	}
 }

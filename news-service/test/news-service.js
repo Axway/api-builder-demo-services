@@ -40,8 +40,6 @@ describe('News Service Endpoints', function () {
 		after(() => server.stop());
 
 		it('[NEWS-APIKEY-0001] Test API Key authentication.', async () => {
-			// We're not doing the TLS orgination in the test, so for the test case it's enough
-			// to check that it requested on http with port 443.
 			nock('https://newsapi.org')
 				.get('/v2/top-headlines?country=IE&category=business')
 				.reply(200, {
@@ -115,7 +113,7 @@ describe('News Service Endpoints', function () {
 		 */
 		after(() => server.stop());
 
-		it('[NEWS-0001] Will get news with country and category filter.', async () => {
+		it('[NEWS-DEFAULT-0001] Uses the expected defaults.', async () => {
 			nock('https://newsapi.org')
 				.get('/v2/top-headlines?country=IE&category=business')
 				.reply(200, {
