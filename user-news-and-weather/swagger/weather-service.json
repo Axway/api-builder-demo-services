@@ -7,6 +7,11 @@
 	},
 	"host": "localhost:8080",
 	"basePath": "/api",
+	"security": [
+		{
+			"basicAuth": []
+		}
+	],
 	"paths": {
 		"/weather/current": {
 			"get": {
@@ -29,54 +34,72 @@
 				},
 				"description": "Get the current weather in the specified city.",
 				"operationId": "GetCurrentWeatherByCity",
-				"parameters": [{
-					"in": "query",
-					"name": "city",
-					"type": "string",
-					"description": "The city to query the weather for.",
-					"required": true
-				}, {
-					"in": "query",
-					"name": "country",
-					"type": "string",
-					"description": "The country the city is in."
-				}, {
-					"in": "query",
-					"name": "units",
-					"type": "string",
-					"enum": ["metric", "imperial"],
-					"description": "The units to use [metric|imperial]. Default: metric"
-				}, {
-					"in": "header",
-					"name": "x-request-id",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-traceid",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-spanid",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-parentspanid",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-sampled",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-flags",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-ot-span-context",
-					"type": "string"
-				}],
-				"produces": ["application/json"],
-				"tags": ["weather"]
+				"parameters": [
+					{
+						"in": "query",
+						"name": "city",
+						"type": "string",
+						"description": "The city to query the weather for.",
+						"required": true
+					},
+					{
+						"in": "query",
+						"name": "country",
+						"type": "string",
+						"description": "The country the city is in."
+					},
+					{
+						"in": "query",
+						"name": "units",
+						"type": "string",
+						"enum": [
+							"metric",
+							"imperial"
+						],
+						"description": "The units to use [metric|imperial]. Default: metric"
+					},
+					{
+						"in": "header",
+						"name": "x-request-id",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-traceid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-spanid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-parentspanid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-sampled",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-flags",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-ot-span-context",
+						"type": "string"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"weather"
+				]
 			}
 		}
 	},
@@ -86,7 +109,9 @@
 			"description": "Require authorized access to API"
 		}
 	},
-	"schemes": ["http"],
+	"schemes": [
+		"http"
+	],
 	"definitions": {
 		"schema.weather-service_weather": {
 			"type": "object",
@@ -104,7 +129,10 @@
 				"units": {
 					"description": "The units to measure in.",
 					"type": "string",
-					"enum": ["metric", "imperial"]
+					"enum": [
+						"metric",
+						"imperial"
+					]
 				},
 				"temperature": {
 					"type": "number"

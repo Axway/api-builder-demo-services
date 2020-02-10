@@ -1,7 +1,36 @@
 {
-	"schemaVersion": "2",
-	"name": "newsAndWeatherService - post /register",
-	"start": "doT.2",
+	"schemaVersion": "4",
+	"info": {
+		"name": "newsAndWeatherService - post /register"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "javascript.1",
 	"nodes": {
 		"User.1": {
 			"type": "nodehandler://api-builder-flow-invoke/model/User",
@@ -11,7 +40,8 @@
 				{
 					"name": "data",
 					"type": "jsonpath",
-					"value": "$.params.user"
+					"value": "$.params.user",
+					"metaName": "data"
 				}
 			],
 			"outputs": {
@@ -19,9 +49,11 @@
 					"routes": [
 						"http.1"
 					],
-					"context": "$.created"
+					"context": "$.created",
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Create"
 		},
 		"http.1": {
 			"type": "nodehandler://axway-flow/http",
@@ -31,15 +63,19 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "200"
+					"value": "200",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"http.2": {
 			"type": "nodehandler://axway-flow/http",
@@ -49,15 +85,19 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "500"
+					"value": "500",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"User.2": {
 			"type": "nodehandler://api-builder-flow-invoke/model/User",
@@ -67,7 +107,9 @@
 				{
 					"name": "where",
 					"type": "jsonpath",
-					"value": "$.where"
+					"value": "$.where",
+					"metaName": "where",
+					"metaDescription": "JSON-encoded object specifying field constraints. The field name is the key and the value is the constraint statement or value."
 				}
 			],
 			"outputs": {
@@ -75,40 +117,11 @@
 					"routes": [
 						"condition.1"
 					],
-					"context": "$.users"
+					"context": "$.users",
+					"metaName": "Next"
 				}
-			}
-		},
-		"doT.2": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Where",
-			"method": "formatStr",
-			"parameters": [
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{\\\"uid\\\": {{=JSON.stringify(it.uid)}}}\""
-				},
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$.params.user"
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"User.2"
-					],
-					"context": "$.where"
-				},
-				"error": {
-					"routes": [
-						"http.2"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "Query"
 		},
 		"http.3": {
 			"type": "nodehandler://axway-flow/http",
@@ -118,20 +131,26 @@
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.params.uid"
+					"value": "$.params.uid",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				},
 				{
 					"name": "status",
 					"type": "number",
-					"value": "409"
+					"value": "409",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"condition.1": {
 			"type": "nodehandler://axway-flow/condition",
@@ -141,7 +160,9 @@
 				{
 					"name": "source",
 					"type": "jsonpath",
-					"value": "$.users[0]"
+					"value": "$.users[0]",
+					"metaName": "source",
+					"metaDescription": "The input to test."
 				}
 			],
 			"outputs": {
@@ -149,15 +170,63 @@
 					"routes": [
 						"http.3"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "True"
 				},
 				"false": {
 					"routes": [
 						"User.1"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "False"
 				}
-			}
+			},
+			"metaMethod": "Exists"
+		},
+		"javascript.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format Where",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params.user",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"console.error(Object.keys(data));\\n  return { uid: data.uid };\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				},
+				{
+					"name": "unsafe",
+					"type": "boolean",
+					"value": "true",
+					"metaName": "Unsafe mode",
+					"metaDescription": "USE WITH CAUTION. When enabled, JavaScript is not executed in a sandboxed environment and all globals are available."
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.where",
+					"routes": [
+						"User.2"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.2"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
 		}
 	}
 }

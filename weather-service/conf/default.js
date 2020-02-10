@@ -50,7 +50,7 @@ module.exports = {
 	timeout: 120000,
 
 	// Log level of the main logger. Can be set to 'debug', 'error', 'fatal', 'info', 'trace', or 'warn'.
-	logLevel: 'debug',
+	logLevel: process.env.LOGLEVEL || 'debug',
 
 	// Prefix to use for APIs, access to which is governed via `accessControl`.
 	apiPrefix: '/api',
