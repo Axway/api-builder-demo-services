@@ -10,7 +10,7 @@ const mockedEnv = require('mocked-env');
  * @property {Promise} started - The promise that resolves when the server is started.
  */
 function startApiBuilder(envOverrides) {
-	let env = {
+	const env = {
 		NEWSAPI_APIKEY: 'newsapikey',
 		APIKEY: 'test',
 		APIKEYAUTHTYPE: 'basic',
@@ -19,11 +19,11 @@ function startApiBuilder(envOverrides) {
 
 	const restoreEnv = mockedEnv(env);
 
-	var server = new APIBuilder({
+	const server = new APIBuilder({
 		overrideLevel: 'FATAL'
 	});
 
-	var startPromise = new Promise((resolve, reject) => {
+	const startPromise = new Promise((resolve, reject) => {
 		server.on('error', reject);
 		server.on('started', resolve);
 		server.start();

@@ -14,7 +14,7 @@ module.exports = {
 	OPENWEATHER_APIKEY: process.env.OPENWEATHER_APIKEY,
 
 	// define if integrated with istio
-	ISTIO_ENABLED: process.env.ISTIO_ENABLED === 'true',
+	TLS_ORIGINATION: process.env.TLS_ORIGINATION === 'true',
 
 	// these are your generated API keys.  They were generated uniquely when you created this project.
 	// DO NOT SHARE these keys with other projects and be careful with these keys since they control

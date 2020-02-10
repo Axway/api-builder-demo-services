@@ -224,7 +224,7 @@
 				{
 					"name": "code",
 					"type": "string",
-					"value": "\"const { config, params } = data;\\n  const protocol = config.ISTIO_ENABLED ? 'http' : 'https'; // TLS Origination in the mesh\\n  const locationMatch = params.country ? `${params.city},${params.country}` : params.city;\\n  const locationFilter = `q=${encodeURIComponent(locationMatch)}`;\\n  const units = params.units ? `units=${params.units}` : 'units=metric';\\n  const appId = `APPID=${encodeURIComponent(config.OPENWEATHER_APIKEY)}`;\\n\\n  return `${protocol}://api.openweathermap.org:443/data/2.5/weather?${locationFilter}&${units}&${appId}`;\"",
+					"value": "\"const { config, params } = data;\\n  const protocol = config.TLS_ORIGINATION ? 'http' : 'https'; // TLS Origination in the mesh\\n  const locationMatch = params.country ? `${params.city},${params.country}` : params.city;\\n  const locationFilter = `q=${encodeURIComponent(locationMatch)}`;\\n  const units = params.units ? `units=${params.units}` : 'units=metric';\\n  const appId = `APPID=${encodeURIComponent(config.OPENWEATHER_APIKEY)}`;\\n\\n  return `${protocol}://api.openweathermap.org:443/data/2.5/weather?${locationFilter}&${units}&${appId}`;\"",
 					"metaName": "code",
 					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
 				}

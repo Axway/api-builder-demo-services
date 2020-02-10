@@ -30,7 +30,7 @@ spec:
           env:
             - name: NEWSAPI_APIKEY
               value: {{ .Values.apikeys.newsApiKey }}
-            - name: ISTIO_ENABLED
+            - name: TLS_ORIGINATION
               value: "{{ .Values.serviceMesh.istio }}"
           livenessProbe:
             httpGet:

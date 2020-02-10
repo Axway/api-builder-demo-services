@@ -16,7 +16,7 @@ module.exports = {
 	NEWSAPI_APIKEY: process.env.NEWSAPI_APIKEY,
 
 	// define if integrated with istio
-	ISTIO_ENABLED: process.env.ISTIO_ENABLED === 'true',
+	TLS_ORIGINATION: process.env.TLS_ORIGINATION === 'true',
 
 	// This is your generated API key.  It was generated uniquely when you created this project.
 	// DO NOT SHARE this key with other services and be careful with this key since it controls

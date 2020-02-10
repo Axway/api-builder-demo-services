@@ -313,7 +313,7 @@ describe('News Service Endpoints', function () {
 		 */
 		before(() => {
 			server = startApiBuilder({
-				ISTIO_ENABLED: 'true'
+				TLS_ORIGINATION: 'true'
 			});
 			return server.started;
 		});

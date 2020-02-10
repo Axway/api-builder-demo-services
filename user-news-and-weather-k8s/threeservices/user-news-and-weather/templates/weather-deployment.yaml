@@ -30,7 +30,7 @@ spec:
           env:
             - name: OPENWEATHER_APIKEY
               value: {{ .Values.apikeys.openWeatherApiKey }}
-            - name: ISTIO_ENABLED
+            - name: TLS_ORIGINATION
               value: "{{ .Values.serviceMesh.istio }}"            
           livenessProbe:
             httpGet:

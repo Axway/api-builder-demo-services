@@ -174,35 +174,6 @@
 			},
 			"metaMethod": "Set HTTP Response"
 		},
-		"http.2": {
-			"type": "nodehandler://axway-flow/http",
-			"name": "Error",
-			"method": "setresponse",
-			"parameters": [
-				{
-					"name": "status",
-					"type": "number",
-					"value": "400",
-					"metaName": "status",
-					"metaDescription": "The HTTP status code"
-				},
-				{
-					"name": "body",
-					"type": "jsonpath",
-					"value": "$.error.message",
-					"metaName": "body",
-					"metaDescription": "The response payload"
-				}
-			],
-			"outputs": {
-				"next": {
-					"context": "$.response",
-					"routes": [],
-					"metaName": "Next"
-				}
-			},
-			"metaMethod": "Set HTTP Response"
-		},
 		"User.1": {
 			"type": "nodehandler://api-builder-flow-invoke/model/User",
 			"name": "Query User",
@@ -502,7 +473,7 @@
 			"outputs": {
 				"true": {
 					"routes": [
-						"http.2"
+						"http.4"
 					],
 					"context": "$.exists",
 					"metaName": "True"
