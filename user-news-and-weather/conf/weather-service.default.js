@@ -21,7 +21,7 @@ module.exports = {
 		credentials: {
 			'@axway/weather-service basicAuth': {
 				type: 'basic',
-				username: process.env.WEATHER_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+				username: process.env.WEATHER_SERVICE_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 				password: ''
 			}
 		}

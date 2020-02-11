@@ -3,50 +3,34 @@
 # and 1 weather service.
 replicaCount: 1
 
-apikeys:
+usernewsandweather:
+  apikey: mykey
+  port: 18080
+
+news:
+  apikey: newskey
+  port: 18081
   # The API key for NewsAPI.org
-  newsApiKey: yourNewsAPIOrgKey
+  backendKey: yourNewsAPIOrgKey
+
+weather:
+  apikey: weatherkey
+  port: 18082
   # The API Key for OpenWeatherMap.org
-  openWeatherApiKey: yourOpenWeatherMapKey
+  backendKey: yourOpenWeatherMapKey
 
 # This is the port the User News and Weather service will be visible on.
 service:
-  type: NodePort
-  port: 32000
+  type: ClusterIP
 
 # Configure deployment in a service mesh
 serviceMesh:
-  istio: true
-
-# Kubernetes Deployment api changed between 1.8.x and 1.9.x
-kubernetes:
-  version: "1.8"
-
-# These are the ports that the API Builder services run on in the pod.
-# Should be no reason to change them.
-ports:
-  usernewsandweather: 18080
-  news: 18081
-  weather: 18082
+  istio: false
 
 # The images to use for the containers. If you built with different
 # naming then you can change these here.
 image:
-  weather: axway/api-builder-demo-services:weather-service
-  news: axway/api-builder-demo-services:news-service
-  userNewsAndWeather: axway/api-builder-demo-services:user-news-and-weather
+  weather: axway/demo-weather-service:latest
+  news: axway/demo-news-service:latest
+  userNewsAndWeather: axway/demo-user-news-and-weather:latest
   pullPolicy: IfNotPresent
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - news-service.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-

@@ -20,7 +20,7 @@ kubernetes:
 
 # This is the port the User News and Weather service will be visible on.
 service:
-  type: NodePort
+  type: ClusterPort
   port: 32000
 
 # The images to use for the containers. If you built with different

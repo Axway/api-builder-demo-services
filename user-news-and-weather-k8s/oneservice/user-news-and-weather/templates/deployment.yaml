@@ -1,26 +1,23 @@
-{{if eq .Values.kubernetes.version "1.9"}}
 apiVersion: apps/v1
-{{ else }}
-apiVersion: apps/v1beta2
-{{end}}
 kind: Deployment
 metadata:
-  name: {{ template "user-news-and-weather.fullname" . }}
+  name: user-news-and-weather
+  namespace: {{.Release.Namespace}}
   labels:
-    app: {{ template "user-news-and-weather.name" . }}
-    chart: {{ template "user-news-and-weather.chart" . }}
+    app: {{ .Chart.Name }}-unw
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "user-news-and-weather.name" . }}
+      app: {{ .Chart.Name }}-unw
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "user-news-and-weather.name" . }}
+        app: {{ .Chart.Name }}-unw
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -29,58 +26,68 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PORT
-              value: "{{ .Values.ports.usernewsandweather }}"
+              value: "{{ .Values.usernewsandweather.port }}"
             - name: NEWS_PORT
-              value: "{{ .Values.ports.news }}"
+              value: "{{ .Values.news.port }}"
+            - name: NEWS_SERVICE_APIKEY
+              value: "{{ .Values.news.apikey }}"
             - name: WEATHER_PORT
-              value: "{{ .Values.ports.weather }}"
+              value: "{{ .Values.weather.port }}"
+            - name: WEATHER_SERVICE_APIKEY
+              value: "{{ .Values.weather.apikey }}"
+            - name: APIKEY
+              value: "{{ .Values.usernewsandweather.apikey }}"
           ports:
             - name: http
-              containerPort: {{ .Values.ports.usernewsandweather }}
+              containerPort: {{ .Values.usernewsandweather.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /apibuilderPing.json
-              port: {{ .Values.ports.usernewsandweather }}
+              port: {{ .Values.usernewsandweather.port }}
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /apibuilderPing.json
-              port: {{ .Values.ports.usernewsandweather }}
+              port: {{ .Values.usernewsandweather.port }}
           {{end}}
         - name: news
           image: "{{ .Values.image.news }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PORT
-              value: "{{ .Values.ports.news }}"
+              value: "{{ .Values.news.port }}"
+            - name: APIKEY
+              value: "{{ .Values.news.apikey }}"
             - name: NEWSAPI_APIKEY
-              value: {{ .Values.apikeys.newsApiKey }}
+              value: {{ .Values.news.backendKey }}
           livenessProbe:
             httpGet:
               path: /apibuilderPing.json
-              port: {{ .Values.ports.news }}
+              port: {{ .Values.news.port }}
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /apibuilderPing.json
-              port: {{ .Values.ports.news }}
+              port: {{ .Values.news.port }}
           {{end}}
         - name: weather
           image: "{{ .Values.image.weather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: PORT
-              value: "{{ .Values.ports.weather }}"
+              value: "{{ .Values.weather.port }}"
+            - name: APIKEY
+              value: "{{ .Values.weather.apikey }}"
             - name: OPENWEATHER_APIKEY
-              value: {{ .Values.apikeys.openWeatherApiKey }}
+              value: {{ .Values.weather.backendKey }}
           livenessProbe:
             httpGet:
               path: /apibuilderPing.json
-              port: {{ .Values.ports.weather }}
+              port: {{ .Values.weather.port }}
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /apibuilderPing.json
-              port: {{ .Values.ports.weather }}
+              port: {{ .Values.weather.port }}
           {{end}}

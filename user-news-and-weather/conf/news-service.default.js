@@ -21,7 +21,7 @@ module.exports = {
 		credentials: {
 			'@axway/news-service basicAuth': {
 				type: 'basic',
-				username: process.env.NEWS_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
+				username: process.env.NEWS_SERVICE_APIKEY || 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3',
 				password: ''
 			}
 		}
