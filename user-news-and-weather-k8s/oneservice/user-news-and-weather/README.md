@@ -63,7 +63,7 @@ These are then passed into the services as environment variables that override t
 
 ```
 kubectl create namespace demo
-helm install --namespace demo --name brief ./oneservice/user-news-and-weather --set news.backendKey=<you newsapi key> --set weather.backendKey=<your openweather key> 
+helm install --namespace demo --name brief ./user-news-and-weather --set news.backendKey=<you newsapi key> --set weather.backendKey=<your openweather key> 
 ```
 
 Note you need to get the API Key for the News and Weather API backends from https://newsapi.org and https://openweathermap.org respectively. It will output something like:

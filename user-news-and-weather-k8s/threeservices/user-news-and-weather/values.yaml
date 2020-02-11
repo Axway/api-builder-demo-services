@@ -1,46 +1,29 @@
-# Change this to scale the services by different amounts.
-replicaCount:
-  news: 1
-  weather: 1
-  info: 1
-  
-apikeys:
+# As this is a single pod solution the scaling is linear, 
+# each pod will have 1 user news and weather service, 1 news service
+# and 1 weather service.
+replicaCount: 1
+
+usernewsandweather:
+  apikey: mykey
+
+news:
+  apikey: newskey
   # The API key for NewsAPI.org
-  newsApiKey: yourNewsAPIOrgKey
+  backendKey: yourNewsAPIOrgKey
+
+weather:
+  apikey: weatherkey
   # The API Key for OpenWeatherMap.org
-  openWeatherApiKey: yourOpenWeatherMapKey
+  backendKey: yourOpenWeatherMapKey
 
 # Configure deployment in a service mesh
 serviceMesh:
   istio: false
 
-# Kubernetes Deployment api changed between 1.8.x and 1.9.x
-kubernetes:
-  version: "1.8"
-
-# This is the port the User News and Weather service will be visible on.
-service:
-  type: ClusterPort
-  port: 32000
-
 # The images to use for the containers. If you built with different
 # naming then you can change these here.
 image:
-  weather: axway/api-builder-demo-services:weather-service
-  news: axway/api-builder-demo-services:news-service
-  userNewsAndWeather: axway/api-builder-demo-services:user-news-and-weather
+  weather: axway/demo-weather-service:latest
+  news: axway/demo-news-service:latest
+  userNewsAndWeather: axway/demo-user-news-and-weather:latest
   pullPolicy: IfNotPresent
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - news-service.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-

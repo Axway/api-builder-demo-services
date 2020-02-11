@@ -1,48 +1,48 @@
-{{if eq .Values.kubernetes.version "1.9"}}
 apiVersion: apps/v1
-{{ else }}
-apiVersion: apps/v1beta2
-{{end}}
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-news
+  name: news
+  namespace: {{.Release.Namespace}}
   labels:
-    app: news-service
-    chart: {{ template "user-news-and-weather.chart" . }}
+    app: {{ .Chart.Name }}-news
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount.news }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: "news-service"
+      app: {{ .Chart.Name }}-news
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: "news-service"
+        app: {{ .Chart.Name }}-news
         release: {{ .Release.Name }}
     spec:
       containers:
         - name: news
           image: "{{ .Values.image.news }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
           env:
+            - name: PORT
+              value: "8080"
+            - name: APIKEY
+              value: "{{ .Values.news.apikey }}"
             - name: NEWSAPI_APIKEY
-              value: {{ .Values.apikeys.newsApiKey }}
-            - name: TLS_ORIGINATION
-              value: "{{ .Values.serviceMesh.istio }}"
+              value: {{ .Values.news.backendKey }}
           livenessProbe:
             httpGet:
               path: /apibuilderPing.json
               port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 10
           {{if eq .Values.serviceMesh.istio false}}
           readinessProbe:
             httpGet:
               path: /apibuilderPing.json
               port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 10
           {{end}}
+

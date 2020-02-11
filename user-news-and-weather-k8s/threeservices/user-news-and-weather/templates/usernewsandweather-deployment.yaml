@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weather
+  name: user-news-and-weather
   namespace: {{.Release.Namespace}}
   labels:
-    app: {{ .Chart.Name }}-weather
+    app: {{ .Chart.Name }}-user-news-and-weather
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -12,29 +12,39 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}-weather
+      app: {{ .Chart.Name }}-user-news-and-weather
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-weather
+        app: {{ .Chart.Name }}-user-news-and-weather
         release: {{ .Release.Name }}
     spec:
       containers:
-        - name: weather
-          image: "{{ .Values.image.weather }}"
+        - name: usernewsandweather
+          image: "{{ .Values.image.userNewsAndWeather }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
           env:
             - name: PORT
               value: "8080"
             - name: APIKEY
+              value: "{{ .Values.usernewsandweather.apikey }}"
+            - name: NEWS_HOST
+              value: "news.{{ .Release.Namespace }}.svc.cluster.local"
+            - name: NEWS_PORT
+              value: "8080"
+            - name: NEWS_SERVICE_APIKEY
+              value: "{{ .Values.news.apikey }}"
+            - name: WEATHER_HOST
+              value: "weather.{{ .Release.Namespace }}.svc.cluster.local"
+            - name: WEATHER_PORT
+              value: "8080"
+            - name: WEATHER_SERVICE_APIKEY
               value: "{{ .Values.weather.apikey }}"
-            - name: OPENWEATHER_APIKEY
-              value: {{ .Values.weather.backendKey }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /apibuilderPing.json
