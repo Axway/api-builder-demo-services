@@ -45,6 +45,6 @@ while [[ $(kubectl -n kube-system get pods -l app=helm -o 'jsonpath={..status.co
 echo ======================
 echo ===    Copying in Images     ===
 echo ======================
-k3d i --name=democluster  axway/demo-news-service:latest
-k3d i --name=democluster  axway/demo-weather-service:latest
-k3d i --name=democluster  axway/demo-user-news-and-weather:latest
+k3d i --name=democluster  axway/api-builder-demo-services:news-service
+k3d i --name=democluster  axway/api-builder-demo-services:weather-service
+k3d i --name=democluster  axway/api-builder-demo-services:user-news-and-weather

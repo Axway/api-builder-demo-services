@@ -2,9 +2,9 @@
 
 ## Build the images
 ```
-docker build -t axway/demo-news-service:latest ../news-service
-docker build -t axway/demo-weather-service:latest ../weather-service
-docker build -t axway/demo-user-news-and-weather:latest ../user-news-and-weather
+docker build -t axway/api-builder-demo-services:news-service ../news-service
+docker build -t axway/api-builder-demo-services:weather-service ../weather-service
+docker build -t axway/api-builder-demo-services:user-news-and-weather ../user-news-and-weather
 ```
 
 ## Developer Environment
@@ -33,9 +33,9 @@ This is temporary but as the services aren't published you'll need to build them
 
 ```
 eval $(minikube docker-env)
-docker build -t axway/demo-news-service:latest ../news-service
-docker build -t axway/demo-weather-service:latest ../weather-service
-docker build -t axway/demo-user-news-and-weather:latest ../user-news-and-weather
+docker build -t axway/api-builder-demo-services:news-service ../news-service
+docker build -t axway/api-builder-demo-services:weather-service ../weather-service
+docker build -t axway/api-builder-demo-services:user-news-and-weather ../user-news-and-weather
 ```
 
 #### Install Helm
