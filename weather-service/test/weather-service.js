@@ -1,11 +1,6 @@
 const { expect } = require('chai');
 const nock = require('nock');
-const { startApiBuilder, stopApiBuilder, requestAsync } = require('./_base');
-
-const auth = {
-	user: 'test',
-	password: ''
-};
+const { startApiBuilder, requestAsync } = require('./_base');
 
 const weatherResponse = {
 	coord: {
@@ -58,21 +53,25 @@ describe('OpenWeather Service Endpoints', function () {
 	this.timeout(30000);
 	let server;
 
-	/**
-	 * Start API Builder.
-	 */
-	before(() => {
-		server = startApiBuilder();
-		return server.started;
-	});
+	describe('API Key', function () {
+		/**
+		 * Start API Builder.
+		 */
+		before(() => {
+			server = startApiBuilder({
+				APIKEYAUTHTYPE: 'apikey',
+				APIKEY: 'testApiKey'
 
-	/**
-	 * Stop API Builder after the tests.
-	 */
-	after(() => stopApiBuilder(server));
+			});
+			return server.started;
+		});
 
-	describe('/weather/current', () => {
-		it('[WEATHER-0001] Will get weather formatted URL.', () => {
+		/**
+		 * Stop API Builder.
+		 */
+		after(() => server.stop());
+
+		it('[WEATHER-APIKEY-0001] Test API Key authentication.', async () => {
 			const city = 'Dublin';
 			const country = 'IE';
 			const units = 'metric';
@@ -80,26 +79,146 @@ describe('OpenWeather Service Endpoints', function () {
 				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
 				.reply(200, weatherResponse);
 
-			return requestAsync({
+			const { response, body } = await requestAsync({
+				method: 'GET',
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				headers: {
+					apikey: 'testApiKey'
+				},
+				json: true
+			});
+			expect(response.statusCode).to.equal(200);
+			expect(body).to.deep.equal({
+				city, country, units,
+				summary: weatherResponse.weather.map(w => w.main),
+				temperature: weatherResponse.main.temp,
+				windSpeed: weatherResponse.wind.speed
+			});
+		});
+	});
+
+	describe('Basic Auth', function () {
+		before(() => {
+			server = startApiBuilder({
+				APIKEYAUTHTYPE: 'basic',
+				APIKEY: 'testBasic'
+			});
+			return server.started;
+		});
+
+		/**
+		 * Stop API Builder.
+		 */
+		after(() => server.stop());
+
+		it('[WEATHER-BASIC-0001] Test Basic authentication.', async () => {
+			const city = 'Dublin';
+			const country = 'IE';
+			const units = 'metric';
+			nock('https://api.openweathermap.org')
+				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
+				.reply(200, weatherResponse);
+
+			const { response, body } = await requestAsync({
+				method: 'GET',
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				auth: { user: 'testBasic', password: '' },
+				json: true
+			});
+			expect(response.statusCode).to.equal(200);
+			expect(body).to.deep.equal({
+				city, country, units,
+				summary: weatherResponse.weather.map(w => w.main),
+				temperature: weatherResponse.main.temp,
+				windSpeed: weatherResponse.wind.speed
+			});
+		});
+	});
+
+	describe('Defaults', function () {
+		/**
+		 * Start API Builder.
+		 */
+		before(() => {
+			server = startApiBuilder({
+				APIKEYAUTHTYPE: '',
+				APIKEY: ''
+			});
+			return server.started;
+		});
+
+		/**
+		 * Stop API Builder after the tests.
+		 */
+		after(() => server.stop());
+
+		it('[WEATHER-DEFAULT-0001] Uses the expected defaults.', async () => {
+			const city = 'Dublin';
+			const country = 'IE';
+			const units = 'metric';
+			nock('https://api.openweathermap.org')
+				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
+				.reply(200, weatherResponse);
+
+			const { response, body } = await requestAsync({
+				method: 'GET',
+				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
+				auth: { user: 'Ejj2qUWgcyNNzCtWP3cuubqeCgHm90Y3', password: '' },
+				json: true
+			});
+			expect(response.statusCode).to.equal(200);
+			expect(body).to.deep.equal({
+				city, country, units,
+				summary: weatherResponse.weather.map(w => w.main),
+				temperature: weatherResponse.main.temp,
+				windSpeed: weatherResponse.wind.speed
+			});
+		});
+	});
+
+	describe('/weather/current', () => {
+		const auth = {
+			user: 'test',
+			password: ''
+		};
+
+		/**
+		 * Start API Builder.
+		 */
+		before(() => {
+			server = startApiBuilder();
+			return server.started;
+		});
+
+		/**
+		 * Stop API Builder after the tests.
+		 */
+		after(() => server.stop());
+
+		it('[WEATHER-0001] Will get weather formatted URL.', async () => {
+			const city = 'Dublin';
+			const country = 'IE';
+			const units = 'metric';
+			nock('https://api.openweathermap.org')
+				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
+				.reply(200, weatherResponse);
+
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
-			}).then(({
-				response,
-				body
-			}) => {
-				expect(response.statusCode).to.equal(200);
-				expect(body).to.deep.equal({
-					city, country, units,
-					summary: weatherResponse.weather.map(w => w.main),
-					temperature: weatherResponse.main.temp,
-					windSpeed: weatherResponse.wind.speed
-				});
+			});
+			expect(response.statusCode).to.equal(200);
+			expect(body).to.deep.equal({
+				city, country, units,
+				summary: weatherResponse.weather.map(w => w.main),
+				temperature: weatherResponse.main.temp,
+				windSpeed: weatherResponse.wind.speed
 			});
 		});
 
-		it('[WEATHER-0002] Will get weather formatted URL using default units.', () => {
+		it('[WEATHER-0002] Will get weather formatted URL using default units.', async () => {
 			const city = 'Dublin';
 			const country = 'IE';
 			const units = 'metric';
@@ -107,26 +226,22 @@ describe('OpenWeather Service Endpoints', function () {
 				.get(`/data/2.5/weather?q=${city}%2C${country}&units=metric&APPID=openweatherkey`)
 				.reply(200, weatherResponse);
 
-			return requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}`,
 				auth: auth,
 				json: true
-			}).then(({
-				response,
-				body
-			}) => {
-				expect(response.statusCode).to.equal(200);
-				expect(body).to.deep.equal({
-					city, country, units,
-					summary: weatherResponse.weather.map(w => w.main),
-					temperature: weatherResponse.main.temp,
-					windSpeed: weatherResponse.wind.speed
-				});
+			});
+			expect(response.statusCode).to.equal(200);
+			expect(body).to.deep.equal({
+				city, country, units,
+				summary: weatherResponse.weather.map(w => w.main),
+				temperature: weatherResponse.main.temp,
+				windSpeed: weatherResponse.wind.speed
 			});
 		});
 
-		it('[WEATHER-0003] Will get weather formatted URL using imperial units.', () => {
+		it('[WEATHER-0003] Will get weather formatted URL using imperial units.', async () => {
 			const city = 'Dublin';
 			const country = 'IE';
 			const units = 'imperial';
@@ -134,26 +249,22 @@ describe('OpenWeather Service Endpoints', function () {
 				.get(`/data/2.5/weather?q=${city}%2C${country}&units=imperial&APPID=openweatherkey`)
 				.reply(200, weatherResponse);
 
-			return requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
-			}).then(({
-				response,
-				body
-			}) => {
-				expect(response.statusCode).to.equal(200);
-				expect(body).to.deep.equal({
-					city, country, units,
-					summary: weatherResponse.weather.map(w => w.main),
-					temperature: weatherResponse.main.temp,
-					windSpeed: weatherResponse.wind.speed
-				});
+			});
+			expect(response.statusCode).to.equal(200);
+			expect(body).to.deep.equal({
+				city, country, units,
+				summary: weatherResponse.weather.map(w => w.main),
+				temperature: weatherResponse.main.temp,
+				windSpeed: weatherResponse.wind.speed
 			});
 		});
 
-		it('[WEATHER-0004] Will return bad request on 3xx.', () => {
+		it('[WEATHER-0004] Will return bad request on 3xx.', async () => {
 			const city = 'Dublin';
 			const country = 'IE';
 			const units = 'metric';
@@ -161,25 +272,21 @@ describe('OpenWeather Service Endpoints', function () {
 				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
 				.reply(301);
 
-			return requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
-			}).then(({
-				response,
-				body
-			}) => {
-				expect(response.statusCode).to.equal(400);
-				expect(body).to.deep.equal({
-					status: 301,
-					headers: {},
-					body: ''
-				});
+			});
+			expect(response.statusCode).to.equal(400);
+			expect(body).to.deep.equal({
+				status: 301,
+				headers: {},
+				body: ''
 			});
 		});
 
-		it('[WEATHER-0005] Will return bad request on 4xx.', () => {
+		it('[WEATHER-0005] Will return bad request on 4xx.', async () => {
 			const city = 'Dublin';
 			const country = 'IE';
 			const units = 'metric';
@@ -187,25 +294,21 @@ describe('OpenWeather Service Endpoints', function () {
 				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
 				.reply(404);
 
-			return requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
-			}).then(({
-				response,
-				body
-			}) => {
-				expect(response.statusCode).to.equal(400);
-				expect(body).to.deep.equal({
-					status: 404,
-					headers: {},
-					body: ''
-				});
+			});
+			expect(response.statusCode).to.equal(400);
+			expect(body).to.deep.equal({
+				status: 404,
+				headers: {},
+				body: ''
 			});
 		});
 
-		it('[WEATHER-0006] Will return bad request on 5xx.', () => {
+		it('[WEATHER-0006] Will return bad request on 5xx.', async () => {
 			const city = 'Dublin';
 			const country = 'IE';
 			const units = 'metric';
@@ -213,21 +316,17 @@ describe('OpenWeather Service Endpoints', function () {
 				.get(`/data/2.5/weather?q=${city}%2C${country}&units=${units}&APPID=openweatherkey`)
 				.reply(501);
 
-			return requestAsync({
+			const { response, body } = await requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/weather/current?city=${city}&country=${country}&units=${units}`,
 				auth: auth,
 				json: true
-			}).then(({
-				response,
-				body
-			}) => {
-				expect(response.statusCode).to.equal(400);
-				expect(body).to.deep.equal({
-					status: 501,
-					headers: {},
-					body: ''
-				});
+			});
+			expect(response.statusCode).to.equal(400);
+			expect(body).to.deep.equal({
+				status: 501,
+				headers: {},
+				body: ''
 			});
 		});
 	});

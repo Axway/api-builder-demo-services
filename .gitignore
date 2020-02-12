@@ -1,4 +1,5 @@
 npm-debug.log
+rbac.config
 .npmrc
 coverage/
 node_modules/

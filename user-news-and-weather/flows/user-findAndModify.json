@@ -1,131 +1,192 @@
 {
-  "schemaVersion": "2",
-  "name": "user-findAndModify",
-  "start": "params.buildargs.1",
-  "nodes": {
-    "params.buildargs.1": {
-      "type": "nodehandler://axway-flow/setcontext",
-      "method": "setcontext",
-      "name": "Build args parameter (new)",
-      "parameters": [
-        {
-          "name": "value",
-          "value": "$.params.new"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.params.args.new",
-          "routes": [
-            "params.buildargs.2"
-          ]
-        }
-      }
-    },
-    "params.buildargs.2": {
-      "type": "nodehandler://axway-flow/setcontext",
-      "method": "setcontext",
-      "name": "Build args parameter (upsert)",
-      "parameters": [
-        {
-          "name": "value",
-          "value": "$.params.upsert"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.params.args.upsert",
-          "routes": [
-            "model.findAndModify"
-          ]
-        }
-      }
-    },
-    "model.findAndModify": {
-      "type": "nodehandler://api-builder-flow-invoke/model/User",
-      "method": "findAndModify",
-      "name": "Find and modify User",
-      "parameters": [
-        {
-          "name": "data",
-          "value": "$.params.data"
-        },
-        {
-          "name": "args",
-          "value": "$.params.args"
-        },
-        {
-          "name": "limit",
-          "value": "$.params.limit"
-        },
-        {
-          "name": "skip",
-          "value": "$.params.skip"
-        },
-        {
-          "name": "where",
-          "value": "$.params.where"
-        },
-        {
-          "name": "order",
-          "value": "$.params.order"
-        },
-        {
-          "name": "sel",
-          "value": "$.params.sel"
-        },
-        {
-          "name": "unsel",
-          "value": "$.params.unsel"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.model",
-          "routes": [
-            "response.success"
-          ]
-        },
-        "notfound": {
-          "routes": [
-            "response.error.notfound"
-          ]
-        }
-      }
-    },
-    "response.success": {
-      "type": "nodehandler://axway-flow/http",
-      "name": "Set response",
-      "method": "setresponse",
-      "parameters": [
-        {
-          "name": "status",
-          "value": "204",
-          "type": "number"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.response"
-        }
-      }
-    },
-    "response.error.notfound": {
-      "type": "nodehandler://axway-flow/http",
-      "name": "Set not found response",
-      "method": "setresponse",
-      "parameters": [
-        {
-          "name": "status",
-          "value": "404",
-          "type": "number"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.response"
-        }
-      }
-    }
-  }
+	"schemaVersion": "4",
+	"info": {
+		"name": "user-findAndModify"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "params.buildargs.1",
+	"nodes": {
+		"params.buildargs.1": {
+			"type": "nodehandler://axway-flow/setcontext",
+			"method": "setcontext",
+			"name": "Build args parameter (new)",
+			"parameters": [
+				{
+					"name": "value",
+					"value": "$.params.new",
+					"metaName": "value"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.params.args.new",
+					"routes": [
+						"params.buildargs.2"
+					],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set Context"
+		},
+		"params.buildargs.2": {
+			"type": "nodehandler://axway-flow/setcontext",
+			"method": "setcontext",
+			"name": "Build args parameter (upsert)",
+			"parameters": [
+				{
+					"name": "value",
+					"value": "$.params.upsert",
+					"metaName": "value"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.params.args.upsert",
+					"routes": [
+						"model.findAndModify"
+					],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set Context"
+		},
+		"model.findAndModify": {
+			"type": "nodehandler://api-builder-flow-invoke/model/User",
+			"method": "findAndModify",
+			"name": "Find and modify User",
+			"parameters": [
+				{
+					"name": "data",
+					"value": "$.params.data",
+					"metaName": "data"
+				},
+				{
+					"name": "args",
+					"value": "$.params.args",
+					"metaName": "args",
+					"metaDescription": "Optional parameters."
+				},
+				{
+					"name": "limit",
+					"value": "$.params.limit",
+					"metaName": "limit",
+					"metaDescription": "The number of records to fetch."
+				},
+				{
+					"name": "skip",
+					"value": "$.params.skip",
+					"metaName": "skip",
+					"metaDescription": "The number of records to skip."
+				},
+				{
+					"name": "where",
+					"value": "$.params.where",
+					"metaName": "where",
+					"metaDescription": "JSON-encoded object specifying field constraints. The field name is the key and the value is the constraint statement or value."
+				},
+				{
+					"name": "order",
+					"value": "$.params.order",
+					"metaName": "order",
+					"metaDescription": "A dictionary of key-value pairs describing the field(s) for sorting. The field name is the key and the value is set to either -1 for ascending order or 1 for descending order."
+				},
+				{
+					"name": "sel",
+					"value": "$.params.sel",
+					"metaName": "sel",
+					"metaDescription": "A dictionary of key-value pairs describing which fields to include in the query results. The field name is the key and the value is set to 1."
+				},
+				{
+					"name": "unsel",
+					"value": "$.params.unsel",
+					"metaName": "unsel",
+					"metaDescription": "A dictionary of key-value pairs describing which fields to exclude from the query results. The field name is the key and the value is set to 1."
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.model",
+					"routes": [
+						"response.success"
+					],
+					"metaName": "Next"
+				},
+				"notfound": {
+					"routes": [
+						"response.error.notfound"
+					],
+					"metaName": "Not Found"
+				}
+			},
+			"metaMethod": "Find and modify"
+		},
+		"response.success": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"value": "204",
+					"type": "number",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
+		},
+		"response.error.notfound": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set not found response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"value": "404",
+					"type": "number",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
+		}
+	}
 }

@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { promisify } = require('util');
-const { startApiBuilder, stopApiBuilder } = require('./_base');
+const { startApiBuilder } = require('./_base');
 
 describe('User Model', function () {
 	this.timeout(30000);
@@ -17,7 +17,7 @@ describe('User Model', function () {
 	/**
 	 * Stop API Builder after the tests.
 	 */
-	after(() => stopApiBuilder(server));
+	after(() => server.stop());
 
 	describe('user', () => {
 		it('[USER-0001] verify model definition', () => {
@@ -120,6 +120,7 @@ describe('User Model', function () {
 				.then((found) => {
 					// Verify the deleted model cannot be found
 					expect(found).to.be.undefined;
+					return;
 				});
 		});
 	});

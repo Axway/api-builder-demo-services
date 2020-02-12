@@ -1,20 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "user-news-and-weather.fullname" . }}
+  name: user-news-and-weather
   labels:
-    app: {{ template "user-news-and-weather.name" . }}
-    chart: {{ template "user-news-and-weather.chart" . }}
+    app: {{ .Chart.Name }}-unw
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    apic-managed: "true"
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.usernewsandweather.port }}
       targetPort: http
       protocol: TCP
+      {{- if eq .Values.service.type "NodePort" }}
       nodePort: {{ .Values.service.port }}
+      {{- end }}
       name: http
   selector:
-    app: {{ template "user-news-and-weather.name" . }}
+    app: {{ .Chart.Name }}-unw
     release: {{ .Release.Name }}

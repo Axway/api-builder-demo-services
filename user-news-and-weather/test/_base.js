@@ -1,51 +1,47 @@
 const APIBuilder = require('@axway/api-builder-runtime');
 const request = require('request');
+const mockedEnv = require('mocked-env');
 
 /**
  * Start the API Builder server.
+ * @param {Object} envOverrides The environment variables to load API Builder with.
  * @return {Object} The details for the started server.
  * @property {APIBuilder} apibuilder - The server.
  * @property {Promise} started - The promise that resolves when the server is started.
  */
-function startApiBuilder() {
-	process.env.NEWSAPI_APIKEY = 'newsapikey';
+function startApiBuilder(envOverrides) {
+	const env = {
+		APIKEY: 'test',
+		APIKEYAUTHTYPE: 'basic',
+		...envOverrides
+	};
 
-	process.env.APIKEY = 'test';
-	process.env.APIKEYAUTHTYPE = 'basic';
-	var server = new APIBuilder({
+	const restoreEnv = mockedEnv(env);
+
+	const server = new APIBuilder({
 		overrideLevel: 'FATAL'
 	});
 
-	var startPromise = new Promise((resolve, reject) => {
+	const startPromise = new Promise((resolve, reject) => {
 		server.on('error', reject);
 		server.on('started', resolve);
 		server.start();
 	});
 
+	/** Stop the API Builder server. */
+	async function stopApiBuilder() {
+		// Restore the original environment
+		await startPromise;
+		await server.stop();
+		APIBuilder.resetGlobal();
+		restoreEnv();
+	}
+
 	return {
 		apibuilder: server,
-		started: startPromise
+		started: startPromise,
+		stop: stopApiBuilder
 	};
-}
-
-/**
- * Stop the API Builder server.
- * @param {Object} server The object returned from startApiBuilder().
- * @return {Promise} The promise that resolves when the server is stopped.
- */
-function stopApiBuilder(server) {
-	return new Promise((resolve, reject) => {
-		server.started
-			.then(() => {
-				server.apibuilder.stop(() => {
-					APIBuilder.resetGlobal();
-					resolve();
-				});
-			})
-			.catch(err => {
-				reject(err);
-			});
-	});
 }
 
 function requestAsync(uri, options, cb) {
@@ -68,6 +64,5 @@ function requestAsync(uri, options, cb) {
 
 exports = module.exports = {
 	startApiBuilder,
-	stopApiBuilder,
 	requestAsync
 };

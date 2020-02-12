@@ -1,67 +1,116 @@
 {
-  "schemaVersion": "2",
-  "name": "user-query",
-  "start": "model.query",
-  "nodes": {
-    "model.query": {
-      "type": "nodehandler://api-builder-flow-invoke/model/User",
-      "method": "query",
-      "name": "Query Users",
-      "parameters": [
-        {
-          "name": "limit",
-          "value": "$.params.limit"
-        },
-        {
-          "name": "skip",
-          "value": "$.params.skip"
-        },
-        {
-          "name": "where",
-          "value": "$.params.where"
-        },
-        {
-          "name": "order",
-          "value": "$.params.order"
-        },
-        {
-          "name": "sel",
-          "value": "$.params.sel"
-        },
-        {
-          "name": "unsel",
-          "value": "$.params.unsel"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.models",
-          "routes": [
-            "response.success"
-          ]
-        }
-      }
-    },
-    "response.success": {
-      "type": "nodehandler://axway-flow/http",
-      "name": "Set response",
-      "method": "setresponse",
-      "parameters": [
-        {
-          "name": "status",
-          "value": "200",
-          "type": "number"
-        },
-        {
-          "name": "body",
-          "value": "$.models"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.response"
-        }
-      }
-    }
-  }
+	"schemaVersion": "4",
+	"info": {
+		"name": "user-query"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "model.query",
+	"nodes": {
+		"model.query": {
+			"type": "nodehandler://api-builder-flow-invoke/model/User",
+			"method": "query",
+			"name": "Query Users",
+			"parameters": [
+				{
+					"name": "limit",
+					"value": "$.params.limit",
+					"metaName": "limit",
+					"metaDescription": "The number of records to fetch."
+				},
+				{
+					"name": "skip",
+					"value": "$.params.skip",
+					"metaName": "skip",
+					"metaDescription": "The number of records to skip."
+				},
+				{
+					"name": "where",
+					"value": "$.params.where",
+					"metaName": "where",
+					"metaDescription": "JSON-encoded object specifying field constraints. The field name is the key and the value is the constraint statement or value."
+				},
+				{
+					"name": "order",
+					"value": "$.params.order",
+					"metaName": "order",
+					"metaDescription": "A dictionary of key-value pairs describing the field(s) for sorting. The field name is the key and the value is set to either -1 for ascending order or 1 for descending order."
+				},
+				{
+					"name": "sel",
+					"value": "$.params.sel",
+					"metaName": "sel",
+					"metaDescription": "A dictionary of key-value pairs describing which fields to include in the query results. The field name is the key and the value is set to 1."
+				},
+				{
+					"name": "unsel",
+					"value": "$.params.unsel",
+					"metaName": "unsel",
+					"metaDescription": "A dictionary of key-value pairs describing which fields to exclude from the query results. The field name is the key and the value is set to 1."
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.models",
+					"routes": [
+						"response.success"
+					],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Query"
+		},
+		"response.success": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"value": "200",
+					"type": "number",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				},
+				{
+					"name": "body",
+					"value": "$.models",
+					"metaName": "body",
+					"metaDescription": "The response payload"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
+		}
+	}
 }

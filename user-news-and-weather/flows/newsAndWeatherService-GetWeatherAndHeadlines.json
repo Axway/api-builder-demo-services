@@ -1,7 +1,36 @@
 {
-	"schemaVersion": "2",
-	"name": "newsAndWeatherService - get /{uid}/info",
-	"start": "doT.1",
+	"schemaVersion": "4",
+	"info": {
+		"name": "newsAndWeatherService - get /{uid}/info"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "javascript.1",
 	"nodes": {
 		"news-service.1": {
 			"type": "nodehandler://@axway/api-builder-plugin-fn-swagger/news-service",
@@ -11,76 +40,110 @@
 				{
 					"name": "category",
 					"type": "jsonpath",
-					"value": "$.user.interest"
+					"value": "$.user.interest",
+					"metaName": "category"
 				},
 				{
 					"name": "country",
 					"type": "jsonpath",
-					"value": "$.user.country"
+					"value": "$.user.country",
+					"metaName": "country"
 				},
 				{
 					"name": "x-request-id",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-request-id']"
+					"value": "$.request.headers['x-request-id']",
+					"metaName": "x-request-id"
 				},
 				{
 					"name": "x-ot-span-context",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-ot-span-context']"
+					"value": "$.request.headers['x-ot-span-context']",
+					"metaName": "x-ot-span-context"
 				},
 				{
 					"name": "x-b3-traceid",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-traceid']"
+					"value": "$.request.headers['x-b3-traceid']",
+					"metaName": "x-b3-traceid"
 				},
 				{
 					"name": "x-b3-spanid",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-spanid']"
+					"value": "$.request.headers['x-b3-spanid']",
+					"metaName": "x-b3-spanid"
 				},
 				{
 					"name": "x-b3-sampled",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-samped']"
+					"value": "$.request.headers['x-b3-samped']",
+					"metaName": "x-b3-sampled"
 				},
 				{
 					"name": "x-b3-parentspanid",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-parentspanid']"
+					"value": "$.request.headers['x-b3-parentspanid']",
+					"metaName": "x-b3-parentspanid"
 				},
 				{
 					"name": "x-b3-flags",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-flags']"
+					"value": "$.request.headers['x-b3-flags']",
+					"metaName": "x-b3-flags"
 				}
 			],
 			"outputs": {
 				"200": {
 					"context": "$.headlines",
 					"routes": [
-						"http.1",
-						"weather-service.1"
-					]
+						"condition.2"
+					],
+					"metaName": "200"
 				},
 				"400": {
 					"context": "$.error",
 					"routes": [
-						"http.2"
-					]
+						"condition.2"
+					],
+					"metaName": "400"
 				},
 				"401": {
 					"context": "$.error",
 					"routes": [
-						"http.4"
-					]
+						"condition.2"
+					],
+					"metaName": "401"
 				},
 				"500": {
 					"context": "$.error",
 					"routes": [
-						"http.4"
-					]
+						"condition.2"
+					],
+					"metaName": "500"
+				},
+				"default": {
+					"context": "$.error",
+					"routes": [
+						"condition.2"
+					],
+					"metaName": "Default"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"condition.2"
+					],
+					"metaName": "Error"
 				}
-			}
+			},
+			"metaMethod": "GetHeadlinesByCountry",
+			"authorizations": [
+				{
+					"name": "basicAuth",
+					"type": "credential",
+					"value": "@axway/news-service basicAuth"
+				}
+			]
 		},
 		"http.1": {
 			"type": "nodehandler://axway-flow/http",
@@ -90,38 +153,26 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "200"
+					"value": "200",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.response"
+					"value": "$.response",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
-		},
-		"http.2": {
-			"type": "nodehandler://axway-flow/http",
-			"name": "Error",
-			"method": "setresponse",
-			"parameters": [
-				{
-					"name": "status",
-					"type": "number",
-					"value": "400"
-				}
-			],
-			"outputs": {
-				"next": {
-					"context": "$.response",
-					"routes": []
-				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"User.1": {
 			"type": "nodehandler://api-builder-flow-invoke/model/User",
@@ -131,7 +182,9 @@
 				{
 					"name": "where",
 					"type": "jsonpath",
-					"value": "$.where"
+					"value": "$.where",
+					"metaName": "where",
+					"metaDescription": "JSON-encoded object specifying field constraints. The field name is the key and the value is the constraint statement or value."
 				}
 			],
 			"outputs": {
@@ -139,40 +192,11 @@
 					"routes": [
 						"condition.1"
 					],
-					"context": "$.users"
+					"context": "$.users",
+					"metaName": "Next"
 				}
-			}
-		},
-		"doT.1": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Where",
-			"method": "formatStr",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$.params"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{\\\"uid\\\": {{=JSON.stringify(it.uid)}}}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"User.1"
-					],
-					"context": "$.where"
-				},
-				"error": {
-					"routes": [
-						"http.4"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "Query"
 		},
 		"condition.1": {
 			"type": "nodehandler://axway-flow/condition",
@@ -182,7 +206,9 @@
 				{
 					"name": "source",
 					"type": "jsonpath",
-					"value": "$.users[0]"
+					"value": "$.users[0]",
+					"metaName": "source",
+					"metaDescription": "The input to test."
 				}
 			],
 			"outputs": {
@@ -190,15 +216,18 @@
 					"routes": [
 						"setcontext.1"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "True"
 				},
 				"false": {
 					"routes": [
 						"http.3"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "False"
 				}
-			}
+			},
+			"metaMethod": "Exists"
 		},
 		"http.3": {
 			"type": "nodehandler://axway-flow/http",
@@ -208,15 +237,19 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "404"
+					"value": "404",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"setcontext.1": {
 			"type": "nodehandler://axway-flow/setcontext",
@@ -226,17 +259,21 @@
 				{
 					"name": "value",
 					"type": "jsonpath",
-					"value": "$.users[0]"
+					"value": "$.users[0]",
+					"metaName": "value"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.user",
 					"routes": [
-						"news-service.1"
-					]
+						"news-service.1",
+						"weather-service.1"
+					],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set Context"
 		},
 		"weather-service.1": {
 			"type": "nodehandler://@axway/api-builder-plugin-fn-swagger/weather-service",
@@ -246,111 +283,119 @@
 				{
 					"name": "city",
 					"type": "jsonpath",
-					"value": "$.user.city"
+					"value": "$.user.city",
+					"metaName": "city",
+					"metaDescription": "The city to query the weather for."
 				},
 				{
 					"name": "country",
 					"type": "jsonpath",
-					"value": "$.user.country"
+					"value": "$.user.country",
+					"metaName": "country",
+					"metaDescription": "The country the city is in."
 				},
 				{
 					"name": "units",
 					"type": "string",
-					"value": "\"metric\""
+					"value": "\"metric\"",
+					"metaName": "units",
+					"metaDescription": "The units to use [metric|imperial]. Default: metric"
 				},
 				{
 					"name": "x-b3-flags",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-flags']"
+					"value": "$.request.headers['x-b3-flags']",
+					"metaName": "x-b3-flags"
 				},
 				{
 					"name": "x-b3-parentspanid",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-parentspanid']"
+					"value": "$.request.headers['x-b3-parentspanid']",
+					"metaName": "x-b3-parentspanid"
 				},
 				{
 					"name": "x-b3-sampled",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-sampled']"
+					"value": "$.request.headers['x-b3-sampled']",
+					"metaName": "x-b3-sampled"
 				},
 				{
 					"name": "x-b3-spanid",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-spanid']"
+					"value": "$.request.headers['x-b3-spanid']",
+					"metaName": "x-b3-spanid"
 				},
 				{
 					"name": "x-b3-traceid",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-b3-traceid']"
+					"value": "$.request.headers['x-b3-traceid']",
+					"metaName": "x-b3-traceid"
 				},
 				{
 					"name": "x-request-id",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-request-id']"
+					"value": "$.request.headers['x-request-id']",
+					"metaName": "x-request-id"
 				},
 				{
 					"name": "x-ot-span-context",
 					"type": "jsonpath",
-					"value": "$.request.headers['x-ot-span-context']"
+					"value": "$.request.headers['x-ot-span-context']",
+					"metaName": "x-ot-span-context"
 				}
 			],
 			"outputs": {
 				"200": {
 					"context": "$.weather",
 					"routes": [
-						"doT.2"
-					]
+						"condition.2"
+					],
+					"metaName": "200"
 				},
 				"400": {
 					"context": "$.error",
 					"routes": [
-						"http.2"
-					]
+						"condition.2"
+					],
+					"metaName": "400"
 				},
 				"401": {
 					"context": "$.error",
 					"routes": [
-						"http.4"
-					]
+						"condition.2"
+					],
+					"metaName": "401"
 				},
 				"500": {
 					"context": "$.error",
 					"routes": [
-						"http.4"
-					]
-				}
-			}
-		},
-		"doT.2": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Response",
-			"method": "formatObj",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{\\n  \\\"weather\\\": {{=JSON.stringify(it.weather)}},\\n  \\\"headlines\\\": {{=JSON.stringify(it.headlines)}}\\n}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"http.1"
+						"condition.2"
 					],
-					"context": "$.response"
+					"metaName": "500"
+				},
+				"default": {
+					"context": "$.error",
+					"routes": [
+						"condition.2"
+					],
+					"metaName": "Default"
 				},
 				"error": {
+					"context": "$.error",
 					"routes": [
-						"http.4"
+						"condition.2"
 					],
-					"context": "$.error"
+					"metaName": "Error"
 				}
-			}
+			},
+			"metaMethod": "GetCurrentWeatherByCity",
+			"authorizations": [
+				{
+					"name": "basicAuth",
+					"type": "credential",
+					"value": "@axway/weather-service basicAuth"
+				}
+			]
 		},
 		"http.4": {
 			"type": "nodehandler://axway-flow/http",
@@ -360,15 +405,126 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "500"
+					"value": "500",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
+		},
+		"javascript.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format Where",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$.params",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"return { uid: data.uid };\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.where",
+					"routes": [
+						"User.1"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.4"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
+		},
+		"condition.2": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "Has Error",
+			"method": "exists",
+			"parameters": [
+				{
+					"name": "source",
+					"type": "jsonpath",
+					"value": "$.error",
+					"metaName": "source",
+					"metaDescription": "The input to test."
+				}
+			],
+			"outputs": {
+				"true": {
+					"routes": [
+						"http.4"
+					],
+					"context": "$.exists",
+					"metaName": "True"
+				},
+				"false": {
+					"routes": [
+						"javascript.2"
+					],
+					"context": "$.exists",
+					"metaName": "False"
+				}
+			},
+			"metaMethod": "Exists"
+		},
+		"javascript.2": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format Response",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"return {\\n\\t\\\"weather\\\": data.weather.data,\\n\\t\\\"headlines\\\": data.headlines.data\\n  };\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": [
+						"http.1"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.4"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
 		}
 	}
 }

@@ -1,19 +1,13 @@
-const {
-	expect
-} = require('chai');
+const { expect } = require('chai');
 const nock = require('nock');
-const {
-	startApiBuilder,
-	stopApiBuilder,
-	requestAsync
-} = require('./_base');
+const { startApiBuilder, requestAsync } = require('./_base');
 
 const auth = {
 	user: 'test',
 	password: ''
 };
 
-describe.only('User News And Weather Endpoints', function () {
+describe('User News And Weather Endpoints', function () {
 	this.timeout(30000);
 	let server;
 
@@ -21,14 +15,17 @@ describe.only('User News And Weather Endpoints', function () {
 	 * Start API Builder.
 	 */
 	before(() => {
-		server = startApiBuilder();
+		server = startApiBuilder({
+			NEWS_PORT: '8081',
+			WEATHER_PORT: '8082'
+		});
 		return server.started;
 	});
 
 	/**
 	 * Stop API Builder after the tests.
 	 */
-	after(() => stopApiBuilder(server));
+	after(() => server.stop());
 
 	describe('/register', () => {
 		it('[REGISTER-0001] Can register a user.', () => {
@@ -42,16 +39,17 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'POST',
 				uri: `http://localhost:${server.apibuilder.port}/api/register`,
-				auth: auth,
+				auth,
 				body: user,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(200);
+				return;
 			}).then(() => {
 				return requestAsync({
 					method: 'GET',
 					uri: `http://localhost:${server.apibuilder.port}/api/endpoints/user?where={"uid":"spiderman"}`,
-					auth: auth,
+					auth,
 					json: true
 				});
 			}).then(({ response, body }) => {
@@ -61,6 +59,7 @@ describe.only('User News And Weather Endpoints', function () {
 				expect(body[0]).to.have.property('city', 'New York');
 				expect(body[0]).to.have.property('country', 'US');
 				expect(body[0]).to.have.property('interest', 'sports');
+				return;
 			});
 		});
 
@@ -74,11 +73,12 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'POST',
 				uri: `http://localhost:${server.apibuilder.port}/api/register`,
-				auth: auth,
+				auth,
 				body: user,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(400);
+				return;
 			});
 		});
 
@@ -93,21 +93,23 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'POST',
 				uri: `http://localhost:${server.apibuilder.port}/api/register`,
-				auth: auth,
+				auth,
 				body: user,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(200);
+				return;
 			}).then(() => {
 				return requestAsync({
 					method: 'POST',
 					uri: `http://localhost:${server.apibuilder.port}/api/register`,
-					auth: auth,
+					auth,
 					body: user,
 					json: true
 				});
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(409);
+				return;
 			});
 		});
 
@@ -129,21 +131,23 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'POST',
 				uri: `http://localhost:${server.apibuilder.port}/api/register`,
-				auth: auth,
+				auth,
 				body: spidy,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(200);
+				return;
 			}).then(() => {
 				return requestAsync({
 					method: 'POST',
 					uri: `http://localhost:${server.apibuilder.port}/api/register`,
-					auth: auth,
+					auth,
 					body: batman,
 					json: true
 				});
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(200);
+				return;
 			});
 		});
 	});
@@ -156,22 +160,26 @@ describe.only('User News And Weather Endpoints', function () {
 			interest: 'science',
 		};
 
-		const headlines = [...Array(5).keys()].map(i => ({
-			author: `Author_${i}`,
-			title: `Title_${i}`,
-			description: `Description_${i}`,
-			url: `http://example.com/${i}`,
-			urlToImage: `http://images.example.com/${i}`,
-			publishedAt: new Date().toISOString()
-		}));
+		const headlines = {
+			data: [...Array(5).keys()].map(i => ({
+				author: `Author_${i}`,
+				title: `Title_${i}`,
+				description: `Description_${i}`,
+				url: `http://example.com/${i}`,
+				urlToImage: `http://images.example.com/${i}`,
+				publishedAt: new Date().toISOString()
+			}))
+		};
 
 		const weather = {
-			city: 'Anchorage',
-			country: 'US',
-			summary: 'Wet,Cold',
-			units: 'metric',
-			temperature: '2.1',
-			windSpeed: '20'
+			data: {
+				city: 'Anchorage',
+				country: 'US',
+				summary: 'Wet,Cold',
+				units: 'metric',
+				temperature: '2.1',
+				windSpeed: '20'
+			}
 		};
 
 		before(() => {
@@ -179,11 +187,12 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'POST',
 				uri: `http://localhost:${server.apibuilder.port}/api/register`,
-				auth: auth,
+				auth,
 				body: user,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(200);
+				return;
 			});
 		});
 
@@ -192,10 +201,11 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(404);
+				return;
 			});
 		});
 
@@ -207,10 +217,11 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
-				expect(response.statusCode).to.equal(400);
+				expect(response.statusCode).to.equal(500);
+				return;
 			});
 		});
 
@@ -222,10 +233,11 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(500);
+				return;
 			});
 		});
 
@@ -237,14 +249,15 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(500);
+				return;
 			});
 		});
 
-		it('[INFO-0005] Will return 400 if GetCurrentWeatherByCity returns 400.', () => {
+		it('[INFO-0005] Will return 500 if GetCurrentWeatherByCity returns 400.', () => {
 			nock('http://localhost:8081') // FIXME: When this is in config use the config setting
 				.get(`/api/news/headlines?category=${user.interest}&country=${user.country}`)
 				.reply(200, headlines);
@@ -256,10 +269,11 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
-				expect(response.statusCode).to.equal(400);
+				expect(response.statusCode).to.equal(500);
+				return;
 			});
 		});
 
@@ -275,10 +289,11 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(500);
+				return;
 			});
 		});
 
@@ -294,14 +309,15 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response }) => {
 				expect(response.statusCode).to.equal(500);
+				return;
 			});
 		});
 
-		it('[INFO-0007] Will the info with a 200.', () => {
+		it('[INFO-0007] Will return the info with a 200.', () => {
 			nock('http://localhost:8081') // FIXME: When this is in config use the config setting
 				.get(`/api/news/headlines?category=${user.interest}&country=${user.country}`)
 				.reply(200, headlines);
@@ -313,13 +329,14 @@ describe.only('User News And Weather Endpoints', function () {
 			return requestAsync({
 				method: 'GET',
 				uri: `http://localhost:${server.apibuilder.port}/api/${user.uid}/info`,
-				auth: auth,
+				auth,
 				json: true
 			}).then(({ response, body }) => {
 				expect(response.statusCode).to.equal(200);
 				expect(body).to.deep.equal({
 					headlines, weather
 				});
+				return;
 			});
 		});
 	});

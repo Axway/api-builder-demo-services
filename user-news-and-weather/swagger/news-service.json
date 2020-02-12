@@ -7,6 +7,11 @@
 	},
 	"host": "localhost:8080",
 	"basePath": "/api",
+	"security": [
+		{
+			"basicAuth": []
+		}
+	],
 	"paths": {
 		"/news/headlines": {
 			"get": {
@@ -32,45 +37,60 @@
 				},
 				"description": "Get the headlines filtered by country and category.",
 				"operationId": "GetHeadlinesByCountry",
-				"parameters": [{
-					"in": "query",
-					"name": "country",
-					"type": "string"
-				}, {
-					"in": "query",
-					"name": "category",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-request-id",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-traceid",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-spanid",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-parentspanid",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-sampled",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-b3-flags",
-					"type": "string"
-				}, {
-					"in": "header",
-					"name": "x-ot-span-context",
-					"type": "string"
-				}],
-				"produces": ["application/json"],
-				"tags": ["news", "headlines"]
+				"parameters": [
+					{
+						"in": "query",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "category",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-request-id",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-traceid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-spanid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-parentspanid",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-sampled",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-b3-flags",
+						"type": "string"
+					},
+					{
+						"in": "header",
+						"name": "x-ot-span-context",
+						"type": "string"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"news",
+					"headlines"
+				]
 			}
 		}
 	},
@@ -80,7 +100,9 @@
 			"description": "Require authorized access to API"
 		}
 	},
-	"schemes": ["http"],
+	"schemes": [
+		"http"
+	],
 	"definitions": {
 		"schema.news-service_article": {
 			"type": "object",

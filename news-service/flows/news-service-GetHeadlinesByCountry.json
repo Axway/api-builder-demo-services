@@ -1,5 +1,5 @@
 {
-	"schemaVersion": "3",
+	"schemaVersion": "4",
 	"info": {
 		"name": "news-service - get /news/headlines"
 	},
@@ -40,12 +40,16 @@
 				{
 					"name": "url",
 					"type": "jsonpath",
-					"value": "$.url"
+					"value": "$.url",
+					"metaName": "URL",
+					"metaDescription": "The target URL."
 				},
 				{
 					"name": "headers",
 					"type": "jsonpath",
-					"value": "$.headers"
+					"value": "$.headers",
+					"metaName": "Headers",
+					"metaDescription": "The HTTP headers to set."
 				}
 			],
 			"outputs": {
@@ -53,64 +57,39 @@
 					"routes": [
 						"condition.1"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "2XX"
 				},
 				"3xx": {
 					"routes": [
 						"http.2"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "3XX"
 				},
 				"4xx": {
 					"routes": [
 						"http.2"
 					],
-					"context": "$.response"
+					"context": "$.response",
+					"metaName": "4XX"
 				},
 				"5xx": {
 					"routes": [
 						"http.2"
 					],
-					"context": "$.response"
-				},
-				"error": {
-					"routes": [
-						"http.2"
-					],
-					"context": "$.error"
-				}
-			}
-		},
-		"doT.1": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format URL",
-			"method": "formatStr",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{{=it.config.ISTIO_ENABLED === 'true' ? 'http' : 'https'}}://newsapi.org:443/v2/top-headlines?country={{=it.params.country ? encodeURIComponent(it.params.country) : ''}}&category={{=it.params.category ? encodeURIComponent(it.params.category) : ''}}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"doT.3"
-					],
-					"context": "$.url"
+					"context": "$.response",
+					"metaName": "5XX"
 				},
 				"error": {
 					"routes": [
 						"http.3"
 					],
-					"context": "$.error"
+					"context": "$.error",
+					"metaName": "Error"
 				}
-			}
+			},
+			"metaMethod": "GET"
 		},
 		"http.1": {
 			"type": "nodehandler://axway-flow/http",
@@ -120,51 +99,26 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "200"
+					"value": "200",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.formattedResponse"
+					"value": "$.response.body.articles",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
-		},
-		"doT.2": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Response",
-			"method": "formatObj",
-			"parameters": [
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{{=JSON.stringify(it)}}\""
-				},
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$.response.body.articles"
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"http.1"
-					],
-					"context": "$.formattedResponse"
-				},
-				"error": {
-					"routes": [
-						"http.3"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"http.2": {
 			"type": "nodehandler://axway-flow/http",
@@ -174,20 +128,26 @@
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.response"
+					"value": "$.response",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				},
 				{
 					"name": "status",
 					"type": "number",
-					"value": "400"
+					"value": "400",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"http.3": {
 			"type": "nodehandler://axway-flow/http",
@@ -197,20 +157,26 @@
 				{
 					"name": "status",
 					"type": "number",
-					"value": "500"
+					"value": "500",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
-					"value": "$.error.message"
+					"value": "$.error.message",
+					"metaName": "body",
+					"metaDescription": "The response payload"
 				}
 			],
 			"outputs": {
 				"next": {
 					"context": "$.response",
-					"routes": []
+					"routes": [],
+					"metaName": "Next"
 				}
-			}
+			},
+			"metaMethod": "Set HTTP Response"
 		},
 		"condition.1": {
 			"type": "nodehandler://axway-flow/condition",
@@ -220,59 +186,35 @@
 				{
 					"name": "value",
 					"type": "string",
-					"value": "\"ok\""
+					"value": "\"ok\"",
+					"metaName": "value",
+					"metaDescription": "The value to test input against."
 				},
 				{
 					"name": "source",
 					"type": "jsonpath",
-					"value": "$.response.body.status"
+					"value": "$.response.body.status",
+					"metaName": "source",
+					"metaDescription": "The input to test."
 				}
 			],
 			"outputs": {
 				"true": {
 					"routes": [
-						"doT.2"
+						"http.1"
 					],
-					"context": "$.equals"
+					"context": "$.equals",
+					"metaName": "True"
 				},
 				"false": {
 					"routes": [
 						"http.2"
 					],
-					"context": "$.equals"
+					"context": "$.equals",
+					"metaName": "False"
 				}
-			}
-		},
-		"doT.3": {
-			"type": "nodehandler://@axway/api-builder-plugin-fn-dot/doT",
-			"name": "Format Headers",
-			"method": "formatObj",
-			"parameters": [
-				{
-					"name": "data",
-					"type": "jsonpath",
-					"value": "$"
-				},
-				{
-					"name": "template",
-					"type": "string",
-					"value": "\"{{= \\\"{\\\" }}\\n\\\"x-api-key\\\": {{=JSON.stringify(it.config.NEWSAPI_APIKEY)}}\\n, \\\"Host\\\": \\\"newsapi.org\\\"\\n{{ it.config.traceability.headers.filter(h => it.request.headers[h] != undefined).forEach(h => { }}\\n{{=`, ${JSON.stringify(h)}: ${JSON.stringify(it.request.headers[h])}`}}\\n{{ }); }}\\n{{= \\\"}\\\" }}\""
-				}
-			],
-			"outputs": {
-				"next": {
-					"routes": [
-						"rest.1"
-					],
-					"context": "$.headers"
-				},
-				"error": {
-					"routes": [
-						"http.3"
-					],
-					"context": "$.error"
-				}
-			}
+			},
+			"metaMethod": "Equals"
 		},
 		"condition.2": {
 			"type": "nodehandler://axway-flow/condition",
@@ -282,23 +224,104 @@
 				{
 					"name": "source",
 					"type": "jsonpath",
-					"value": "$.config.NEWSAPI_APIKEY"
+					"value": "$.config.NEWSAPI_APIKEY",
+					"metaName": "source",
+					"metaDescription": "The input to test."
 				}
 			],
 			"outputs": {
 				"true": {
 					"routes": [
-						"doT.1"
+						"javascript.1"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "True"
 				},
 				"false": {
 					"routes": [
 						"http.3"
 					],
-					"context": "$.exists"
+					"context": "$.exists",
+					"metaName": "False"
 				}
-			}
+			},
+			"metaMethod": "Exists"
+		},
+		"javascript.1": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format URL",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"const { config, params } = data;\\n  // In service mesh we rely on TLS origination\\n  const protocol = config.TLS_ORIGINATION ? 'http' : 'https';\\n  const countryFilter = params.country ? `country=${encodeURIComponent(params.country)}` : 'country=';\\n  const categoryFilter = params.category ? `category=${encodeURIComponent(params.category)}` : 'category='; \\n  return `${protocol}://newsapi.org:443/v2/top-headlines?${countryFilter}&${categoryFilter}`;\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.url",
+					"routes": [
+						"javascript.2"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.3"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
+		},
+		"javascript.2": {
+			"type": "nodehandler://@axway/api-builder-plugin-fn-javascript/javascript",
+			"name": "Format Headers",
+			"method": "Execute",
+			"parameters": [
+				{
+					"name": "data",
+					"type": "jsonpath",
+					"value": "$",
+					"metaName": "data",
+					"metaDescription": "The value to apply as the `data` argument to the JavaScript code. For objects and arrays, `data` is passed by reference."
+				},
+				{
+					"name": "code",
+					"type": "string",
+					"value": "\"const { config, request } = data;\\n\\n  const traceheaders = config.traceability.headers\\n  \\t.filter(h => request.headers[h] != undefined)\\n  \\t.reduce((obj, key) => {\\n      obj[key] = request.headers[key];\\n      return obj;\\n    }, {});\\n  \\n  \\n  return {\\n  \\t\\\"x-api-key\\\": config.NEWSAPI_APIKEY,\\n    ...traceheaders\\n  };\"",
+					"metaName": "code",
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.headers",
+					"routes": [
+						"rest.1"
+					],
+					"metaName": "Next"
+				},
+				"error": {
+					"context": "$.error",
+					"routes": [
+						"http.3"
+					],
+					"metaName": "Error"
+				}
+			},
+			"metaMethod": "Execute"
 		}
 	}
 }

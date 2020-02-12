@@ -1,67 +1,108 @@
 {
-  "schemaVersion": "2",
-  "name": "user-create",
-  "start": "model.create",
-  "nodes": {
-    "model.create": {
-      "type": "nodehandler://api-builder-flow-invoke/model/User",
-      "method": "create",
-      "name": "Create User",
-      "parameters": [
-        {
-          "name": "data",
-          "value": "$.params.data"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.model",
-          "routes": [
-            "set.headers.location",
-            "response.success"
-          ]
-        }
-      }
-    },
-    "set.headers.location": {
-      "type": "nodehandler://axway-flow/setcontext",
-      "method": "setcontext",
-      "name": "Set Headers Location",
-      "parameters": [
-        {
-          "name": "value",
-          "value": "$.model.id"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "routes": [
-            "response.success"
-          ],
-          "context": "$.headers.location"
-        }
-      }
-    },
-    "response.success": {
-      "type": "nodehandler://axway-flow/http",
-      "name": "Set success response",
-      "method": "setresponse",
-      "parameters": [
-        {
-          "name": "status",
-          "value": "201",
-          "type": "number"
-        },
-        {
-          "name": "headers",
-          "value": "$.headers"
-        }
-      ],
-      "outputs": {
-        "next": {
-          "context": "$.response"
-        }
-      }
-    }
-  }
+	"schemaVersion": "4",
+	"info": {
+		"name": "user-create"
+	},
+	"parameter": {
+		"properties": {
+			"params": {
+				"type": "object",
+				"description": "The parameters from the endpoint."
+			},
+			"request": {
+				"type": "object",
+				"description": "The HTTP request."
+			},
+			"config": {
+				"type": "object",
+				"description": "The service's configuration"
+			},
+			"env": {
+				"type": "object",
+				"description": "The host OS environment"
+			}
+		},
+		"additionalProperties": false,
+		"required": [
+			"params",
+			"request",
+			"config",
+			"env"
+		]
+	},
+	"start": "model.create",
+	"nodes": {
+		"model.create": {
+			"type": "nodehandler://api-builder-flow-invoke/model/User",
+			"method": "create",
+			"name": "Create User",
+			"parameters": [
+				{
+					"name": "data",
+					"value": "$.params.data",
+					"metaName": "data"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.model",
+					"routes": [
+						"set.headers.location",
+						"response.success"
+					],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Create"
+		},
+		"set.headers.location": {
+			"type": "nodehandler://axway-flow/setcontext",
+			"method": "setcontext",
+			"name": "Set Headers Location",
+			"parameters": [
+				{
+					"name": "value",
+					"value": "$.model.id",
+					"metaName": "value"
+				}
+			],
+			"outputs": {
+				"next": {
+					"routes": [
+						"response.success"
+					],
+					"context": "$.headers.location",
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set Context"
+		},
+		"response.success": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Set success response",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"value": "201",
+					"type": "number",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				},
+				{
+					"name": "headers",
+					"value": "$.headers",
+					"metaName": "headers",
+					"metaDescription": "Key-value pairs of headers"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
+		}
+	}
 }
