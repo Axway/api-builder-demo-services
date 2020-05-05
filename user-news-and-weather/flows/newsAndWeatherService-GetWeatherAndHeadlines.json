@@ -473,7 +473,8 @@
 			"outputs": {
 				"true": {
 					"routes": [
-						"http.4"
+						"http.4",
+						"condition.3"
 					],
 					"context": "$.exists",
 					"metaName": "True"
@@ -525,6 +526,73 @@
 				}
 			},
 			"metaMethod": "Execute"
+		},
+		"http.2": {
+			"type": "nodehandler://axway-flow/http",
+			"name": "Is HTTP Error",
+			"method": "setresponse",
+			"parameters": [
+				{
+					"name": "status",
+					"type": "jsonpath",
+					"value": "$.error.status",
+					"metaName": "status",
+					"metaDescription": "The HTTP status code"
+				},
+				{
+					"name": "body",
+					"type": "jsonpath",
+					"value": "$.error.data",
+					"metaName": "body",
+					"metaDescription": "The response payload"
+				},
+				{
+					"name": "headers",
+					"type": "jsonpath",
+					"value": "$.error.headers",
+					"metaName": "headers",
+					"metaDescription": "Key-value pairs of headers"
+				}
+			],
+			"outputs": {
+				"next": {
+					"context": "$.response",
+					"routes": [],
+					"metaName": "Next"
+				}
+			},
+			"metaMethod": "Set HTTP Response"
+		},
+		"condition.3": {
+			"type": "nodehandler://axway-flow/condition",
+			"name": "Is HTTP Error",
+			"method": "exists",
+			"parameters": [
+				{
+					"name": "source",
+					"type": "jsonpath",
+					"value": "$.error.status",
+					"metaName": "source",
+					"metaDescription": "The input to test."
+				}
+			],
+			"outputs": {
+				"true": {
+					"routes": [
+						"http.2"
+					],
+					"context": "$.exists",
+					"metaName": "True"
+				},
+				"false": {
+					"routes": [
+						"http.4"
+					],
+					"context": "$.exists",
+					"metaName": "False"
+				}
+			},
+			"metaMethod": "Exists"
 		}
 	}
 }
