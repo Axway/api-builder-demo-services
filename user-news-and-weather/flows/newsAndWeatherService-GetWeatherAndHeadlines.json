@@ -473,7 +473,6 @@
 			"outputs": {
 				"true": {
 					"routes": [
-						"http.4",
 						"condition.3"
 					],
 					"context": "$.exists",
