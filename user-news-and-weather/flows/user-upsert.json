@@ -70,7 +70,7 @@
 				{
 					"name": "value",
 					"value": "$.model.id",
-					"metaName": "value"
+					"metaName": "Value"
 				}
 			],
 			"outputs": {
@@ -93,13 +93,13 @@
 					"name": "status",
 					"value": "201",
 					"type": "number",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "headers",
 					"value": "$.headers",
-					"metaName": "headers",
+					"metaName": "Headers",
 					"metaDescription": "Key-value pairs of headers"
 				}
 			],
@@ -120,7 +120,7 @@
 					"name": "status",
 					"value": "204",
 					"type": "number",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],

@@ -100,14 +100,14 @@
 					"name": "status",
 					"type": "number",
 					"value": "200",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
 					"value": "$.response.body.articles",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				}
 			],
@@ -129,14 +129,14 @@
 					"name": "body",
 					"type": "jsonpath",
 					"value": "$.response",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				},
 				{
 					"name": "status",
 					"type": "number",
 					"value": "400",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],
@@ -158,14 +158,14 @@
 					"name": "status",
 					"type": "number",
 					"value": "500",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
 					"value": "$.error.message",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				}
 			],
@@ -187,14 +187,14 @@
 					"name": "value",
 					"type": "string",
 					"value": "\"ok\"",
-					"metaName": "value",
+					"metaName": "Value",
 					"metaDescription": "The value to test input against."
 				},
 				{
 					"name": "source",
 					"type": "jsonpath",
 					"value": "$.response.body.status",
-					"metaName": "source",
+					"metaName": "Source",
 					"metaDescription": "The input to test."
 				}
 			],
@@ -225,7 +225,7 @@
 					"name": "source",
 					"type": "jsonpath",
 					"value": "$.config.NEWSAPI_APIKEY",
-					"metaName": "source",
+					"metaName": "Source",
 					"metaDescription": "The input to test."
 				}
 			],
@@ -264,7 +264,7 @@
 					"type": "string",
 					"value": "\"const { config, params } = data;\\n  // In service mesh we rely on TLS origination\\n  const protocol = config.TLS_ORIGINATION ? 'http' : 'https';\\n  const countryFilter = params.country ? `country=${encodeURIComponent(params.country)}` : 'country=';\\n  const categoryFilter = params.category ? `category=${encodeURIComponent(params.category)}` : 'category='; \\n  return `${protocol}://newsapi.org:443/v2/top-headlines?${countryFilter}&${categoryFilter}`;\"",
 					"metaName": "code",
-					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises."
 				}
 			],
 			"outputs": {
@@ -302,7 +302,7 @@
 					"type": "string",
 					"value": "\"const { config, request } = data;\\n\\n  const traceheaders = config.traceability.headers\\n  \\t.filter(h => request.headers[h] != undefined)\\n  \\t.reduce((obj, key) => {\\n      obj[key] = request.headers[key];\\n      return obj;\\n    }, {});\\n  \\n  \\n  return {\\n  \\t\\\"x-api-key\\\": config.NEWSAPI_APIKEY,\\n    ...traceheaders\\n  };\"",
 					"metaName": "code",
-					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises."
 				}
 			],
 			"outputs": {

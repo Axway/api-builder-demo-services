@@ -56,7 +56,7 @@
 					"name": "status",
 					"value": "204",
 					"type": "number",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],

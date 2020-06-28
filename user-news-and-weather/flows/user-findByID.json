@@ -69,13 +69,13 @@
 					"name": "status",
 					"value": "200",
 					"type": "number",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"value": "$.model",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				}
 			],
@@ -96,7 +96,7 @@
 					"name": "status",
 					"value": "404",
 					"type": "number",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],

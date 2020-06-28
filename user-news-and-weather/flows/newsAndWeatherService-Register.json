@@ -64,7 +64,7 @@
 					"name": "status",
 					"type": "number",
 					"value": "200",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],
@@ -86,7 +86,7 @@
 					"name": "status",
 					"type": "number",
 					"value": "500",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],
@@ -132,14 +132,14 @@
 					"name": "body",
 					"type": "jsonpath",
 					"value": "$.params.uid",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				},
 				{
 					"name": "status",
 					"type": "number",
 					"value": "409",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],
@@ -161,7 +161,7 @@
 					"name": "source",
 					"type": "jsonpath",
 					"value": "$.users[0]",
-					"metaName": "source",
+					"metaName": "Source",
 					"metaDescription": "The input to test."
 				}
 			],
@@ -200,7 +200,7 @@
 					"type": "string",
 					"value": "\"console.error(Object.keys(data));\\n  return { uid: data.uid };\"",
 					"metaName": "code",
-					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises."
 				},
 				{
 					"name": "unsafe",

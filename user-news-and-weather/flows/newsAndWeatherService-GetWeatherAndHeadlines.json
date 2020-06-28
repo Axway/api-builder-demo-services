@@ -154,14 +154,14 @@
 					"name": "status",
 					"type": "number",
 					"value": "200",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
 					"value": "$.response",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				}
 			],
@@ -207,7 +207,7 @@
 					"name": "source",
 					"type": "jsonpath",
 					"value": "$.users[0]",
-					"metaName": "source",
+					"metaName": "Source",
 					"metaDescription": "The input to test."
 				}
 			],
@@ -238,7 +238,7 @@
 					"name": "status",
 					"type": "number",
 					"value": "404",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],
@@ -260,7 +260,7 @@
 					"name": "value",
 					"type": "jsonpath",
 					"value": "$.users[0]",
-					"metaName": "value"
+					"metaName": "Value"
 				}
 			],
 			"outputs": {
@@ -406,7 +406,7 @@
 					"name": "status",
 					"type": "number",
 					"value": "500",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				}
 			],
@@ -436,7 +436,7 @@
 					"type": "string",
 					"value": "\"return { uid: data.uid };\"",
 					"metaName": "code",
-					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises."
 				}
 			],
 			"outputs": {
@@ -466,7 +466,7 @@
 					"name": "source",
 					"type": "jsonpath",
 					"value": "$.error",
-					"metaName": "source",
+					"metaName": "Source",
 					"metaDescription": "The input to test."
 				}
 			],
@@ -505,7 +505,7 @@
 					"type": "string",
 					"value": "\"return {\\n\\t\\\"weather\\\": data.weather.data,\\n\\t\\\"headlines\\\": data.headlines.data\\n  };\"",
 					"metaName": "code",
-					"metaDescription": "A JavaScript function body. Supports `await` and returning promises"
+					"metaDescription": "A JavaScript function body. Supports `await` and returning promises."
 				}
 			],
 			"outputs": {
@@ -535,21 +535,21 @@
 					"name": "status",
 					"type": "jsonpath",
 					"value": "$.error.status",
-					"metaName": "status",
+					"metaName": "Status",
 					"metaDescription": "The HTTP status code"
 				},
 				{
 					"name": "body",
 					"type": "jsonpath",
 					"value": "$.error.data",
-					"metaName": "body",
+					"metaName": "Body",
 					"metaDescription": "The response payload"
 				},
 				{
 					"name": "headers",
 					"type": "jsonpath",
 					"value": "$.error.headers",
-					"metaName": "headers",
+					"metaName": "Headers",
 					"metaDescription": "Key-value pairs of headers"
 				}
 			],
@@ -571,7 +571,7 @@
 					"name": "source",
 					"type": "jsonpath",
 					"value": "$.error.status",
-					"metaName": "source",
+					"metaName": "Source",
 					"metaDescription": "The input to test."
 				}
 			],
